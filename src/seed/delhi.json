@@ -1,0 +1,184 @@
+{
+  "slug": "delhi",
+  "name": "Delhi",
+  "display_name": "Delhi NCR",
+  "state": "Delhi",
+  "country": "India",
+  "is_active": true,
+  "priority": 100,
+  "tags": [
+    "metro",
+    "tier-1"
+  ],
+  "geo": {
+    "coordinates": {
+      "lat": 28.7041,
+      "lng": 77.1025
+    },
+    "bounds": {
+      "north": 28.883,
+      "south": 28.404,
+      "east": 77.348,
+      "west": 76.837
+    },
+    "timezone": "Asia/Kolkata",
+    "area_km2": 1484,
+    "population": 32941000,
+    "density_per_km2": 11312,
+    "elevation_m": 216
+  },
+  "environment": {
+    "climate": {
+      "type": "Semiarid",
+      "summer_temp_c": "25-45",
+      "winter_temp_c": "5-25",
+      "monsoon_months": [
+        "July",
+        "August",
+        "September"
+      ],
+      "annual_rainfall_mm": 800
+    },
+    "air_quality": {
+      "avg_aqi": 200,
+      "classification": "Poor",
+      "worst_months": [
+        "November",
+        "December"
+      ],
+      "best_months": [
+        "July",
+        "August"
+      ]
+    },
+    "water": {
+      "source": [
+        "Yamuna River",
+        "Groundwater"
+      ],
+      "supply_hours_per_day": 4,
+      "quality_rating": "Moderate",
+      "availability": "Stressed"
+    },
+    "green_cover_percent": 23,
+    "noise_pollution": "High"
+  },
+  "infrastructure": {
+    "power": {
+      "provider": [
+        "BSES",
+        "Tata Power"
+      ],
+      "avg_daily_cuts": 1,
+      "avg_cut_duration_mins": 30,
+      "reliability_score": 8,
+      "industrial_connectivity": "High"
+    },
+    "internet": {
+      "fiber_providers": [
+        "Airtel",
+        "Jio",
+        "ACT"
+      ],
+      "avg_speed_mbps": 100,
+      "reliability_score": 9,
+      "4g_coverage": "Excellent",
+      "5g_available": true
+    },
+    "housing": {
+      "avg_rent_1bhk": 15000,
+      "avg_rent_2bhk": 25000,
+      "avg_rent_3bhk": 40000,
+      "avg_property_price_per_sqft": 10000,
+      "availability": "High"
+    },
+    "public_transport": [
+      "Metro",
+      "Bus",
+      "Auto"
+    ],
+    "road_quality": "Good",
+    "metro_connectivity": true,
+    "airport_distance_km": 15,
+    "railway_stations": 4
+  },
+  "security": {
+    "threat_profile": {
+      "crime_rate": "Moderate",
+      "common_crimes": [
+        "Theft",
+        "Snatching"
+      ],
+      "safe_score": 7,
+      "safe_areas": [
+        "South Delhi",
+        "Central Delhi"
+      ],
+      "areas_to_avoid": [
+        "Outer Delhi fringes at night"
+      ]
+    },
+    "police": {
+      "stations_count": 180,
+      "response_time_mins": 10,
+      "emergency_number": "112",
+      "dedicated_cyber_cell": true
+    },
+    "cctv_coverage": "High",
+    "women_safety_rating": "Moderate"
+  },
+  "zones": [],
+  "seo": {
+    "meta_title": "Delhi City Profile - CamHarbor",
+    "meta_description": "Comprehensive data and analytics for Delhi.",
+    "keywords": [
+      "Delhi",
+      "NCR",
+      "India"
+    ],
+    "og_image": "https://example.com/delhi.jpg",
+    "canonical_url": "https://camharbor.in/cities/delhi"
+  },
+  "operations": {
+    "office": {
+      "address": "Connaught Place, New Delhi",
+      "coordinates": {
+        "lat": 28.6304,
+        "lng": 77.2177
+      },
+      "contact_phone": "+91-11-12345678",
+      "contact_email": "delhi@camharbor.in",
+      "working_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]
+    },
+    "hours": {
+      "monday_friday": "09:00 - 18:00",
+      "saturday": "10:00 - 14:00",
+      "sunday": "Closed",
+      "holidays": "Closed"
+    },
+    "service_areas": [
+      "All Delhi NCR"
+    ],
+    "coverage_radius_km": 50,
+    "avg_response_time_hrs": 24
+  },
+  "reviews": {
+    "total_count": 1500,
+    "avg_rating": 4.5,
+    "rating_distribution": {
+      "1": 10,
+      "2": 20,
+      "3": 100,
+      "4": 400,
+      "5": 970
+    },
+    "featured": []
+  }
+}
