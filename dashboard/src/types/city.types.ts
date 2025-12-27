@@ -179,6 +179,13 @@ export interface Reviews {
   featured: FeaturedReview[];
 }
 
+export interface Media {
+  banner_url: string;
+  gallery: string[];
+  infrastructure: string[];
+  office_photos: string[];
+}
+
 export interface City {
   slug: string;
   name: string;
@@ -188,6 +195,7 @@ export interface City {
   is_active: boolean;
   priority: number;
   tags: string[];
+  media?: Media;
   geo: Geo;
   environment: Environment;
   infrastructure: Infrastructure;

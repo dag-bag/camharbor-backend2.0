@@ -7,6 +7,7 @@ import compression from 'compression';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
 import cityRoutes from './routes/cityRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/cities', cityRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.get('/', (req, res) => {
   res.send('CamHarbor API is running...');

@@ -35,6 +35,15 @@ const options: swaggerJsdoc.Options = {
               type: 'array',
               items: { type: 'string' }
             },
+            media: {
+              type: 'object',
+              properties: {
+                banner_url: { type: 'string', nullable: true },
+                gallery: { type: 'array', items: { type: 'string' } },
+                infrastructure: { type: 'array', items: { type: 'string' } },
+                office_photos: { type: 'array', items: { type: 'string' } }
+              }
+            },
             geo: {
               type: 'object',
               properties: {

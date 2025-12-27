@@ -199,6 +199,95 @@ const AddCityModal: React.FC<AddCityModalProps> = ({ onClose, onSuccess, cityToE
                       />
                     </div>
                   ))}
+                  <div className="md:col-span-2 space-y-6">
+                    <h3 className="text-white font-bold text-lg flex items-center gap-2">
+                       <Upload className="w-5 h-5 text-indigo-400" />
+                       Media Assets
+                    </h3>
+                    
+                    {/* Banner Upload */}
+                    <div className="space-y-3">
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-2">Banner Image (Hero)</label>
+                        <div className="flex gap-4 items-center">
+                            <input 
+                                type="file" 
+                                accept="image/*"
+                                onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if(!file) return;
+                                    try {
+                                        const form = new FormData();
+                                        form.append('file', file);
+                                        const res = await fetch('http://localhost:5000/api/upload', { method: 'POST', body: form });
+                                        const data = await res.json();
+                                        if(data.url) {
+                                            setFormData(prev => ({ 
+                                                ...prev, 
+                                                media: { ...prev.media, banner_url: data.url } 
+                                            } as any));
+                                        }
+                                    } catch(err) { console.error(err); }
+                                }}
+                                className="block w-full text-sm text-slate-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-full file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-indigo-50 file:text-indigo-700
+                                  hover:file:bg-indigo-100"
+                            />
+                            {(formData as any).media?.banner_url && <img src={(formData as any).media.banner_url} alt="Banner" className="h-10 w-10 rounded object-cover border border-white/20" />}
+                        </div>
+                    </div>
+
+                    {/* Gallery Uploads */}
+                    {['gallery', 'infrastructure', 'office_photos'].map((field) => (
+                        <div key={field} className="space-y-3">
+                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-2">{field.replace('_', ' ')} (Multiple)</label>
+                             <div className="flex flex-col gap-2">
+                                <input 
+                                    type="file" 
+                                    multiple
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                        const files = Array.from(e.target.files || []);
+                                        for (const file of files) {
+                                            try {
+                                                const form = new FormData();
+                                                form.append('file', file);
+                                                const res = await fetch('http://localhost:5000/api/upload', { method: 'POST', body: form });
+                                                const data = await res.json();
+                                                if(data.url) {
+                                                    setFormData(prev => {
+                                                        const currentList = (prev as any).media?.[field] || [];
+                                                        return {
+                                                            ...prev,
+                                                            media: { 
+                                                                ...(prev as any).media, 
+                                                                [field]: [...currentList, data.url] 
+                                                            } 
+                                                        } as any;
+                                                    });
+                                                }
+                                            } catch(err) { console.error(err); }
+                                        }
+                                    }}
+                                    className="block w-full text-sm text-slate-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-full file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-indigo-50 file:text-indigo-700
+                                      hover:file:bg-indigo-100"
+                                />
+                                <div className="flex gap-2 flex-wrap">
+                                    {(formData as any).media?.[field]?.map((url: string, i: number) => (
+                                        <img key={i} src={url} alt="Preview" className="h-10 w-10 rounded object-cover border border-white/20" />
+                                    ))}
+                                </div>
+                             </div>
+                        </div>
+                    ))}
+                  </div>
+
                   <div className="md:col-span-2 p-6 glass-card rounded-3xl border-dashed border-white/10 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer group" onClick={() => setFormData({...formData, is_active: !formData.is_active})}>
                     <div>
                       <p className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Auto-Initialize Deployment</p>

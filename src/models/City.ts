@@ -1,5 +1,12 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export interface ICityMedia {
+  banner_url: string;        // Full-width hero image
+  gallery: string[];         // Array of images of landmarks/localities
+  infrastructure: string[];  // Photos of CCTV projects or tech hubs
+  office_photos: string[];   // Your CamHarbor office/team in that city
+}
+
 export interface ICity extends Document {
   slug: string;
   name: string;
@@ -9,6 +16,7 @@ export interface ICity extends Document {
   is_active: boolean;
   priority: number;
   tags: string[];
+  media: ICityMedia;
   geo: {
     coordinates: {
       lat: number;
@@ -166,6 +174,12 @@ const CitySchema: Schema = new Schema({
   is_active: { type: Boolean, default: true },
   priority: { type: Number, default: 0 },
   tags: [String],
+  media: {
+    banner_url: { type: String, default: null },
+    gallery: [String],
+    infrastructure: [String],
+    office_photos: [String]
+  },
   geo: {
     coordinates: {
       lat: { type: Number, required: true },
