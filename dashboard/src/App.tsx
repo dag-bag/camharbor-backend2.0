@@ -5,6 +5,7 @@ import { Hexagon } from 'lucide-react'
 
 function App() {
   const [showAddModal, setShowAddModal] = useState(false)
+  const [editingCity, setEditingCity] = useState<any>(null) // Using any to avoid import issues for now or Import City
   const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   const handleAddSuccess = () => {
@@ -54,13 +55,18 @@ function App() {
       </nav>
 
       <main className="relative z-10">
-        <CityDashboard key={refreshTrigger} onAddCity={() => setShowAddModal(true)} />
+        <CityDashboard 
+          key={refreshTrigger} 
+          onAddCity={() => { setEditingCity(null); setShowAddModal(true); }} 
+          onEditCity={(city: any) => { setEditingCity(city); setShowAddModal(true); }}
+        />
       </main>
 
       {showAddModal && (
         <AddCityModal 
           onClose={() => setShowAddModal(false)} 
           onSuccess={handleAddSuccess} 
+          cityToEdit={editingCity}
         />
       )}
 

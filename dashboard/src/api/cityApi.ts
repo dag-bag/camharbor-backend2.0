@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { City, ApiResponse } from '../types/city.types';
 
 // Use relative path to leverage Vite proxy
-const API_BASE_URL = '/api/v1'; 
+const API_BASE_URL = '/api'; 
 // In a real app, this should securely fetched or the endpoint should not require it if same-origin + cookie
 const API_KEY = 'test-key-123'; 
 
@@ -43,6 +43,10 @@ export const cityApi = {
   },
   deleteCity: async (slug: string) => {
     const response = await apiClient.delete<ApiResponse<any>>(`/cities/${slug}`);
+    return response.data;
+  },
+  deleteCities: async (slugs: string[]) => {
+    const response = await apiClient.delete<ApiResponse<any>>('/cities', { data: { slugs } });
     return response.data;
   },
 };

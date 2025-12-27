@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Search, Plus, RefreshCw, Trash2, Power, MapPin, Globe, Loader2, AlertCircle, TrendingUp, Shield, Activity } from 'lucide-react';
+import { Search, Plus, RefreshCw, Trash2, Power, MapPin, Globe, AlertCircle, TrendingUp, Shield, Activity } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { cityApi } from '../api/cityApi';
 import type { City } from '../types/city.types';
 
+
 interface CityDashboardProps {
   onAddCity: () => void;
+  onEditCity: (city: City) => void;
 }
 
-const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
+const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity, onEditCity }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
   const queryClient = useQueryClient();
 
   const { data: cities = [], isLoading: loading, error, isRefetching } = useQuery({
@@ -42,6 +45,17 @@ const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
     }
   });
 
+  const deleteCitiesMutation = useMutation({
+    mutationFn: (slugs: string[]) => cityApi.deleteCities(slugs),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cities'] });
+      setSelectedSlugs([]);
+    },
+    onError: (err: any) => {
+      alert('Error deleting cities: ' + (err.response?.data?.error?.message || err.message));
+    }
+  });
+
   const handleToggleStatus = (slug: string) => {
     toggleStatusMutation.mutate(slug);
   };
@@ -49,6 +63,25 @@ const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
   const handleDeleteCity = (slug: string) => {
     if (!window.confirm(`Are you sure you want to delete ${slug}?`)) return;
     deleteCityMutation.mutate(slug);
+  };
+
+  const handleBulkDelete = () => {
+    if (!window.confirm(`Are you sure you want to delete ${selectedSlugs.length} cities?`)) return;
+    deleteCitiesMutation.mutate(selectedSlugs);
+  };
+
+  const toggleSelectAll = (checked: boolean) => {
+     if (checked) {
+       setSelectedSlugs(filteredCities.map(c => c.slug));
+     } else {
+       setSelectedSlugs([]);
+     }
+  };
+
+  const toggleSelect = (slug: string) => {
+    setSelectedSlugs(prev => 
+      prev.includes(slug) ? prev.filter(s => s !== slug) : [...prev, slug]
+    );
   };
 
   const handleRefresh = () => {
@@ -79,6 +112,15 @@ const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
             </p>
           </div>
           <div className="flex items-center gap-4">
+            {selectedSlugs.length > 0 && (
+              <button
+                onClick={handleBulkDelete}
+                className="px-6 py-4 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded-2xl font-bold transition-all border border-rose-500/20 flex items-center gap-3 animate-in fade-in zoom-in"
+              >
+                <Trash2 className="w-5 h-5" />
+                Delete Selected ({selectedSlugs.length})
+              </button>
+            )}
             <button
               onClick={handleRefresh}
               disabled={loading || isRefetching}
@@ -197,6 +239,14 @@ const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-950/50 border-b border-slate-800">
+                    <th className="px-10 py-6 text-center w-16">
+                      <input 
+                        type="checkbox" 
+                        className="w-5 h-5 rounded border-slate-700 bg-slate-800 text-indigo-600 focus:ring-indigo-500/50"
+                        onChange={(e) => toggleSelectAll(e.target.checked)}
+                        checked={filteredCities.length > 0 && selectedSlugs.length === filteredCities.length}
+                      />
+                    </th>
                     <th className="px-10 py-6 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">City Profile</th>
                     <th className="px-10 py-6 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Status</th>
                     <th className="px-10 py-6 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Jurisdiction</th>
@@ -205,7 +255,15 @@ const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
                 </thead>
                 <tbody className="divide-y divide-slate-800/50">
                   {filteredCities.map((city) => (
-                    <tr key={city.slug} className="hover:bg-indigo-500/[0.03] transition-all group">
+                    <tr key={city.slug} className={`hover:bg-indigo-500/[0.03] transition-all group ${selectedSlugs.includes(city.slug) ? 'bg-indigo-500/[0.05]' : ''}`}>
+                      <td className="px-10 py-6 text-center">
+                         <input 
+                          type="checkbox" 
+                          className="w-5 h-5 rounded border-slate-700 bg-slate-800 text-indigo-600 focus:ring-indigo-500/50"
+                          checked={selectedSlugs.includes(city.slug)}
+                          onChange={() => toggleSelect(city.slug)}
+                        />
+                      </td>
                       <td className="px-10 py-6">
                         <div className="flex items-center gap-6">
                           <div className="w-16 h-16 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl flex items-center justify-center text-indigo-400 text-2xl font-black shadow-lg group-hover:scale-110 transition-transform duration-300 group-hover:border-indigo-500/50 group-hover:shadow-indigo-500/20">
@@ -237,6 +295,13 @@ const CityDashboard: React.FC<CityDashboardProps> = ({ onAddCity }) => {
                       </td>
                       <td className="px-10 py-6 text-right">
                         <div className="flex items-center justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                          <button
+                            onClick={() => onEditCity(city)}
+                            className="p-3 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 rounded-xl transition-all border border-indigo-500/20"
+                            title="Configure Node"
+                          >
+                             <div className="w-5 h-5 flex items-center justify-center font-bold text-xs">✎</div> 
+                          </button>
                           <button
                             onClick={() => handleToggleStatus(city.slug)}
                             className={`p-3 rounded-xl transition-all border ${
