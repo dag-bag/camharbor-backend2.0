@@ -3,9 +3,14 @@ import City from '../models/City';
 
 export const createCity = async (req: Request, res: Response) => {
   try {
-    const city = new City(req.body);
-    const savedCity = await city.save();
-    res.status(201).json({ success: true, data: savedCity });
+    if (Array.isArray(req.body)) {
+      const cities = await City.insertMany(req.body);
+      res.status(201).json({ success: true, count: cities.length, data: cities });
+    } else {
+      const city = new City(req.body);
+      const savedCity = await city.save();
+      res.status(201).json({ success: true, data: savedCity });
+    }
   } catch (error) {
     res.status(400).json({ success: false, error: (error as Error).message });
   }
