@@ -3,31 +3,34 @@ import { Express } from 'express';
 import multer from 'multer';
 import path from 'path';
 
-export const uploadFile = async (file: Express.Multer.File): Promise<string> => {
-  // Validate required environment variables
-  const requiredEnvVars = ['B2_ENDPOINT', 'B2_REGION', 'B2_APPLICATION_KEY_ID', 'B2_APPLICATION_KEY', 'B2_BUCKET_NAME'];
-  const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+/**
+ * Backblaze B2 S3 client (HARD-CODED for testing)
+ */
+const endpoint = 's3.eu-central-003.backblazeb2.com';
+const region = 'eu-central-003';
+const bucket = 'camharbor';
 
-  if (missingVars.length > 0) {
-    console.error(`❌ Missing Backblaze B2 environment variables: ${missingVars.join(', ')}`);
-    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}. Please add them to your .env file.`);
-  }
+const s3Client = new S3Client({
+  endpoint: `https://${endpoint}`,
+  region,
+  forcePathStyle: true, // 🔥 REQUIRED for Backblaze B2
+  credentials: {
+    accessKeyId: '0033c0e9d4f16390000000001',
+    secretAccessKey: 'K003V1ePrC9cbmZYmBE7E0orLwkXdq0',
+  },
+});
 
-  // Configure S3 Client for Backblaze B2 lazily
-  const endpoint = (process.env.B2_ENDPOINT || '').trim();
-  const bucket = (process.env.B2_BUCKET_NAME || '').trim();
-  
-  const s3Client = new S3Client({
-    endpoint: endpoint.startsWith('http') ? endpoint : `https://${endpoint}`,
-    region: (process.env.B2_REGION || 'eu-central-003').trim(),
-    credentials: {
-      accessKeyId: (process.env.B2_APPLICATION_KEY_ID || '').trim(),
-      secretAccessKey: (process.env.B2_APPLICATION_KEY || '').trim(),
-    },
-  });
+/**
+ * Upload file to Backblaze B2
+ */
+export const uploadFile = async (
+  file: Express.Multer.File
+): Promise<string> => {
+  const ext = path.extname(file.originalname);
 
-  const fileExtension = path.extname(file.originalname);
-  const fileName = `camharbor-${Date.now()}-${Math.round(Math.random() * 1000)}${fileExtension}`;
+  const fileName = `camharbor-${Date.now()}-${Math.round(
+    Math.random() * 1000
+  )}${ext}`;
 
   const command = new PutObjectCommand({
     Bucket: bucket,
@@ -38,29 +41,28 @@ export const uploadFile = async (file: Express.Multer.File): Promise<string> => 
 
   try {
     await s3Client.send(command);
-    
-    // Construct the public URL for Backblaze B2
-    // Backblaze B2 S3-compatible endpoint format: https://<endpoint>/<bucket-name>/<file-key>
-    const publicUrl = `https://${endpoint}/${bucket}/${fileName}`;
-    
-    return publicUrl;
+
+    // Public URL (bucket must be public)
+    return `https://${endpoint}/${bucket}/${fileName}`;
   } catch (error) {
-    console.error('Error uploading file to Backblaze B2:', error);
+    console.error('Error uploading to Backblaze B2:', error);
     throw new Error('Failed to upload file');
   }
 };
 
-// Multer configuration for memory storage
+/**
+ * Multer config (memory storage)
+ */
 export const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 20 * 1024 * 1024, // 20MB limit (increased from 5MB)
+    fileSize: 20 * 1024 * 1024, // 20MB
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
     } else {
-      cb(new Error('Only image files are allowed!'));
+      cb(new Error('Only image files are allowed'));
     }
   },
 });
