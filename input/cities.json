@@ -1,0 +1,1641 @@
+[
+  {
+    "slug": "delhi",
+    "name": "Delhi",
+    "display_name": "Delhi NCR",
+    "state": "Delhi",
+    "country": "India",
+    "is_active": true,
+    "priority": 100,
+    "tags": ["metro", "capital", "tier-1", "high-density"],
+    "name_local": "दिल्ली",
+    "short_code": "DEL",
+    "tier": "tier_1",
+    "established_year": 1911,
+    "media": {
+      "banner_url": "/images/cities/delhi-banner.jpg",
+      "gallery": ["/images/cities/delhi-1.jpg", "/images/cities/delhi-2.jpg"],
+      "infrastructure": ["/images/cities/delhi-metro.jpg"],
+      "office_photos": ["/images/offices/delhi-main.jpg"],
+      "thumbnail": "/images/cities/delhi-thumb.jpg",
+      "video_url": "https://youtube.com/embed/delhi-intro",
+      "testimonial_videos": ["https://youtube.com/embed/delhi-client-1"]
+    },
+    "geo": {
+      "coordinates": { "lat": 28.6139, "lng": 77.209 },
+      "bounds": { "north": 28.883, "south": 28.404, "east": 77.348, "west": 76.837 },
+      "timezone": "Asia/Kolkata",
+      "area_km2": 1484,
+      "population": 32941000,
+      "density_per_km2": 11312,
+      "elevation_m": 216,
+      "place_id": "ChIJCKC5u1iDDTkRTV_kHiSgV1w",
+      "plus_code": "7JWV+H5 New Delhi"
+    },
+    "environment": {
+      "climate": {
+        "type": "Semiarid",
+        "summer_temp_c": "25-47",
+        "winter_temp_c": "3-25",
+        "monsoon_months": ["July", "August", "September"],
+        "annual_rainfall_mm": 800
+      },
+      "air_quality": {
+        "avg_aqi": 210,
+        "classification": "Poor",
+        "worst_months": ["November", "December", "January"],
+        "best_months": ["July", "August"]
+      },
+      "water": {
+        "source": ["Yamuna River", "Groundwater"],
+        "supply_hours_per_day": 4,
+        "quality_rating": "Moderate",
+        "availability": "Stressed"
+      },
+      "green_cover_percent": 23,
+      "noise_pollution": "High",
+      "dust_level": "High",
+      "humidity_avg_percent": 60,
+      "camera_friendly_months": ["October", "February", "March"]
+    },
+    "infrastructure": {
+      "power": {
+        "provider": ["BSES Rajdhani", "BSES Yamuna", "Tata Power"],
+        "avg_daily_cuts": 1,
+        "avg_cut_duration_mins": 20,
+        "reliability_score": 9,
+        "industrial_connectivity": "High",
+        "voltage_stability": "Stable",
+        "solar_adoption_percent": 15,
+        "ups_penetration_percent": 60
+      },
+      "internet": {
+        "fiber_providers": ["Airtel Xstream", "JioFiber", "ACT Fibernet", "Excitel"],
+        "avg_speed_mbps": 150,
+        "reliability_score": 9,
+        "4g_coverage": "Excellent",
+        "5g_available": true,
+        "broadband_providers": ["MTNL", "Spectra"],
+        "cable_providers": ["Den", "Hathway"],
+        "avg_latency_ms": 15
+      },
+      "housing": {
+        "avg_rent_1bhk": 18000,
+        "avg_rent_2bhk": 28000,
+        "avg_rent_3bhk": 45000,
+        "avg_property_price_per_sqft": 15000,
+        "availability": "Medium",
+        "dominant_construction_type": "Brick & Concrete",
+        "avg_building_age_years": 25,
+        "gated_community_percent": 40
+      },
+      "public_transport": ["DTC Bus", "Delhi Metro", "Auto Rickshaw", "Uber/Ola"],
+      "road_quality": "Good",
+      "metro_connectivity": true,
+      "airport_distance_km": 15,
+      "railway_stations": 5,
+      "smart_city_project": true,
+      "traffic_congestion_level": "Severe",
+      "ev_charging_stations": 450
+    },
+    "security": {
+      "threat_profile": {
+        "crime_rate": "Moderate-High",
+        "common_crimes": ["Snatching", "Vehicle Theft", "Burglary"],
+        "safe_score": 6,
+        "safe_areas": ["Chanakyapuri", "Vasant Vihar", "South Delhi"],
+        "areas_to_avoid": ["Seemapuri", "Isolated Dark Spots"]
+      },
+      "police": {
+        "stations_count": 180,
+        "response_time_mins": 10,
+        "emergency_number": "112",
+        "dedicated_cyber_cell": true,
+        "commissioner_office": "Jai Singh Road",
+        "online_fir_available": true
+      },
+      "cctv_coverage": "Very High",
+      "women_safety_rating": "Moderate",
+      "safe_city_project": true,
+      "govt_cctv_count": 275000,
+      "private_security_agencies": ["G4S", "SIS", "Peregrine"],
+      "neighborhood_watch_active": true
+    },
+    "zones": [
+      {
+        "id": "del-south",
+        "name": "South Delhi",
+        "slug": "south-delhi",
+        "description": "Affluent residential and commercial area.",
+        "type": "Residential/Commercial",
+        "key_localities": ["Hauz Khas", "Greater Kailash", "Saket", "Vasant Kunj"],
+        "suitable_for": ["IP Cameras", "Video Door Phones", "Smart Locks"],
+        "avg_security_rating": 8,
+        "cctv_demand": "High",
+        "popular_camera_types": ["Dome IP", "PTZ"]
+      },
+      {
+        "id": "del-west",
+        "name": "West Delhi",
+        "slug": "west-delhi",
+        "description": "Dense residential and market hubs.",
+        "type": "Mixed",
+        "key_localities": ["Rajouri Garden", "Janakpuri", "Punjabi Bagh"],
+        "suitable_for": ["Analog HD", "Wifi Cameras"],
+        "avg_security_rating": 7,
+        "cctv_demand": "Very High",
+        "popular_camera_types": ["Bullet HD", "Wifi Pan-Tilt"]
+      }
+    ],
+    "seo": {
+      "meta_title": "Best CCTV Installation in Delhi NCR - CamHarbor",
+      "meta_description": "Professional CCTV Camera services in Delhi. Covering 500+ localities from South Ext to Rohini. 4-hour response time.",
+      "keywords": ["CCTV Delhi", "Security Camera Installation Delhi", "CP Plus Dealer Delhi", "Hikvision Delhi"],
+      "og_image": "https://camharbor.in/images/delhi-seo.jpg",
+      "canonical_url": "https://camharbor.in/services/delhi",
+      "focus_keyword": "CCTV Installation Delhi",
+      "secondary_keywords": ["CCTV Camera Price Delhi", "CCTV AMC Delhi"],
+      "long_tail_keywords": ["Wireless CCTV camera for home in Delhi", "Night vision camera installation Delhi"],
+      "local_keywords": ["Nehru Place CCTV market", "Lajpat Rai Market CCTV"],
+      "schema_type": "LocalBusiness"
+    },
+    "operations": {
+      "office": {
+        "address": "Nehru Place, New Delhi, Delhi 110019",
+        "coordinates": { "lat": 28.5494, "lng": 77.2526 },
+        "contact_phone": "+91-11-44556677",
+        "contact_email": "delhi@camharbor.in",
+        "working_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      },
+      "hours": {
+        "monday_friday": "09:30 - 19:00",
+        "saturday": "10:00 - 18:00",
+        "sunday": "Closed",
+        "holidays": "Closed"
+      },
+      "service_areas": ["All Delhi Districts", "Noida Border", "Gurgaon Border"],
+      "coverage_radius_km": 40,
+      "avg_response_time_hrs": 4,
+      "team_size": 25,
+      "technicians_count": 18,
+      "vehicles_count": 10,
+      "warehouse_address": "Okhla Phase 3, New Delhi",
+      "emergency_available": true,
+      "installation_capacity_per_day": 15
+    },
+    "reviews": {
+      "total_count": 2500,
+      "avg_rating": 4.7,
+      "rating_distribution": { "1": 20, "2": 30, "3": 150, "4": 500, "5": 1800 },
+      "featured": [],
+      "google_review_url": "https://g.page/r/camharbor-delhi/review",
+      "google_place_rating": 4.7,
+      "justdial_rating": 4.5,
+      "platforms": [
+        { "name": "Google", "url": "...", "rating": 4.7, "count": 2100 },
+        { "name": "Justdial", "url": "...", "rating": 4.5, "count": 400 }
+      ]
+    },
+    "demographics": {
+      "total_households": 6000000,
+      "urban_percent": 97,
+      "rural_percent": 3,
+      "literacy_rate": 86,
+      "avg_household_income": 800000,
+      "income_distribution": { "lower": 20, "lower_middle": 30, "middle": 30, "upper_middle": 15, "upper": 5 },
+      "languages": ["Hindi", "English", "Punjabi", "Urdu"],
+      "major_communities": ["Traders", "Service Class", "Bureaucrats"],
+      "working_population_percent": 35
+    },
+    "economy": {
+      "gdp_rank_in_state": 1,
+      "major_industries": ["Services", "Retail", "IT", "Tourism"],
+      "it_parks": ["Okhla", "Netaji Subhash Place"],
+      "industrial_areas": ["Okhla", "Mayapuri", "Bawana", "Narela"],
+      "commercial_hubs": ["Connaught Place", "Nehru Place", "Karol Bagh"],
+      "employment_rate": 92,
+      "startup_ecosystem": "High",
+      "ease_of_business_rank": 5
+    },
+    "market": {
+      "cctv_market_size": "Huge",
+      "growth_rate_percent": 15,
+      "competition_level": "Very High",
+      "major_competitors": ["Local Nehru Place Vendors", "CP Plus Direct"],
+      "price_sensitivity": "High",
+      "preferred_brands": ["CP Plus", "Hikvision", "Dahua"],
+      "demand_trend": "Increasing",
+      "seasonal_peaks": ["Diwali", "Pre-Summer"],
+      "b2b_potential": "High",
+      "b2c_potential": "Very High",
+      "govt_tender_frequency": "High"
+    },
+    "customer_profile": {
+      "primary_segments": ["Shopkeepers", "Flat Owners", "Kothi Owners"],
+      "decision_factors": ["Price", "Service Speed", "Mobile View"],
+      "avg_budget_residential": 12000,
+      "avg_budget_commercial": 25000,
+      "preferred_contact_method": "Call",
+      "preferred_language": "Hindi/English",
+      "trust_factors": ["Local Office", "Technician Uniform"],
+      "common_objections": ["Wire cutting by monkeys", "Night clarity"],
+      "payment_preferences": ["UPI", "Cash"],
+      "emi_adoption": "Medium"
+    },
+    "service_config": {
+      "pricing_tier": "standard",
+      "price_multiplier": 1.0,
+      "min_order_value": 5000,
+      "free_survey_available": true,
+      "same_day_service": true,
+      "amc_popular": true,
+      "rental_service": true,
+      "installation_warranty_months": 12,
+      "product_warranty_months": 24
+    },
+    "content": {
+      "tagline": "Dil se Secure, Delhi.",
+      "short_description": "Delhi's trusted CCTV partner.",
+      "long_description": "Securing the capital with advanced surveillance technology suited for extreme weather.",
+      "unique_selling_points": ["4 Hour Service", "Dust Proof Boxes", "Monkey Proof Wiring"],
+      "pain_points_addressed": ["Theft", "Staff Monitoring", "Snatching"],
+      "success_stories_count": 5000,
+      "case_studies": [],
+      "faqs": [
+        { "question": "Do you cover Old Delhi lanes?", "answer": "Yes, we use special wireless solutions for narrow lanes." }
+      ]
+    },
+    "stats": {
+      "total_installations": 15000,
+      "installations_this_month": 150,
+      "installations_this_year": 1800,
+      "total_customers": 12000,
+      "repeat_customers": 3000,
+      "referral_rate_percent": 40,
+      "avg_project_value": 15000,
+      "largest_project_value": 5000000,
+      "localities_covered": 565,
+      "pincodes_served": 95
+    },
+    "social": {
+      "whatsapp_number": "911144556677",
+      "facebook_page": "camharbor.delhi",
+      "instagram_handle": "camharbor_del",
+      "youtube_channel": "CamHarborDelhi",
+      "google_business_url": "...",
+      "justdial_url": "...",
+      "indiamart_url": "..."
+    },
+    "legal": {
+      "gst_applicable": true,
+      "service_tax_percent": 18,
+      "local_permits_required": ["None for residential"],
+      "police_noc_required": false,
+      "rwa_permission_common": true
+    }
+  },
+
+  {
+    "slug": "gurgaon",
+    "name": "Gurgaon",
+    "display_name": "Gurugram",
+    "state": "Haryana",
+    "country": "India",
+    "is_active": true,
+    "priority": 95,
+    "tags": ["corporate", "cyber-city", "millennium-city", "high-rise"],
+    "name_local": "गुरुग्राम",
+    "short_code": "GGN",
+    "tier": "tier_1",
+    "established_year": 1979,
+    "media": {
+      "banner_url": "/images/cities/gurgaon-banner.jpg",
+      "gallery": ["/images/cities/gurgaon-1.jpg"],
+      "infrastructure": ["/images/cities/gurgaon-rapid-metro.jpg"],
+      "office_photos": ["/images/offices/gurgaon-main.jpg"],
+      "thumbnail": "/images/cities/gurgaon-thumb.jpg",
+      "video_url": "",
+      "testimonial_videos": []
+    },
+    "geo": {
+      "coordinates": { "lat": 28.4595, "lng": 77.0266 },
+      "bounds": { "north": 28.550, "south": 28.350, "east": 77.120, "west": 76.900 },
+      "timezone": "Asia/Kolkata",
+      "area_km2": 732,
+      "population": 1514000,
+      "density_per_km2": 2000,
+      "elevation_m": 217,
+      "place_id": "ChIJ4zGFAZpYDTkR-Qq_jzK2zNw",
+      "plus_code": "F25G+R9 Gurugram"
+    },
+    "environment": {
+      "climate": {
+        "type": "Semiarid",
+        "summer_temp_c": "28-48",
+        "winter_temp_c": "5-25",
+        "monsoon_months": ["July", "August"],
+        "annual_rainfall_mm": 700
+      },
+      "air_quality": {
+        "avg_aqi": 190,
+        "classification": "Poor",
+        "worst_months": ["November", "December"],
+        "best_months": ["August", "September"]
+      },
+      "water": {
+        "source": ["Canal", "Tankers"],
+        "supply_hours_per_day": 2,
+        "quality_rating": "Poor",
+        "availability": "Low"
+      },
+      "green_cover_percent": 15,
+      "noise_pollution": "Moderate",
+      "dust_level": "Very High",
+      "humidity_avg_percent": 55,
+      "camera_friendly_months": ["February", "March", "October"]
+    },
+    "infrastructure": {
+      "power": {
+        "provider": ["DHBVN"],
+        "avg_daily_cuts": 2,
+        "avg_cut_duration_mins": 45,
+        "reliability_score": 6,
+        "industrial_connectivity": "High",
+        "voltage_stability": "Fluctuating",
+        "solar_adoption_percent": 25,
+        "ups_penetration_percent": 90
+      },
+      "internet": {
+        "fiber_providers": ["Airtel", "Spectra", "Jio"],
+        "avg_speed_mbps": 300,
+        "reliability_score": 9,
+        "4g_coverage": "Excellent",
+        "5g_available": true,
+        "broadband_providers": ["TriplePlay"],
+        "cable_providers": [],
+        "avg_latency_ms": 10
+      },
+      "housing": {
+        "avg_rent_1bhk": 25000,
+        "avg_rent_2bhk": 40000,
+        "avg_rent_3bhk": 65000,
+        "avg_property_price_per_sqft": 18000,
+        "availability": "High",
+        "dominant_construction_type": "High Rise Apartments",
+        "avg_building_age_years": 10,
+        "gated_community_percent": 80
+      },
+      "public_transport": ["Rapid Metro", "Bus", "Auto", "Uber"],
+      "road_quality": "Variable",
+      "metro_connectivity": true,
+      "airport_distance_km": 12,
+      "railway_stations": 1,
+      "smart_city_project": true,
+      "traffic_congestion_level": "High",
+      "ev_charging_stations": 600
+    },
+    "security": {
+      "threat_profile": {
+        "crime_rate": "Moderate",
+        "common_crimes": ["Carjacking", "Burglary"],
+        "safe_score": 7,
+        "safe_areas": ["DLF Phases", "Golf Course Road"],
+        "areas_to_avoid": ["Old Gurgaon outskirts at night"]
+      },
+      "police": {
+        "stations_count": 40,
+        "response_time_mins": 15,
+        "emergency_number": "112",
+        "dedicated_cyber_cell": true,
+        "commissioner_office": "Sohna Road",
+        "online_fir_available": true
+      },
+      "cctv_coverage": "High",
+      "women_safety_rating": "Moderate",
+      "safe_city_project": true,
+      "govt_cctv_count": 50000,
+      "private_security_agencies": ["G4S", "SIS"],
+      "neighborhood_watch_active": false
+    },
+    "zones": [
+      {
+        "id": "ggn-new",
+        "name": "New Gurgaon",
+        "slug": "new-gurgaon",
+        "description": "Newly developed sectors beyond toll.",
+        "type": "Residential",
+        "key_localities": ["Sector 82", "Sector 90"],
+        "suitable_for": ["Society Surveillance", "IP Cameras"],
+        "avg_security_rating": 7.5,
+        "cctv_demand": "High",
+        "popular_camera_types": ["Bullet IP", "PTZ"]
+      }
+    ],
+    "seo": {
+      "meta_title": "CCTV Camera Installation in Gurgaon - CamHarbor",
+      "meta_description": "Premium CCTV solutions for Gurgaon's corporate offices and high-rise apartments. Expert installation in DLF, Sohna Road, and Cyber City.",
+      "keywords": ["CCTV Gurgaon", "Security System Gurugram", "IP Camera Gurgaon"],
+      "og_image": "https://camharbor.in/images/gurgaon-seo.jpg",
+      "canonical_url": "https://camharbor.in/services/gurgaon",
+      "focus_keyword": "CCTV Installation Gurgaon",
+      "secondary_keywords": ["Home Automation Gurgaon", "Video Door Phone Gurugram"],
+      "long_tail_keywords": ["CCTV for high rise apartment Gurgaon", "Office surveillance system Gurgaon"],
+      "local_keywords": ["Sadar Bazar CCTV", "Galleria Market CCTV"],
+      "schema_type": "LocalBusiness"
+    },
+    "operations": {
+      "office": {
+        "address": "Sohna Road, Sector 48, Gurugram, Haryana 122018",
+        "coordinates": { "lat": 28.412, "lng": 77.042 },
+        "contact_phone": "+91-124-44556677",
+        "contact_email": "gurgaon@camharbor.in",
+        "working_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      },
+      "hours": {
+        "monday_friday": "09:00 - 18:30",
+        "saturday": "10:00 - 16:00",
+        "sunday": "Closed",
+        "holidays": "Closed"
+      },
+      "service_areas": ["DLF Phases", "Sushant Lok", "Manesar", "Sohna Road"],
+      "coverage_radius_km": 30,
+      "avg_response_time_hrs": 6,
+      "team_size": 15,
+      "technicians_count": 10,
+      "vehicles_count": 6,
+      "warehouse_address": "Udyog Vihar, Gurgaon",
+      "emergency_available": false,
+      "installation_capacity_per_day": 8
+    },
+    "reviews": {
+      "total_count": 1200,
+      "avg_rating": 4.6,
+      "rating_distribution": { "1": 10, "2": 20, "3": 80, "4": 200, "5": 890 },
+      "featured": [],
+      "google_review_url": "...",
+      "google_place_rating": 4.6,
+      "justdial_rating": 4.4,
+      "platforms": []
+    },
+    "demographics": {
+      "total_households": 400000,
+      "urban_percent": 90,
+      "rural_percent": 10,
+      "literacy_rate": 88,
+      "avg_household_income": 1200000,
+      "income_distribution": { "lower": 10, "lower_middle": 20, "middle": 20, "upper_middle": 30, "upper": 20 },
+      "languages": ["English", "Hindi", "Haryanvi"],
+      "major_communities": ["Corporate Employees", "Expats", "Locals"],
+      "working_population_percent": 60
+    },
+    "economy": {
+      "gdp_rank_in_state": 1,
+      "major_industries": ["IT", "Automobile", "Real Estate"],
+      "it_parks": ["Cyber City", "Udyog Vihar"],
+      "industrial_areas": ["Manesar", "Udyog Vihar"],
+      "commercial_hubs": ["Cyber Hub", "MG Road"],
+      "employment_rate": 95,
+      "startup_ecosystem": "Very High",
+      "ease_of_business_rank": 3
+    },
+    "market": {
+      "cctv_market_size": "Large",
+      "growth_rate_percent": 20,
+      "competition_level": "High",
+      "major_competitors": ["System Integrators", "Urban Company"],
+      "price_sensitivity": "Medium",
+      "preferred_brands": ["Hikvision", "Honeywell", "Panasonic"],
+      "demand_trend": "Shift to Smart Home",
+      "seasonal_peaks": ["New Financial Year"],
+      "b2b_potential": "Very High",
+      "b2c_potential": "High",
+      "govt_tender_frequency": "Medium"
+    },
+    "customer_profile": {
+      "primary_segments": ["Corporate Offices", "Luxury Apartments", "Villas"],
+      "decision_factors": ["Quality", "Brand", "Remote Features"],
+      "avg_budget_residential": 25000,
+      "avg_budget_commercial": 100000,
+      "preferred_contact_method": "Email/WhatsApp",
+      "preferred_language": "English",
+      "trust_factors": ["Website", "GST Bill", "Professionalism"],
+      "common_objections": ["Aesthetics/Looks", "App Connectivity"],
+      "payment_preferences": ["Credit Card", "Net Banking"],
+      "emi_adoption": "High"
+    },
+    "service_config": {
+      "pricing_tier": "premium",
+      "price_multiplier": 1.2,
+      "min_order_value": 8000,
+      "free_survey_available": true,
+      "same_day_service": false,
+      "amc_popular": true,
+      "rental_service": true,
+      "installation_warranty_months": 12,
+      "product_warranty_months": 24
+    },
+    "content": {
+      "tagline": "Smart Security for the Millennium City.",
+      "short_description": "Premium surveillance for Gurgaon homes & offices.",
+      "long_description": "Serving Gurugram's high-rises and corporate hubs with cutting edge IP and Wifi security solutions.",
+      "unique_selling_points": ["Concealed Cabling Experts", "High Rise Specialists", "Smart Home Integration"],
+      "pain_points_addressed": ["Maid Monitoring", "Parcel Theft", "Visitor Verification"],
+      "success_stories_count": 2000,
+      "case_studies": [],
+      "faqs": []
+    },
+    "stats": {
+      "total_installations": 6000,
+      "installations_this_month": 80,
+      "installations_this_year": 900,
+      "total_customers": 4500,
+      "repeat_customers": 1500,
+      "referral_rate_percent": 50,
+      "avg_project_value": 35000,
+      "largest_project_value": 8000000,
+      "localities_covered": 120,
+      "pincodes_served": 20
+    },
+    "social": {
+      "whatsapp_number": "911244455667",
+      "facebook_page": "camharbor.ggn",
+      "instagram_handle": "camharbor_ggn",
+      "youtube_channel": "",
+      "google_business_url": "...",
+      "justdial_url": "...",
+      "indiamart_url": "..."
+    },
+    "legal": {
+      "gst_applicable": true,
+      "service_tax_percent": 18,
+      "local_permits_required": ["Society Gate Pass"],
+      "police_noc_required": false,
+      "rwa_permission_common": true
+    }
+  },
+
+  {
+    "slug": "noida",
+    "name": "Noida",
+    "display_name": "Noida",
+    "state": "Uttar Pradesh",
+    "country": "India",
+    "is_active": true,
+    "priority": 90,
+    "tags": ["industrial", "planned-city", "tech-hub", "wide-roads"],
+    "name_local": "नोएडा",
+    "short_code": "NOIDA",
+    "tier": "tier_1",
+    "established_year": 1976,
+    "media": {
+      "banner_url": "/images/cities/noida-banner.jpg",
+      "gallery": [],
+      "infrastructure": [],
+      "office_photos": [],
+      "thumbnail": "/images/cities/noida-thumb.jpg",
+      "video_url": "",
+      "testimonial_videos": []
+    },
+    "geo": {
+      "coordinates": { "lat": 28.5355, "lng": 77.3910 },
+      "bounds": { "north": 28.62, "south": 28.45, "east": 77.45, "west": 77.29 },
+      "timezone": "Asia/Kolkata",
+      "area_km2": 203,
+      "population": 637000,
+      "density_per_km2": 3100,
+      "elevation_m": 200,
+      "place_id": "ChIJyz6hU4C9DDkRjZzV_P9vF1s",
+      "plus_code": "G9Pq+66 Noida"
+    },
+    "environment": {
+      "climate": {
+        "type": "Semiarid",
+        "summer_temp_c": "26-46",
+        "winter_temp_c": "4-24",
+        "monsoon_months": ["July", "August"],
+        "annual_rainfall_mm": 750
+      },
+      "air_quality": {
+        "avg_aqi": 200,
+        "classification": "Poor",
+        "worst_months": ["November", "December"],
+        "best_months": ["August"]
+      },
+      "water": {
+        "source": ["Ganga Water", "Groundwater"],
+        "supply_hours_per_day": 3,
+        "quality_rating": "Moderate",
+        "availability": "Medium"
+      },
+      "green_cover_percent": 30,
+      "noise_pollution": "Moderate",
+      "dust_level": "High",
+      "humidity_avg_percent": 58,
+      "camera_friendly_months": ["October", "February"]
+    },
+    "infrastructure": {
+      "power": {
+        "provider": ["UPPCL", "NPCL"],
+        "avg_daily_cuts": 2,
+        "avg_cut_duration_mins": 60,
+        "reliability_score": 7,
+        "industrial_connectivity": "Excellent",
+        "voltage_stability": "Good",
+        "solar_adoption_percent": 10,
+        "ups_penetration_percent": 75
+      },
+      "internet": {
+        "fiber_providers": ["Airtel", "Jio", "Tata Play"],
+        "avg_speed_mbps": 200,
+        "reliability_score": 8,
+        "4g_coverage": "Good",
+        "5g_available": true,
+        "broadband_providers": ["Timbl", "Excitel"],
+        "cable_providers": [],
+        "avg_latency_ms": 12
+      },
+      "housing": {
+        "avg_rent_1bhk": 12000,
+        "avg_rent_2bhk": 18000,
+        "avg_rent_3bhk": 28000,
+        "avg_property_price_per_sqft": 7000,
+        "availability": "High",
+        "dominant_construction_type": "Group Housing Societies",
+        "avg_building_age_years": 8,
+        "gated_community_percent": 90
+      },
+      "public_transport": ["Metro", "E-Rickshaw", "Bus"],
+      "road_quality": "Excellent",
+      "metro_connectivity": true,
+      "airport_distance_km": 30,
+      "railway_stations": 0,
+      "smart_city_project": true,
+      "traffic_congestion_level": "Moderate",
+      "ev_charging_stations": 200
+    },
+    "security": {
+      "threat_profile": {
+        "crime_rate": "Moderate",
+        "common_crimes": ["Vehicle Theft", "Chain Snatching"],
+        "safe_score": 7,
+        "safe_areas": ["Sector 15A", "Sector 44", "Sector 50"],
+        "areas_to_avoid": ["Remote Sectors at night"]
+      },
+      "police": {
+        "stations_count": 22,
+        "response_time_mins": 12,
+        "emergency_number": "112",
+        "dedicated_cyber_cell": true,
+        "commissioner_office": "Sector 108",
+        "online_fir_available": true
+      },
+      "cctv_coverage": "Moderate",
+      "women_safety_rating": "Moderate",
+      "safe_city_project": true,
+      "govt_cctv_count": 20000,
+      "private_security_agencies": ["G4S", "SIS"],
+      "neighborhood_watch_active": true
+    },
+    "zones": [],
+    "seo": {
+      "meta_title": "CCTV Installation Services in Noida - CamHarbor",
+      "meta_description": "Reliable CCTV Camera dealers in Noida. Specialized in High Rise Society and Factory installation. Same day visit in Sector 18, 62, 63.",
+      "keywords": ["CCTV Noida", "CCTV Camera Installation Noida", "Security Systems Noida"],
+      "og_image": "https://camharbor.in/images/noida-seo.jpg",
+      "canonical_url": "https://camharbor.in/services/noida",
+      "focus_keyword": "CCTV Camera Noida",
+      "secondary_keywords": ["Hikvision Dealer Noida", "CP Plus Installer Noida"],
+      "long_tail_keywords": ["CCTV camera for factory in Noida", "Society security camera installation Noida"],
+      "local_keywords": ["Atta Market CCTV", "Sector 62 CCTV"],
+      "schema_type": "LocalBusiness"
+    },
+    "operations": {
+      "office": {
+        "address": "Sector 63, Noida, Uttar Pradesh 201301",
+        "coordinates": { "lat": 28.620, "lng": 77.380 },
+        "contact_phone": "+91-120-44556677",
+        "contact_email": "noida@camharbor.in",
+        "working_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      },
+      "hours": {
+        "monday_friday": "09:30 - 18:30",
+        "saturday": "10:00 - 17:00",
+        "sunday": "Closed",
+        "holidays": "Closed"
+      },
+      "service_areas": ["Noida Extension", "Noida Expressway", "City Center"],
+      "coverage_radius_km": 25,
+      "avg_response_time_hrs": 5,
+      "team_size": 18,
+      "technicians_count": 12,
+      "vehicles_count": 8,
+      "warehouse_address": "Sector 9, Noida",
+      "emergency_available": false,
+      "installation_capacity_per_day": 10
+    },
+    "reviews": {
+      "total_count": 800,
+      "avg_rating": 4.5,
+      "rating_distribution": { "1": 5, "2": 15, "3": 50, "4": 180, "5": 550 },
+      "featured": [],
+      "google_review_url": "...",
+      "google_place_rating": 4.5,
+      "justdial_rating": 4.3,
+      "platforms": []
+    },
+    "demographics": {
+      "total_households": 200000,
+      "urban_percent": 95,
+      "rural_percent": 5,
+      "literacy_rate": 86,
+      "avg_household_income": 900000,
+      "income_distribution": { "lower": 15, "lower_middle": 25, "middle": 35, "upper_middle": 20, "upper": 5 },
+      "languages": ["Hindi", "English"],
+      "major_communities": ["Tech Professionals", "Retired Officials"],
+      "working_population_percent": 55
+    },
+    "economy": {
+      "gdp_rank_in_state": 1,
+      "major_industries": ["IT", "Mobile Manufacturing", "Media"],
+      "it_parks": ["Sector 62", "Sector 125"],
+      "industrial_areas": ["Phase 2", "Sector 63"],
+      "commercial_hubs": ["Sector 18", "Mall of India"],
+      "employment_rate": 90,
+      "startup_ecosystem": "High",
+      "ease_of_business_rank": 4
+    },
+    "market": {
+      "cctv_market_size": "Large",
+      "growth_rate_percent": 18,
+      "competition_level": "High",
+      "major_competitors": ["Local Sector 9 Market"],
+      "price_sensitivity": "Medium",
+      "preferred_brands": ["Hikvision", "CP Plus", "Tiandy"],
+      "demand_trend": "Increasing",
+      "seasonal_peaks": ["Year End"],
+      "b2b_potential": "Very High",
+      "b2c_potential": "High",
+      "govt_tender_frequency": "High"
+    },
+    "customer_profile": {
+      "primary_segments": ["Factories", "Societies", "Tech Companies"],
+      "decision_factors": ["Warranty", "Service Support", "Price"],
+      "avg_budget_residential": 15000,
+      "avg_budget_commercial": 60000,
+      "preferred_contact_method": "Call",
+      "preferred_language": "Hindi/English",
+      "trust_factors": ["Local Presence", "Demo"],
+      "common_objections": ["Drilling in rented flat"],
+      "payment_preferences": ["UPI", "Cheque"],
+      "emi_adoption": "Low"
+    },
+    "service_config": {
+      "pricing_tier": "standard",
+      "price_multiplier": 1.0,
+      "min_order_value": 6000,
+      "free_survey_available": true,
+      "same_day_service": true,
+      "amc_popular": true,
+      "rental_service": false,
+      "installation_warranty_months": 12,
+      "product_warranty_months": 24
+    },
+    "content": {
+      "tagline": "Secure your space in India's Cleanest City.",
+      "short_description": "Expert CCTV services for Noida's industries and homes.",
+      "long_description": "From factory floors in Phase 2 to apartments in Sector 76, we provide end-to-end security solutions.",
+      "unique_selling_points": ["Factory Setup Experts", "Society Bulk Deals", "Clean Installation"],
+      "pain_points_addressed": ["Industrial Theft", "Parking Security", "Vandalism"],
+      "success_stories_count": 1200,
+      "case_studies": [],
+      "faqs": []
+    },
+    "stats": {
+      "total_installations": 4000,
+      "installations_this_month": 60,
+      "installations_this_year": 700,
+      "total_customers": 3200,
+      "repeat_customers": 800,
+      "referral_rate_percent": 35,
+      "avg_project_value": 25000,
+      "largest_project_value": 2500000,
+      "localities_covered": 80,
+      "pincodes_served": 15
+    },
+    "social": {
+      "whatsapp_number": "911204455667",
+      "facebook_page": "camharbor.noida",
+      "instagram_handle": "camharbor_noida",
+      "youtube_channel": "",
+      "google_business_url": "...",
+      "justdial_url": "...",
+      "indiamart_url": "..."
+    },
+    "legal": {
+      "gst_applicable": true,
+      "service_tax_percent": 18,
+      "local_permits_required": ["Authority Permit for digging"],
+      "police_noc_required": false,
+      "rwa_permission_common": true
+    }
+  },
+
+  {
+    "slug": "greater-noida",
+    "name": "Greater Noida",
+    "display_name": "Greater Noida",
+    "state": "Uttar Pradesh",
+    "country": "India",
+    "is_active": true,
+    "priority": 85,
+    "tags": ["education-hub", "open-spaces", "developing", "industrial"],
+    "name_local": "ग्रेटर नोएडा",
+    "short_code": "GN",
+    "tier": "tier_2",
+    "established_year": 1991,
+    "media": {
+      "banner_url": "/images/cities/gnoida-banner.jpg",
+      "gallery": [],
+      "infrastructure": [],
+      "office_photos": [],
+      "thumbnail": "/images/cities/gnoida-thumb.jpg",
+      "video_url": "",
+      "testimonial_videos": []
+    },
+    "geo": {
+      "coordinates": { "lat": 28.4744, "lng": 77.5040 },
+      "bounds": { "north": 28.58, "south": 28.32, "east": 77.60, "west": 77.42 },
+      "timezone": "Asia/Kolkata",
+      "area_km2": 380,
+      "population": 100000,
+      "density_per_km2": 260,
+      "elevation_m": 200,
+      "place_id": "ChIJRz_tq4oBDTkR0M3qjI12jX8",
+      "plus_code": "FGC3+QJ Greater Noida"
+    },
+    "environment": {
+      "climate": {
+        "type": "Semiarid",
+        "summer_temp_c": "26-47",
+        "winter_temp_c": "4-23",
+        "monsoon_months": ["July", "August"],
+        "annual_rainfall_mm": 700
+      },
+      "air_quality": {
+        "avg_aqi": 190,
+        "classification": "Poor",
+        "worst_months": ["November", "December"],
+        "best_months": ["August"]
+      },
+      "water": {
+        "source": ["Groundwater"],
+        "supply_hours_per_day": 4,
+        "quality_rating": "Hard",
+        "availability": "Good"
+      },
+      "green_cover_percent": 35,
+      "noise_pollution": "Low",
+      "dust_level": "Very High",
+      "humidity_avg_percent": 55,
+      "camera_friendly_months": ["November", "February"]
+    },
+    "infrastructure": {
+      "power": {
+        "provider": ["NPCL"],
+        "avg_daily_cuts": 3,
+        "avg_cut_duration_mins": 90,
+        "reliability_score": 6,
+        "industrial_connectivity": "Good",
+        "voltage_stability": "Moderate",
+        "solar_adoption_percent": 15,
+        "ups_penetration_percent": 80
+      },
+      "internet": {
+        "fiber_providers": ["Jio", "Airtel"],
+        "avg_speed_mbps": 100,
+        "reliability_score": 7,
+        "4g_coverage": "Moderate",
+        "5g_available": true,
+        "broadband_providers": ["Local"],
+        "cable_providers": [],
+        "avg_latency_ms": 20
+      },
+      "housing": {
+        "avg_rent_1bhk": 8000,
+        "avg_rent_2bhk": 12000,
+        "avg_rent_3bhk": 18000,
+        "avg_property_price_per_sqft": 4000,
+        "availability": "Very High",
+        "dominant_construction_type": "High Rise & Plots",
+        "avg_building_age_years": 5,
+        "gated_community_percent": 70
+      },
+      "public_transport": ["Metro", "Auto", "Bus"],
+      "road_quality": "Excellent",
+      "metro_connectivity": true,
+      "airport_distance_km": 50,
+      "railway_stations": 1,
+      "smart_city_project": false,
+      "traffic_congestion_level": "Low",
+      "ev_charging_stations": 50
+    },
+    "security": {
+      "threat_profile": {
+        "crime_rate": "Moderate-High",
+        "common_crimes": ["Highway Robbery", "Burglary", "Vehicle Theft"],
+        "safe_score": 5,
+        "safe_areas": ["Alpha", "Beta", "Gamma Sectors"],
+        "areas_to_avoid": ["Expressway at night", "Remote Sectors"]
+      },
+      "police": {
+        "stations_count": 10,
+        "response_time_mins": 20,
+        "emergency_number": "112",
+        "dedicated_cyber_cell": false,
+        "commissioner_office": "Surajpur",
+        "online_fir_available": true
+      },
+      "cctv_coverage": "Low",
+      "women_safety_rating": "Low",
+      "safe_city_project": false,
+      "govt_cctv_count": 5000,
+      "private_security_agencies": ["G4S", "Local"],
+      "neighborhood_watch_active": false
+    },
+    "zones": [],
+    "seo": {
+      "meta_title": "CCTV Camera Installation in Greater Noida - CamHarbor",
+      "meta_description": "Affordable CCTV solutions in Greater Noida. Securing student hostels, colleges, and societies. Jagat Farm, Alpha, Beta coverage.",
+      "keywords": ["CCTV Greater Noida", "Security Camera Beta Sector", "Hostel CCTV"],
+      "og_image": "https://camharbor.in/images/gnoida-seo.jpg",
+      "canonical_url": "https://camharbor.in/services/greater-noida",
+      "focus_keyword": "CCTV Installation Greater Noida",
+      "secondary_keywords": ["Wireless Camera Greater Noida", "Night Vision CCTV"],
+      "long_tail_keywords": ["CCTV for student PG in Greater Noida", "Farmhouse security camera Greater Noida"],
+      "local_keywords": ["Jagat Farm CCTV", "Pari Chowk CCTV"],
+      "schema_type": "LocalBusiness"
+    },
+    "operations": {
+      "office": {
+        "address": "Alpha 1 Commercial Belt, Greater Noida, UP",
+        "coordinates": { "lat": 28.470, "lng": 77.510 },
+        "contact_phone": "+91-120-44558899",
+        "contact_email": "gnoida@camharbor.in",
+        "working_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      },
+      "hours": {
+        "monday_friday": "10:00 - 19:00",
+        "saturday": "10:00 - 16:00",
+        "sunday": "Closed",
+        "holidays": "Closed"
+      },
+      "service_areas": ["Alpha", "Beta", "Gamma", "Delta", "Knowledge Park"],
+      "coverage_radius_km": 30,
+      "avg_response_time_hrs": 6,
+      "team_size": 10,
+      "technicians_count": 6,
+      "vehicles_count": 4,
+      "warehouse_address": "Surajpur, Greater Noida",
+      "emergency_available": false,
+      "installation_capacity_per_day": 5
+    },
+    "reviews": {
+      "total_count": 300,
+      "avg_rating": 4.4,
+      "rating_distribution": { "1": 10, "2": 10, "3": 40, "4": 80, "5": 160 },
+      "featured": [],
+      "google_review_url": "...",
+      "google_place_rating": 4.4,
+      "justdial_rating": 4.2,
+      "platforms": []
+    },
+    "demographics": {
+      "total_households": 30000,
+      "urban_percent": 80,
+      "rural_percent": 20,
+      "literacy_rate": 80,
+      "avg_household_income": 600000,
+      "income_distribution": { "lower": 25, "lower_middle": 30, "middle": 25, "upper_middle": 15, "upper": 5 },
+      "languages": ["Hindi"],
+      "major_communities": ["Students", "Industrial Workers", "Farmers"],
+      "working_population_percent": 45
+    },
+    "economy": {
+      "gdp_rank_in_state": 5,
+      "major_industries": ["Education", "Automobile", "Electronics"],
+      "it_parks": ["Knowledge Park"],
+      "industrial_areas": ["Ecotech"],
+      "commercial_hubs": ["Grand Venice Mall", "Alpha Market"],
+      "employment_rate": 80,
+      "startup_ecosystem": "Low",
+      "ease_of_business_rank": 6
+    },
+    "market": {
+      "cctv_market_size": "Medium",
+      "growth_rate_percent": 25,
+      "competition_level": "Medium",
+      "major_competitors": ["Local Electricians"],
+      "price_sensitivity": "High",
+      "preferred_brands": ["CP Plus", "Dahua"],
+      "demand_trend": "Rapidly Increasing",
+      "seasonal_peaks": ["New College Session"],
+      "b2b_potential": "High",
+      "b2c_potential": "Medium",
+      "govt_tender_frequency": "Low"
+    },
+    "customer_profile": {
+      "primary_segments": ["Hostels", "Colleges", "Warehouses"],
+      "decision_factors": ["Cost", "Ruggedness"],
+      "avg_budget_residential": 10000,
+      "avg_budget_commercial": 40000,
+      "preferred_contact_method": "Call",
+      "preferred_language": "Hindi",
+      "trust_factors": ["Reference"],
+      "common_objections": ["Price"],
+      "payment_preferences": ["Cash", "UPI"],
+      "emi_adoption": "Low"
+    },
+    "service_config": {
+      "pricing_tier": "budget",
+      "price_multiplier": 0.9,
+      "min_order_value": 4000,
+      "free_survey_available": false,
+      "same_day_service": false,
+      "amc_popular": false,
+      "rental_service": false,
+      "installation_warranty_months": 6,
+      "product_warranty_months": 24
+    },
+    "content": {
+      "tagline": "Securing the Future City.",
+      "short_description": "CCTV for Greater Noida's campuses and homes.",
+      "long_description": "Specialized security for vast campuses, warehouses, and residential sectors of Greater Noida.",
+      "unique_selling_points": ["Long Range Surveillance", "Student Hostel Packages"],
+      "pain_points_addressed": ["Isolated Areas", "Unmanned Properties"],
+      "success_stories_count": 300,
+      "case_studies": [],
+      "faqs": []
+    },
+    "stats": {
+      "total_installations": 1500,
+      "installations_this_month": 40,
+      "installations_this_year": 500,
+      "total_customers": 1100,
+      "repeat_customers": 200,
+      "referral_rate_percent": 25,
+      "avg_project_value": 18000,
+      "largest_project_value": 1500000,
+      "localities_covered": 40,
+      "pincodes_served": 10
+    },
+    "social": {
+      "whatsapp_number": "911204455888",
+      "facebook_page": "camharbor.gn",
+      "instagram_handle": "camharbor_gn",
+      "youtube_channel": "",
+      "google_business_url": "...",
+      "justdial_url": "...",
+      "indiamart_url": "..."
+    },
+    "legal": {
+      "gst_applicable": true,
+      "service_tax_percent": 18,
+      "local_permits_required": [],
+      "police_noc_required": false,
+      "rwa_permission_common": false
+    }
+  },
+
+  {
+    "slug": "ghaziabad",
+    "name": "Ghaziabad",
+    "display_name": "Ghaziabad",
+    "state": "Uttar Pradesh",
+    "country": "India",
+    "is_active": true,
+    "priority": 80,
+    "tags": ["gateway-of-up", "industrial", "dense", "commuter-hub"],
+    "name_local": "गाज़ियाबाद",
+    "short_code": "GZB",
+    "tier": "tier_2",
+    "established_year": 1740,
+    "media": {
+      "banner_url": "/images/cities/ghaziabad-banner.jpg",
+      "gallery": [],
+      "infrastructure": [],
+      "office_photos": [],
+      "thumbnail": "/images/cities/ghaziabad-thumb.jpg",
+      "video_url": "",
+      "testimonial_videos": []
+    },
+    "geo": {
+      "coordinates": { "lat": 28.6692, "lng": 77.4538 },
+      "bounds": { "north": 28.75, "south": 28.60, "east": 77.55, "west": 77.30 },
+      "timezone": "Asia/Kolkata",
+      "area_km2": 210,
+      "population": 1729000,
+      "density_per_km2": 8000,
+      "elevation_m": 210,
+      "place_id": "ChIJo6y3XirBDTkR6M1f5h_w4T0",
+      "plus_code": "MFF3+M7 Ghaziabad"
+    },
+    "environment": {
+      "climate": {
+        "type": "Semiarid",
+        "summer_temp_c": "25-45",
+        "winter_temp_c": "5-24",
+        "monsoon_months": ["July", "August"],
+        "annual_rainfall_mm": 750
+      },
+      "air_quality": {
+        "avg_aqi": 240,
+        "classification": "Hazardous",
+        "worst_months": ["November", "December", "January"],
+        "best_months": ["July"]
+      },
+      "water": {
+        "source": ["Ganga Water", "Submersible"],
+        "supply_hours_per_day": 3,
+        "quality_rating": "Poor",
+        "availability": "Medium"
+      },
+      "green_cover_percent": 12,
+      "noise_pollution": "Very High",
+      "dust_level": "Extremely High",
+      "humidity_avg_percent": 65,
+      "camera_friendly_months": ["February", "March"]
+    },
+    "infrastructure": {
+      "power": {
+        "provider": ["PVVNL"],
+        "avg_daily_cuts": 4,
+        "avg_cut_duration_mins": 60,
+        "reliability_score": 5,
+        "industrial_connectivity": "High",
+        "voltage_stability": "Unstable",
+        "solar_adoption_percent": 5,
+        "ups_penetration_percent": 85
+      },
+      "internet": {
+        "fiber_providers": ["Jio", "Excitel", "Airtel"],
+        "avg_speed_mbps": 80,
+        "reliability_score": 7,
+        "4g_coverage": "Excellent",
+        "5g_available": true,
+        "broadband_providers": ["Local Cable"],
+        "cable_providers": ["Den"],
+        "avg_latency_ms": 25
+      },
+      "housing": {
+        "avg_rent_1bhk": 7000,
+        "avg_rent_2bhk": 12000,
+        "avg_rent_3bhk": 18000,
+        "avg_property_price_per_sqft": 5000,
+        "availability": "High",
+        "dominant_construction_type": "Builder Floors",
+        "avg_building_age_years": 15,
+        "gated_community_percent": 50
+      },
+      "public_transport": ["Metro", "Shared Auto", "Bus"],
+      "road_quality": "Average",
+      "metro_connectivity": true,
+      "airport_distance_km": 40,
+      "railway_stations": 2,
+      "smart_city_project": false,
+      "traffic_congestion_level": "Severe",
+      "ev_charging_stations": 80
+    },
+    "security": {
+      "threat_profile": {
+        "crime_rate": "High",
+        "common_crimes": ["Snatching", "Vehicle Theft", "Robbery"],
+        "safe_score": 4,
+        "safe_areas": ["Indirapuram", "Vaishali"],
+        "areas_to_avoid": ["Vijay Nagar", "Loni"],
+        "areas_to_avoid": ["Remote areas at night"]
+      },
+      "police": {
+        "stations_count": 25,
+        "response_time_mins": 25,
+        "emergency_number": "112",
+        "dedicated_cyber_cell": false,
+        "commissioner_office": "Hapur Road",
+        "online_fir_available": true
+      },
+      "cctv_coverage": "Moderate",
+      "women_safety_rating": "Low",
+      "safe_city_project": false,
+      "govt_cctv_count": 10000,
+      "private_security_agencies": ["Local"],
+      "neighborhood_watch_active": false
+    },
+    "zones": [],
+    "seo": {
+      "meta_title": "CCTV Camera Dealers in Ghaziabad - CamHarbor",
+      "meta_description": "Low cost CCTV installation in Ghaziabad. Indirapuram, Vaishali, Raj Nagar Ext. Anti-vandal cameras available.",
+      "keywords": ["CCTV Ghaziabad", "Camera Installer Indirapuram", "Security System Raj Nagar"],
+      "og_image": "https://camharbor.in/images/ghaziabad-seo.jpg",
+      "canonical_url": "https://camharbor.in/services/ghaziabad",
+      "focus_keyword": "CCTV Dealer Ghaziabad",
+      "secondary_keywords": ["Cheap CCTV Ghaziabad", "CP Plus Ghaziabad"],
+      "long_tail_keywords": ["CCTV installation near me Ghaziabad", "Shop security camera Ghaziabad"],
+      "local_keywords": ["Navyug Market CCTV", "Turab Nagar CCTV"],
+      "schema_type": "LocalBusiness"
+    },
+    "operations": {
+      "office": {
+        "address": "Navyug Market, Ghaziabad, UP",
+        "coordinates": { "lat": 28.660, "lng": 77.440 },
+        "contact_phone": "+91-120-44552233",
+        "contact_email": "gzb@camharbor.in",
+        "working_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      },
+      "hours": {
+        "monday_friday": "09:00 - 20:00",
+        "saturday": "09:00 - 20:00",
+        "sunday": "Closed",
+        "holidays": "Closed"
+      },
+      "service_areas": ["Indirapuram", "Vaishali", "Sahibabad", "Raj Nagar"],
+      "coverage_radius_km": 20,
+      "avg_response_time_hrs": 5,
+      "team_size": 12,
+      "technicians_count": 8,
+      "vehicles_count": 5,
+      "warehouse_address": "Sahibabad Industrial Area",
+      "emergency_available": false,
+      "installation_capacity_per_day": 12
+    },
+    "reviews": {
+      "total_count": 600,
+      "avg_rating": 4.3,
+      "rating_distribution": { "1": 20, "2": 30, "3": 100, "4": 150, "5": 300 },
+      "featured": [],
+      "google_review_url": "...",
+      "google_place_rating": 4.3,
+      "justdial_rating": 4.1,
+      "platforms": []
+    },
+    "demographics": {
+      "total_households": 350000,
+      "urban_percent": 90,
+      "rural_percent": 10,
+      "literacy_rate": 78,
+      "avg_household_income": 500000,
+      "income_distribution": { "lower": 30, "lower_middle": 40, "middle": 20, "upper_middle": 8, "upper": 2 },
+      "languages": ["Hindi"],
+      "major_communities": ["Industrial Workers", "Commuters", "Traders"],
+      "working_population_percent": 40
+    },
+    "economy": {
+      "gdp_rank_in_state": 2,
+      "major_industries": ["Manufacturing", "Steel", "Engineering"],
+      "it_parks": [],
+      "industrial_areas": ["Sahibabad", "Bulandshahr Road"],
+      "commercial_hubs": ["Indirapuram Habitat Center", "RDC"],
+      "employment_rate": 85,
+      "startup_ecosystem": "Low",
+      "ease_of_business_rank": 8
+    },
+    "market": {
+      "cctv_market_size": "Large",
+      "growth_rate_percent": 12,
+      "competition_level": "Very High",
+      "major_competitors": ["Local Shops"],
+      "price_sensitivity": "Very High",
+      "preferred_brands": ["CP Plus", "Local Assembled"],
+      "demand_trend": "Stable",
+      "seasonal_peaks": ["Diwali"],
+      "b2b_potential": "High",
+      "b2c_potential": "High",
+      "govt_tender_frequency": "Medium"
+    },
+    "customer_profile": {
+      "primary_segments": ["Small Shops", "Builder Floors", "Factories"],
+      "decision_factors": ["Price", "Price", "Price"],
+      "avg_budget_residential": 8000,
+      "avg_budget_commercial": 20000,
+      "preferred_contact_method": "Visit",
+      "preferred_language": "Hindi",
+      "trust_factors": ["Face to face"],
+      "common_objections": ["Too expensive"],
+      "payment_preferences": ["Cash"],
+      "emi_adoption": "Very Low"
+    },
+    "service_config": {
+      "pricing_tier": "budget",
+      "price_multiplier": 0.85,
+      "min_order_value": 3000,
+      "free_survey_available": true,
+      "same_day_service": true,
+      "amc_popular": false,
+      "rental_service": false,
+      "installation_warranty_months": 6,
+      "product_warranty_months": 12
+    },
+    "content": {
+      "tagline": "Affordable Security for Ghaziabad.",
+      "short_description": "Best price CCTV dealers in Ghaziabad.",
+      "long_description": "Protecting homes and factories in Ghaziabad with cost-effective surveillance solutions.",
+      "unique_selling_points": ["Lowest Price Guarantee", "Rugged Cameras"],
+      "pain_points_addressed": ["Theft", "Budget Constraints"],
+      "success_stories_count": 3000,
+      "case_studies": [],
+      "faqs": []
+    },
+    "stats": {
+      "total_installations": 8000,
+      "installations_this_month": 100,
+      "installations_this_year": 1200,
+      "total_customers": 6000,
+      "repeat_customers": 1000,
+      "referral_rate_percent": 45,
+      "avg_project_value": 12000,
+      "largest_project_value": 1000000,
+      "localities_covered": 200,
+      "pincodes_served": 30
+    },
+    "social": {
+      "whatsapp_number": "911204455222",
+      "facebook_page": "camharbor.gzb",
+      "instagram_handle": "camharbor_gzb",
+      "youtube_channel": "",
+      "google_business_url": "...",
+      "justdial_url": "...",
+      "indiamart_url": "..."
+    },
+    "legal": {
+      "gst_applicable": true,
+      "service_tax_percent": 18,
+      "local_permits_required": [],
+      "police_noc_required": false,
+      "rwa_permission_common": false
+    }
+  },
+
+  {
+    "slug": "faridabad",
+    "name": "Faridabad",
+    "display_name": "Faridabad",
+    "state": "Haryana",
+    "country": "India",
+    "is_active": true,
+    "priority": 75,
+    "tags": ["industrial", "smart-city", "haryana-hub"],
+    "name_local": "फरीदाबाद",
+    "short_code": "FBD",
+    "tier": "tier_2",
+    "established_year": 1607,
+    "media": {
+      "banner_url": "/images/cities/faridabad-banner.jpg",
+      "gallery": [],
+      "infrastructure": [],
+      "office_photos": [],
+      "thumbnail": "/images/cities/faridabad-thumb.jpg",
+      "video_url": "",
+      "testimonial_videos": []
+    },
+    "geo": {
+      "coordinates": { "lat": 28.4089, "lng": 77.3178 },
+      "bounds": { "north": 28.48, "south": 28.30, "east": 77.38, "west": 77.25 },
+      "timezone": "Asia/Kolkata",
+      "area_km2": 742,
+      "population": 1414000,
+      "density_per_km2": 1900,
+      "elevation_m": 205,
+      "place_id": "ChIJT_x_bYpCDTkR_x240m5Xnwc",
+      "plus_code": "C859+H4 Faridabad"
+    },
+    "environment": {
+      "climate": {
+        "type": "Semiarid",
+        "summer_temp_c": "27-46",
+        "winter_temp_c": "5-25",
+        "monsoon_months": ["July", "August"],
+        "annual_rainfall_mm": 600
+      },
+      "air_quality": {
+        "avg_aqi": 210,
+        "classification": "Poor",
+        "worst_months": ["November", "December"],
+        "best_months": ["August"]
+      },
+      "water": {
+        "source": ["Groundwater"],
+        "supply_hours_per_day": 2,
+        "quality_rating": "Poor",
+        "availability": "Low"
+      },
+      "green_cover_percent": 15,
+      "noise_pollution": "High",
+      "dust_level": "High",
+      "humidity_avg_percent": 50,
+      "camera_friendly_months": ["March", "October"]
+    },
+    "infrastructure": {
+      "power": {
+        "provider": ["DHBVN"],
+        "avg_daily_cuts": 3,
+        "avg_cut_duration_mins": 45,
+        "reliability_score": 6,
+        "industrial_connectivity": "High",
+        "voltage_stability": "Fluctuating",
+        "solar_adoption_percent": 10,
+        "ups_penetration_percent": 70
+      },
+      "internet": {
+        "fiber_providers": ["Airtel", "Jio", "BSNL"],
+        "avg_speed_mbps": 100,
+        "reliability_score": 7,
+        "4g_coverage": "Good",
+        "5g_available": true,
+        "broadband_providers": ["Local"],
+        "cable_providers": [],
+        "avg_latency_ms": 20
+      },
+      "housing": {
+        "avg_rent_1bhk": 9000,
+        "avg_rent_2bhk": 15000,
+        "avg_rent_3bhk": 22000,
+        "avg_property_price_per_sqft": 6000,
+        "availability": "High",
+        "dominant_construction_type": "Plotted Houses",
+        "avg_building_age_years": 20,
+        "gated_community_percent": 30
+      },
+      "public_transport": ["Metro", "Auto", "Train"],
+      "road_quality": "Average",
+      "metro_connectivity": true,
+      "airport_distance_km": 35,
+      "railway_stations": 3,
+      "smart_city_project": true,
+      "traffic_congestion_level": "Moderate",
+      "ev_charging_stations": 40
+    },
+    "security": {
+      "threat_profile": {
+        "crime_rate": "Moderate",
+        "common_crimes": ["Burglary", "Vehicle Theft"],
+        "safe_score": 6,
+        "safe_areas": ["Sector 15", "Sector 16"],
+        "areas_to_avoid": ["NIT outer areas"]
+      },
+      "police": {
+        "stations_count": 20,
+        "response_time_mins": 20,
+        "emergency_number": "112",
+        "dedicated_cyber_cell": true,
+        "commissioner_office": "Sector 21",
+        "online_fir_available": true
+      },
+      "cctv_coverage": "Moderate",
+      "women_safety_rating": "Moderate",
+      "safe_city_project": true,
+      "govt_cctv_count": 8000,
+      "private_security_agencies": ["Local"],
+      "neighborhood_watch_active": true
+    },
+    "zones": [],
+    "seo": {
+      "meta_title": "CCTV Camera Services in Faridabad - CamHarbor",
+      "meta_description": "Industrial and Home CCTV installation in Faridabad. Serving NIT, Sector 15, Ballabgarh. Dust-proof cameras available.",
+      "keywords": ["CCTV Faridabad", "Security Camera NIT Faridabad", "CP Plus Dealer Faridabad"],
+      "og_image": "https://camharbor.in/images/faridabad-seo.jpg",
+      "canonical_url": "https://camharbor.in/services/faridabad",
+      "focus_keyword": "CCTV Installation Faridabad",
+      "secondary_keywords": ["Wireless CCTV Faridabad", "Camera Repair Faridabad"],
+      "long_tail_keywords": ["CCTV for industry in Faridabad", "Home security system Faridabad price"],
+      "local_keywords": ["NIT 1 Market CCTV", "Sector 15 Market CCTV"],
+      "schema_type": "LocalBusiness"
+    },
+    "operations": {
+      "office": {
+        "address": "NIT 5, Faridabad, Haryana",
+        "coordinates": { "lat": 28.390, "lng": 77.300 },
+        "contact_phone": "+91-129-44551122",
+        "contact_email": "fbd@camharbor.in",
+        "working_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      },
+      "hours": {
+        "monday_friday": "09:30 - 19:00",
+        "saturday": "10:00 - 18:00",
+        "sunday": "Closed",
+        "holidays": "Closed"
+      },
+      "service_areas": ["NIT", "Old Faridabad", "Ballabgarh", "Greenfield"],
+      "coverage_radius_km": 25,
+      "avg_response_time_hrs": 6,
+      "team_size": 10,
+      "technicians_count": 6,
+      "vehicles_count": 3,
+      "warehouse_address": "Mathura Road, Faridabad",
+      "emergency_available": false,
+      "installation_capacity_per_day": 8
+    },
+    "reviews": {
+      "total_count": 450,
+      "avg_rating": 4.4,
+      "rating_distribution": { "1": 10, "2": 20, "3": 50, "4": 120, "5": 250 },
+      "featured": [],
+      "google_review_url": "...",
+      "google_place_rating": 4.4,
+      "justdial_rating": 4.2,
+      "platforms": []
+    },
+    "demographics": {
+      "total_households": 300000,
+      "urban_percent": 85,
+      "rural_percent": 15,
+      "literacy_rate": 83,
+      "avg_household_income": 600000,
+      "income_distribution": { "lower": 25, "lower_middle": 35, "middle": 25, "upper_middle": 10, "upper": 5 },
+      "languages": ["Hindi", "Punjabi", "Haryanvi"],
+      "major_communities": ["Industrialists", "Service Class"],
+      "working_population_percent": 45
+    },
+    "economy": {
+      "gdp_rank_in_state": 2,
+      "major_industries": ["Automobile", "Manufacturing", "Light Engineering"],
+      "it_parks": [],
+      "industrial_areas": ["DLF Industrial Area", "NIT"],
+      "commercial_hubs": ["NIT Markets", "Sector 15"],
+      "employment_rate": 88,
+      "startup_ecosystem": "Low",
+      "ease_of_business_rank": 5
+    },
+    "market": {
+      "cctv_market_size": "Medium",
+      "growth_rate_percent": 10,
+      "competition_level": "Medium",
+      "major_competitors": ["Local Electricians"],
+      "price_sensitivity": "High",
+      "preferred_brands": ["CP Plus", "Hikvision"],
+      "demand_trend": "Stable",
+      "seasonal_peaks": ["Diwali"],
+      "b2b_potential": "High",
+      "b2c_potential": "Medium",
+      "govt_tender_frequency": "Low"
+    },
+    "customer_profile": {
+      "primary_segments": ["Small Industries", "Homes"],
+      "decision_factors": ["Durability", "Price"],
+      "avg_budget_residential": 10000,
+      "avg_budget_commercial": 30000,
+      "preferred_contact_method": "Call",
+      "preferred_language": "Hindi",
+      "trust_factors": ["Warranty Card"],
+      "common_objections": ["Wiring looks ugly"],
+      "payment_preferences": ["Cash"],
+      "emi_adoption": "Low"
+    },
+    "service_config": {
+      "pricing_tier": "budget",
+      "price_multiplier": 0.9,
+      "min_order_value": 4000,
+      "free_survey_available": true,
+      "same_day_service": false,
+      "amc_popular": true,
+      "rental_service": false,
+      "installation_warranty_months": 12,
+      "product_warranty_months": 24
+    },
+    "content": {
+      "tagline": "Industrial Grade Security for Faridabad.",
+      "short_description": "Durable CCTV for Faridabad's factories and homes.",
+      "long_description": "We specialize in dust-proof and heat-resistant cameras suitable for Faridabad's industrial environment.",
+      "unique_selling_points": ["Dust Proof Cameras", "Industrial Wiring"],
+      "pain_points_addressed": ["Factory Theft", "Dusty Environment"],
+      "success_stories_count": 1500,
+      "case_studies": [],
+      "faqs": []
+    },
+    "stats": {
+      "total_installations": 5000,
+      "installations_this_month": 50,
+      "installations_this_year": 600,
+      "total_customers": 4000,
+      "repeat_customers": 1000,
+      "referral_rate_percent": 30,
+      "avg_project_value": 20000,
+      "largest_project_value": 2000000,
+      "localities_covered": 100,
+      "pincodes_served": 15
+    },
+    "social": {
+      "whatsapp_number": "911294455111",
+      "facebook_page": "camharbor.fbd",
+      "instagram_handle": "camharbor_fbd",
+      "youtube_channel": "",
+      "google_business_url": "...",
+      "justdial_url": "...",
+      "indiamart_url": "..."
+    },
+    "legal": {
+      "gst_applicable": true,
+      "service_tax_percent": 18,
+      "local_permits_required": [],
+      "police_noc_required": false,
+      "rwa_permission_common": false
+    }
+  }
+]

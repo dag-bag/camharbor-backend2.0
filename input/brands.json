@@ -1,0 +1,737 @@
+[
+  {
+    "name": "Hikvision",
+    "slug": "hikvision",
+    "tagline": "See Far, Go Further",
+    "description": "Hikvision is the world's leading provider of innovative security products and solutions. In India, Prama Hikvision is the market leader, offering an extensive portfolio of video surveillance products including Turbo HD Analog cameras, EasyIP network cameras, PTZ cameras, and AI-driven solutions. Known for high-quality imaging and the proprietary H.265+ compression technology.",
+    "logo": {
+      "light": "/assets/brands/hikvision/logo-light.svg",
+      "dark": "/assets/brands/hikvision/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/hikvision/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "National Partner",
+      "authorization_certificate": "/assets/certificates/hikvision-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.hikvisionindia.com/contact-us",
+      "india_contact_number": "1800-222-699",
+      "india_support_email": "support@pramahikvision.com",
+      "whatsapp_support": "919876543210",
+      "warranty_info": {
+        "policy_url": "https://www.hikvisionindia.com/warranty-policy",
+        "text_summary": "3 Years Standard Warranty on Projects, 2 Years on Retail Products.",
+        "is_international_valid": false
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "iVMS-4200 Client Software",
+        "url": "https://www.hikvision.com/en/support/download/software/ivms4200-series/",
+        "updated_at": "2023-11-15T00:00:00.000Z"
+      },
+      {
+        "type": "software",
+        "title": "SADP Tool (Device Search)",
+        "url": "https://www.hikvision.com/en/support/tools/hitools/clea8b3e4ea7da90a9/",
+        "updated_at": "2023-10-01T00:00:00.000Z"
+      },
+      {
+        "type": "mobile_app",
+        "title": "Hik-Connect App (Android/iOS)",
+        "url": "https://appstore.hikvision.com/",
+        "updated_at": "2024-01-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["Turbo HD 5.0", "EasyIP 4.0", "ColorVu", "AcuSense", "DeepinView"],
+    "mount_systems": ["Analog Coaxial", "IP PoE", "Wi-Fi"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=hikvision_intro",
+      "thumbnail": "/assets/brands/hikvision/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "How do I reset my Hikvision NVR password?",
+        "answer": "You can use the SADP Tool to export the XML key file and send it to technical support, or use the Hik-Connect app for a self-service reset."
+      },
+      {
+        "question": "What is Hikvision ColorVu?",
+        "answer": "ColorVu technology enables cameras to produce colorful videos even in extremely dimly lit environments."
+      }
+    ],
+    "seo": {
+      "meta_title": "Hikvision Cameras & DVRs Online India | Authorized Dealer",
+      "meta_description": "Buy genuine Hikvision CCTV cameras, DVRs, and NVRs at best prices in India. Authorized Partner with full warranty and support.",
+      "keywords": ["Hikvision India", "Turbo HD Camera", "Hikvision DVR Price", "ColorVu Camera"]
+    },
+    "sort_order": 1,
+    "featured": true
+  },
+  {
+    "name": "CP Plus",
+    "slug": "cp-plus",
+    "tagline": "Upar Wala Sab Dekh Raha Hai",
+    "description": "CP PLUS is India's No.1 security and surveillance brand. They are dedicated to democratizing security by making it affordable and accessible. With a wide range of cameras suitable for Indian conditions, CP Plus dominates the residential and SME market with reliable analog and IP solutions.",
+    "logo": {
+      "light": "/assets/brands/cpplus/logo-light.svg",
+      "dark": "/assets/brands/cpplus/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/cpplus/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Platinum Partner",
+      "authorization_certificate": "/assets/certificates/cpplus-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.cpplusworld.com/support/service-center",
+      "india_contact_number": "08800952952",
+      "india_support_email": "support@cpplusworld.com",
+      "whatsapp_support": "918800952952",
+      "warranty_info": {
+        "policy_url": "https://www.cpplusworld.com/warranty-policy",
+        "text_summary": "2 Years Standard Warranty. Insta-service available in metro cities.",
+        "is_international_valid": false
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "KVMS Pro (PC Software)",
+        "url": "https://www.cpplusworld.com/software-download",
+        "updated_at": "2023-12-01T00:00:00.000Z"
+      },
+      {
+        "type": "mobile_app",
+        "title": "gCMOB (Android/iOS)",
+        "url": "https://play.google.com/store/apps/details?id=com.gcmob.android",
+        "updated_at": "2024-02-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["Cosmic Series", "Indigo Series", "EzyKam", "Orange Series"],
+    "mount_systems": ["HDCVI", "IP Network", "Wi-Fi Consumer"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=cpplus_ad",
+      "thumbnail": "/assets/brands/cpplus/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "What app does CP Plus use?",
+        "answer": "CP Plus uses gCMOB for smartphones and KVMS Pro for desktop monitoring."
+      },
+      {
+        "question": "Is CP Plus an Indian brand?",
+        "answer": "CP Plus is an Indian brand with global technology, specifically tailored for Indian electrical and environmental conditions."
+      }
+    ],
+    "seo": {
+      "meta_title": "CP Plus CCTV Camera Price List | Wireless & IP Cameras",
+      "meta_description": "Shop CP Plus security cameras, WiFi cameras, and DVRs. Best deals on EzyKam and Cosmic series with Indian warranty.",
+      "keywords": ["CP Plus Camera", "gCMOB app", "CP Plus WiFi Camera", "CCTV Camera India"]
+    },
+    "sort_order": 2,
+    "featured": true
+  },
+  {
+    "name": "Dahua Technology",
+    "slug": "dahua",
+    "tagline": "Enabling a Safer Society and Smarter Living",
+    "description": "Dahua Technology is a world-leading video-centric smart IoT solution and service provider. Known for introducing HDCVI technology to the industry, Dahua offers advanced AI solutions like WizSense and WizMind, focusing on human and vehicle classification to reduce false alarms.",
+    "logo": {
+      "light": "/assets/brands/dahua/logo-light.svg",
+      "dark": "/assets/brands/dahua/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/dahua/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Gold Partner",
+      "authorization_certificate": "/assets/certificates/dahua-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.dahuasecurity.com/in/support/RMA",
+      "india_contact_number": "1800-103-0505",
+      "india_support_email": "support.india@dahuatech.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "https://www.dahuasecurity.com/in/support/warranty",
+        "text_summary": "3 Years Warranty on Project Series, 2 Years on Distribution Series.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "SmartPSS Lite",
+        "url": "https://www.dahuasecurity.com/in/support/downloadCenter/tools/MaintenanceTools",
+        "updated_at": "2023-09-10T00:00:00.000Z"
+      },
+      {
+        "type": "software",
+        "title": "ConfigTool (IP Search)",
+        "url": "https://www.dahuasecurity.com/in/support/downloadCenter/tools/MaintenanceTools",
+        "updated_at": "2023-09-10T00:00:00.000Z"
+      },
+      {
+        "type": "mobile_app",
+        "title": "DMSS App",
+        "url": "https://www.dahuasecurity.com/in/support/downloadCenter/app",
+        "updated_at": "2024-01-15T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["WizSense", "WizMind", "HDCVI 6.0", "TiOC (Three-in-One Camera)"],
+    "mount_systems": ["HDCVI", "IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=dahua_tioc",
+      "thumbnail": "/assets/brands/dahua/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "What is TiOC in Dahua?",
+        "answer": "TiOC stands for Three-in-One Camera, which integrates Full-Color monitoring, Active Deterrence (siren/lights), and AI into one unit."
+      }
+    ],
+    "seo": {
+      "meta_title": "Dahua CCTV & AI Cameras | Authorized Distributor India",
+      "meta_description": "Buy Dahua HDCVI and IP cameras. Advanced WizSense AI detection technology. Official Indian warranty and support.",
+      "keywords": ["Dahua India", "HDCVI Camera", "WizSense", "Dahua NVR"]
+    },
+    "sort_order": 3,
+    "featured": true
+  },
+  {
+    "name": "Honeywell",
+    "slug": "honeywell",
+    "tagline": "The Future Is What We Make It",
+    "description": "Honeywell Building Technologies provides enterprise-grade security solutions. Their CCTV cameras are synonymous with durability and high standards, often used in government projects, airports, and critical infrastructure. They offer compliant, secure systems ideal for large-scale installations.",
+    "logo": {
+      "light": "/assets/brands/honeywell/logo-light.svg",
+      "dark": "/assets/brands/honeywell/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/honeywell/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "System Integrator Partner",
+      "authorization_certificate": "/assets/certificates/honeywell-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.honeywell.com/in/en/contact-us",
+      "india_contact_number": "1800-103-4761",
+      "india_support_email": "HBTIndiaBuildings@Honeywell.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "",
+        "text_summary": "Standard 1 Year. Extended warranty options available for enterprise projects.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "MAXPRO VMS",
+        "url": "https://www.honeywellbuildings.in/security/video-surveillance",
+        "updated_at": "2023-06-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["Performance Series", "30 Series", "60 Series", "MAXPRO NVR"],
+    "mount_systems": ["IP Network", "Analog HD"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "",
+      "thumbnail": "/assets/brands/honeywell/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "Is Honeywell CCTV good for home use?",
+        "answer": "While Honeywell focuses on enterprise, their Performance Series offers affordable, high-quality options suitable for premium residential security."
+      }
+    ],
+    "seo": {
+      "meta_title": "Honeywell Security Cameras | Enterprise CCTV Solutions",
+      "meta_description": "Honeywell video surveillance for business and industrial use. High-reliability IP cameras and NVRs.",
+      "keywords": ["Honeywell CCTV", "MAXPRO VMS", "Industrial Security Camera"]
+    },
+    "sort_order": 4,
+    "featured": false
+  },
+  {
+    "name": "Bosch",
+    "slug": "bosch",
+    "tagline": "Invented for Life",
+    "description": "Bosch Security Systems represents the pinnacle of German engineering in video surveillance. Known for built-in video analytics (IVA) at the edge, their cameras are intelligent devices that process data before sending it to the server. Ideal for traffic monitoring, retail analytics, and high-security zones.",
+    "logo": {
+      "light": "/assets/brands/bosch/logo-light.svg",
+      "dark": "/assets/brands/bosch/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/bosch/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Certified Partner",
+      "authorization_certificate": "/assets/certificates/bosch-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.boschsecurity.com/in/en/support/",
+      "india_contact_number": "1800-425-2626",
+      "india_support_email": "security.systems@in.bosch.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "",
+        "text_summary": "3 Years Standard Warranty.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "Bosch Project Assistant App",
+        "url": "https://www.boschsecurity.com/in/en/",
+        "updated_at": "2023-01-01T00:00:00.000Z"
+      },
+      {
+        "type": "software",
+        "title": "Configuration Manager",
+        "url": "https://downloadstore.boschsecurity.com/",
+        "updated_at": "2024-01-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["AUTODOME", "FLEXIDOME", "DINION", "MIC (Rugged)"],
+    "mount_systems": ["IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=bosch_security",
+      "thumbnail": "/assets/brands/bosch/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "What is Intelligent Video Analytics (IVA)?",
+        "answer": "Bosch IVA processes video data inside the camera itself to detect events like idle objects, loitering, or line crossing without needing a central server."
+      }
+    ],
+    "seo": {
+      "meta_title": "Bosch Security Cameras | Intelligent Video Analytics",
+      "meta_description": "Premium Bosch CCTV cameras with edge analytics. Best for traffic, government, and high-security installations in India.",
+      "keywords": ["Bosch Camera", "FLEXIDOME", "Video Analytics", "Bosch Security India"]
+    },
+    "sort_order": 5,
+    "featured": false
+  },
+  {
+    "name": "Panasonic (i-PRO)",
+    "slug": "panasonic",
+    "tagline": "A Better Life, A Better World",
+    "description": "Panasonic's security division (now operating largely as i-PRO) delivers rugged, long-lasting surveillance equipment. They are renowned for their low-light performance and Smart Coding technology which reduces bandwidth consumption without losing quality. A favorite in the banking and transportation sectors.",
+    "logo": {
+      "light": "/assets/brands/panasonic/logo-light.svg",
+      "dark": "/assets/brands/panasonic/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/panasonic/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": false,
+      "partner_tier": "Retail Partner",
+      "authorization_certificate": ""
+    },
+    "support": {
+      "india_service_url": "https://i-pro.com/global/en/surveillance/support",
+      "india_contact_number": "1800-103-1333",
+      "india_support_email": "helpline@in.panasonic.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "",
+        "text_summary": "Standard 2-3 Years depending on model.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "i-PRO Configuration Tool",
+        "url": "https://i-pro.com/global/en/surveillance/tools/config",
+        "updated_at": "2023-08-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["i-PRO Extreme", "S-Series (Standard)", "U-Series (Utility)", "Advidia"],
+    "mount_systems": ["IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "",
+      "thumbnail": "/assets/brands/panasonic/video-thumb.jpg"
+    },
+    "faqs": [],
+    "seo": {
+      "meta_title": "Panasonic i-PRO CCTV Cameras | Reliable Surveillance",
+      "meta_description": "Panasonic i-PRO security cameras known for durability and smart coding. Ideal for banks and ATMs.",
+      "keywords": ["Panasonic CCTV", "i-PRO camera", "Network Camera India"]
+    },
+    "sort_order": 6,
+    "featured": false
+  },
+  {
+    "name": "Godrej Security Solutions",
+    "slug": "godrej",
+    "tagline": "Securing Happiness",
+    "description": "Godrej is a household name in India, synonymous with trust. Godrej Security Solutions offers a comprehensive range of CCTV ecosystems designed specifically for Indian homes and small businesses. Their 'SeeThru' range is user-friendly, affordable, and backed by a massive service network across the country.",
+    "logo": {
+      "light": "/assets/brands/godrej/logo-light.svg",
+      "dark": "/assets/brands/godrej/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/godrej/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Authorized Reseller",
+      "authorization_certificate": "/assets/certificates/godrej-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.godrej.com/godrej-security-solutions/support",
+      "india_contact_number": "1800-209-9955",
+      "india_support_email": "secare@godrej.com",
+      "whatsapp_support": "919321666632",
+      "warranty_info": {
+        "policy_url": "https://www.godrej.com/godrej-security-solutions/warranty",
+        "text_summary": "1 Year Standard On-site Warranty for most kits.",
+        "is_international_valid": false
+      }
+    },
+    "resources": [
+      {
+        "type": "manual",
+        "title": "SeeThru User Manual",
+        "url": "https://www.godrej.com/godrej-security-solutions/support/user-manuals",
+        "updated_at": "2022-01-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["SeeThru", "Ace", "Spotlight (Home Cams)"],
+    "mount_systems": ["AHD", "IP Network", "Wi-Fi"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "",
+      "thumbnail": "/assets/brands/godrej/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "Does Godrej provide installation?",
+        "answer": "Yes, Godrej has a vast network of service partners and often provides installation support with their DIY kits."
+      }
+    ],
+    "seo": {
+      "meta_title": "Godrej CCTV Cameras | Home Security Kits India",
+      "meta_description": "Trust Godrej for your home security. Buy Godrej SeeThru CCTV kits, video door phones, and spotlight cameras.",
+      "keywords": ["Godrej CCTV", "SeeThru", "Home Security India", "Godrej Camera Price"]
+    },
+    "sort_order": 7,
+    "featured": true
+  },
+  {
+    "name": "Samsung (Hanwha Vision)",
+    "slug": "samsung",
+    "tagline": "Next Level Cybersecurity",
+    "description": "Formerly Samsung Techwin, now Hanwha Vision. They offer premium Korean technology with a heavy focus on cybersecurity and optical performance. Their Wisenet chipset provides excellent image processing. Highly trusted in government and enterprise sectors due to NDAA compliance and non-Chinese origin.",
+    "logo": {
+      "light": "/assets/brands/samsung/logo-light.svg",
+      "dark": "/assets/brands/samsung/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/samsung/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": false,
+      "partner_tier": "Retail Partner",
+      "authorization_certificate": ""
+    },
+    "support": {
+      "india_service_url": "https://www.hanwhavision.com/en/support/",
+      "india_contact_number": "011-4132-4132",
+      "india_support_email": "india.support@hanwha.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "",
+        "text_summary": "3 Years Standard Warranty.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "Wisenet Device Manager",
+        "url": "https://www.hanwhavision.com/en/support/tools/",
+        "updated_at": "2023-05-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["Wisenet X", "Wisenet P (Premium)", "Wisenet Q (Basic)", "Wisenet T (Thermal)"],
+    "mount_systems": ["IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=hanwha_intro",
+      "thumbnail": "/assets/brands/samsung/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "Is Hanwha same as Samsung CCTV?",
+        "answer": "Yes, Hanwha Techwin acquired Samsung's security division. The technology and quality remain top-tier Korean engineering."
+      }
+    ],
+    "seo": {
+      "meta_title": "Samsung Wisenet Hanwha CCTV Cameras India",
+      "meta_description": "Hanwha Vision (formerly Samsung) CCTV cameras. Premium Korean security solutions with Wisenet technology.",
+      "keywords": ["Samsung CCTV", "Hanwha Vision", "Wisenet Camera", "NDAA Compliant Camera"]
+    },
+    "sort_order": 8,
+    "featured": false
+  },
+  {
+    "name": "Sony",
+    "slug": "sony",
+    "tagline": "Be Moved",
+    "description": "While Sony has reduced its direct presence in the complete CCTV system market, their Image Sensors (STARVIS) power almost every high-end camera in the world. However, Sony still produces a select range of ultra-high-sensitivity network cameras used in city surveillance and critical monitoring where low-light performance is paramount.",
+    "logo": {
+      "light": "/assets/brands/sony/logo-light.svg",
+      "dark": "/assets/brands/sony/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/sony/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": false,
+      "partner_tier": "Retailer",
+      "authorization_certificate": ""
+    },
+    "support": {
+      "india_service_url": "https://pro.sony/en_IN/support-services",
+      "india_contact_number": "1800-103-7799",
+      "india_support_email": "professional.india@ap.sony.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "",
+        "text_summary": "Standard 1 Year Professional Warranty.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "SNC Toolbox",
+        "url": "https://pro.sony/en_IN/support-resources/software/snc-toolbox",
+        "updated_at": "2022-01-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["SNC Series", "Starvis Sensors"],
+    "mount_systems": ["IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "",
+      "thumbnail": "/assets/brands/sony/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "Why are Sony cameras expensive?",
+        "answer": "Sony manufactures the actual image sensors used in the industry. Their own branded cameras use the highest grade of these sensors for unmatched low-light clarity."
+      }
+    ],
+    "seo": {
+      "meta_title": "Sony Network Cameras | High Sensitivity CCTV",
+      "meta_description": "Sony Professional Video Security. Ultra low-light Starvis network cameras for city and industrial surveillance.",
+      "keywords": ["Sony CCTV", "Starvis Sensor", "SNC Camera", "Sony Security India"]
+    },
+    "sort_order": 9,
+    "featured": false
+  },
+  {
+    "name": "Tiandy",
+    "slug": "tiandy",
+    "tagline": "Vision for World",
+    "description": "Tiandy Technologies is a rising giant focusing exclusively on IP solutions. They are famous for their 'Color Maker' technology which delivers full-color images at night. Tiandy is often the go-to brand for projects requiring cost-effective yet high-spec IP cameras with Starlight capabilities.",
+    "logo": {
+      "light": "/assets/brands/tiandy/logo-light.svg",
+      "dark": "/assets/brands/tiandy/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/tiandy/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Authorized Partner",
+      "authorization_certificate": "/assets/certificates/tiandy-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "http://en.tiandy.com/service/support/",
+      "india_contact_number": "",
+      "india_support_email": "sales_in@tiandy.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "",
+        "text_summary": "2 Years Standard Warranty.",
+        "is_international_valid": false
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "Easy7 VMS",
+        "url": "http://en.tiandy.com/service/down/software/",
+        "updated_at": "2023-01-01T00:00:00.000Z"
+      },
+      {
+        "type": "software",
+        "title": "SearchConfig Tool",
+        "url": "http://en.tiandy.com/service/down/tools/",
+        "updated_at": "2023-01-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["Spark Series", "Lite Series", "Pro Series", "Ultra Series"],
+    "mount_systems": ["IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=tiandy_starlight",
+      "thumbnail": "/assets/brands/tiandy/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "What is Tiandy Color Maker?",
+        "answer": "It is a technology combining large aperture lenses and highly sensitive sensors to capture color video even in near-total darkness."
+      }
+    ],
+    "seo": {
+      "meta_title": "Tiandy IP Cameras | Starlight & Color Maker Technology",
+      "meta_description": "Tiandy Security India. Affordable IP cameras with Starlight night vision. Full color at night.",
+      "keywords": ["Tiandy India", "Color Maker", "Starlight Camera", "IP Camera Wholesale"]
+    },
+    "sort_order": 10,
+    "featured": false
+  },
+  {
+    "name": "Uniview (UNV)",
+    "slug": "uniview",
+    "tagline": "Better Security, Better World",
+    "description": "Uniview (UNV) is the pioneer of IP video surveillance in China and the third-largest player globally. They focus purely on IP technology (no analog). UNV cameras are prized for their 'Ultra 265' compression which saves massive storage space, and their robust build quality suitable for projects.",
+    "logo": {
+      "light": "/assets/brands/uniview/logo-light.svg",
+      "dark": "/assets/brands/uniview/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/uniview/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Silver Partner",
+      "authorization_certificate": "/assets/certificates/unv-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.uniview.com/Support/Service_Hotline/",
+      "india_contact_number": "1800-102-0850",
+      "india_support_email": "india@uniview.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "https://www.uniview.com/Support/Warranty_Policy/",
+        "text_summary": "3 Years Warranty for Prime/Pro series.",
+        "is_international_valid": true
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "EZStation (VMS)",
+        "url": "https://www.uniview.com/Support/Download_Center/Service_Support/PC_Client_Software/",
+        "updated_at": "2023-11-01T00:00:00.000Z"
+      },
+      {
+        "type": "software",
+        "title": "EZTools (Configuration)",
+        "url": "https://www.uniview.com/Support/Download_Center/Tool/",
+        "updated_at": "2023-11-01T00:00:00.000Z"
+      },
+      {
+        "type": "mobile_app",
+        "title": "EZView App",
+        "url": "https://www.uniview.com/Support/Download_Center/Service_Support/Mobile_App/",
+        "updated_at": "2024-01-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["Easy Series", "Prime Series", "Pro Series", "Tri-Guard"],
+    "mount_systems": ["IP Network"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=unv_intro",
+      "thumbnail": "/assets/brands/uniview/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "What is Ultra 265?",
+        "answer": "Ultra 265 is UNV's deep compression technology that reduces bandwidth and storage costs by up to 95% compared to standard codecs."
+      }
+    ],
+    "seo": {
+      "meta_title": "Uniview (UNV) IP Cameras | Project Series Distributors",
+      "meta_description": "Uniview IP surveillance solutions. High-quality NVRs and IP cameras with Ultra 265 compression. Authorized dealer.",
+      "keywords": ["UNV India", "Uniview Camera", "IP NVR", "Ultra 265"]
+    },
+    "sort_order": 11,
+    "featured": true
+  },
+  {
+    "name": "Ezviz",
+    "slug": "ezviz",
+    "tagline": "Creating Easy Smart Homes",
+    "description": "A subsidiary of Hikvision, Ezviz is strictly focused on the Smart Home and DIY market. Their cameras are Wi-Fi based, plug-and-play, and operate via a user-friendly cloud app. They are the market leaders for baby monitors, indoor pan-tilt cameras, and battery-powered doorbells.",
+    "logo": {
+      "light": "/assets/brands/ezviz/logo-light.svg",
+      "dark": "/assets/brands/ezviz/logo-dark.svg"
+    },
+    "cover_image": "/assets/brands/ezviz/cover.jpg",
+    "status": {
+      "is_active": true,
+      "is_authorized_dealer": true,
+      "partner_tier": "Retail Partner",
+      "authorization_certificate": "/assets/certificates/ezviz-cert.jpg"
+    },
+    "support": {
+      "india_service_url": "https://www.ezviz.com/in/support",
+      "india_contact_number": "1800-200-8787",
+      "india_support_email": "support.in@ezviz.com",
+      "whatsapp_support": "",
+      "warranty_info": {
+        "policy_url": "https://www.ezviz.com/in/support/warranty-policy",
+        "text_summary": "1 Year Replacement Warranty.",
+        "is_international_valid": false
+      }
+    },
+    "resources": [
+      {
+        "type": "software",
+        "title": "Ezviz Studio (PC)",
+        "url": "https://www.ezviz.com/in/support/download",
+        "updated_at": "2023-05-01T00:00:00.000Z"
+      },
+      {
+        "type": "mobile_app",
+        "title": "Ezviz App",
+        "url": "https://www.ezviz.com/in/app",
+        "updated_at": "2024-02-01T00:00:00.000Z"
+      }
+    ],
+    "product_series": ["C6N (Indoor)", "C3W (Outdoor)", "C1C", "DB (Doorbell)"],
+    "mount_systems": ["Wi-Fi", "Battery Powered"],
+    "current_offers": [],
+    "brand_video": {
+      "url": "https://www.youtube.com/watch?v=ezviz_life",
+      "thumbnail": "/assets/brands/ezviz/video-thumb.jpg"
+    },
+    "faqs": [
+      {
+        "question": "Does Ezviz need a DVR?",
+        "answer": "No, Ezviz cameras record directly to a MicroSD card inserted in the camera or to the Ezviz Cloud. They work independently via Wi-Fi."
+      }
+    ],
+    "seo": {
+      "meta_title": "Ezviz Smart Home Cameras | WiFi Security Cameras India",
+      "meta_description": "Shop Ezviz WiFi cameras for home. C6N, Outdoor WiFi cameras, and video doorbells. Easy setup with mobile app.",
+      "keywords": ["Ezviz C6N", "Nanny Cam", "WiFi Camera India", "Smart Home Security"]
+    },
+    "sort_order": 12,
+    "featured": true
+  }
+]

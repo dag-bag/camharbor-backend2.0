@@ -92,3 +92,82 @@ body {
 .animate-fade-in-up {
   animation: fade-in-up 0.5s ease-out forwards;
 }
+
+/* Custom styles for SimpleMDE markdown editor */
+.markdown-editor-wrapper .EasyMDEContainer {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.markdown-editor-wrapper .EasyMDEContainer .CodeMirror {
+  background: rgba(0, 0, 0, 0.4);
+  color: #e2e8f0;
+  border: none;
+  min-height: 250px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  padding: 1rem;
+}
+
+.markdown-editor-wrapper .editor-toolbar {
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 1;
+}
+
+.markdown-editor-wrapper .editor-toolbar button {
+  color: #94a3b8 !important;
+  border: none !important;
+}
+
+.markdown-editor-wrapper .editor-toolbar button:hover,
+.markdown-editor-wrapper .editor-toolbar button.active {
+  background: rgba(99, 102, 241, 0.1) !important;
+  color: #818cf8 !important;
+  border: none !important;
+}
+
+.markdown-editor-wrapper .editor-toolbar i.separator {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
+}
+
+.markdown-editor-wrapper .CodeMirror-cursor {
+  border-left-color: #818cf8;
+}
+
+.markdown-editor-wrapper .CodeMirror-selected {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.markdown-editor-wrapper .editor-preview,
+.markdown-editor-wrapper .editor-preview-side {
+  background: rgba(0, 0, 0, 0.4);
+  color: #e2e8f0;
+  padding: 1rem;
+}
+
+.markdown-editor-wrapper .editor-preview h1,
+.markdown-editor-wrapper .editor-preview-side h1,
+.markdown-editor-wrapper .editor-preview h2,
+.markdown-editor-wrapper .editor-preview-side h2,
+.markdown-editor-wrapper .editor-preview h3,
+.markdown-editor-wrapper .editor-preview-side h3 {
+  color: #fff;
+}
+
+.markdown-editor-wrapper .editor-statusbar {
+  background: rgba(0, 0, 0, 0.3);
+  color: #64748b;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+  padding: 8px 10px;
+}
+
+.markdown-editor-wrapper .CodeMirror-placeholder {
+  color: #475569 !important;
+  opacity: 0.7;
+}

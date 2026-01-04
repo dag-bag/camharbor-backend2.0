@@ -8,6 +8,9 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './config/swagger';
 import cityRoutes from './routes/cityRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import blogRoutes from './routes/blogRoutes';
+
+import brandRoutes from './routes/brandRoutes';
 
 const app = express();
 
@@ -23,12 +26,16 @@ app.use(morgan('dev'));
 // Swagger Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use('/api/blogs', blogRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/brands', brandRoutes);
 
 app.get('/', (req, res) => {
   res.send('CamHarbor API is running...');
 });
+
+// Routes loaded: Cities, Upload, Blogs
 
 // Global Error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
