@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Edit2, Trash2, Plus, MapPin, Map, Sparkles } from 'lucide-react';
 import { localityApi } from '../../api/localityApi';
 import type { ILocality } from '../../types/locality.types';
-import AddLocalityModal from '../../components/AddLocalityModal';
+import { AddLocalityModal } from '../../components/AddLocalityModal';
 
 const LocalityList: React.FC = () => {
   const [localities, setLocalities] = useState<ILocality[]>([]);
@@ -114,8 +114,9 @@ const LocalityList: React.FC = () => {
 
       {isModalOpen && (
         <AddLocalityModal 
+          isOpen={isModalOpen}
           onClose={() => { setIsModalOpen(false); fetchLocalities(); }} 
-          localityToEdit={editingLocality} 
+          locality={editingLocality} 
         />
       )}
     </div>

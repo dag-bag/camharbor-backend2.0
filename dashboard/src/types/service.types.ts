@@ -51,3 +51,6 @@ export interface IServicePricing {
   valid_to?: string;
   reason?: string;
 }
+
+// Type alias for convenience
+export type Service = IService;

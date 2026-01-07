@@ -57,3 +57,6 @@ export interface ILocality {
   created_at: string;
   updated_at: string;
 }
+
+// Type alias for convenience
+export type Locality = ILocality;

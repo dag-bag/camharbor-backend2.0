@@ -1,59 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { X, Wrench, DollarSign, Settings, CheckCircle2, Loader2, Sparkles, AlertCircle, Save } from 'lucide-react';
+import { X, Wrench, DollarSign, Settings, CheckCircle2, Loader2, Sparkles, AlertCircle, Save, Code, Database, Server } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { serviceApi } from '../api/serviceApi';
-import type { IService } from '../types/service.types';
+import { createService, updateService } from '../services/serviceApi';
+import type { Service } from '../types/service.types';
 
 interface AddServiceModalProps {
+  isOpen: boolean;
   onClose: () => void;
-  serviceToEdit?: IService | null;
+  service?: Service;
 }
 
-const AddServiceModal: React.FC<AddServiceModalProps> = ({ onClose, serviceToEdit }) => {
+export function AddServiceModal({ isOpen, onClose, service }: AddServiceModalProps) {
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'basic' | 'pricing' | 'operational'>('basic');
-  const [success, setSuccess] = useState(false);
+  const [activeTab, setActiveTab] = useState<'json' | 'form'>('form');
+  const [jsonInput, setJsonInput] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<Partial<IService>>({
-    name: '', slug: '', type: 'installation', base_price: 0, is_active: true, priority: 0, category: '',
-    warranty_months: 0, installation_time_minutes: 60, required_technician_level: 'L1', included_materials: []
+  const [formData, setFormData] = useState<Partial<Service>>({
+    name: '', slug: '', type: 'installation', base_price: 0, is_active: true, priority: 0, category: ''
   });
 
   useEffect(() => {
-    if (serviceToEdit) setFormData(serviceToEdit);
-  }, [serviceToEdit]);
+    if (service) {
+      setFormData(service);
+      setJsonInput(JSON.stringify(service, null, 2));
+    } else {
+      setFormData({ name: '', slug: '', type: 'installation', base_price: 0, is_active: true, priority: 0, category: '' });
+      setJsonInput('');
+    }
+    setError(null);
+  }, [service, isOpen]);
 
   const mutation = useMutation({
-    mutationFn: async (data: Partial<IService>) => {
-      if (serviceToEdit) {
-        await serviceApi.master.update(serviceToEdit._id, data);
-      } else {
-        await serviceApi.master.create(data);
-      }
-    },
+    mutationFn: (data: any) => service ? updateService(service._id, data) : createService(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['services'] });
-      setSuccess(true);
-      setTimeout(() => onClose(), 1500);
+      onClose();
     },
     onError: (err: any) => setError(err.message || 'Operation failed')
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    setError(null);
+
+    if (activeTab === 'form') {
+      mutation.mutate(formData);
+    } else {
+      try {
+        const parsedData = JSON.parse(jsonInput);
+        mutation.mutate(parsedData);
+      } catch (err) {
+        setError('Invalid JSON format');
+      }
+    }
   };
 
-  const updateField = (key: keyof IService, val: any) => {
-    setFormData(prev => {
-        const newData = { ...prev, [key]: val };
-        if (key === 'name' && !serviceToEdit) {
-             newData.slug = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        }
-        return newData;
-    });
+  const updateField = (field: string, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -67,7 +74,7 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({ onClose, serviceToEdi
           <div className="relative z-10">
             <h2 className="text-3xl font-black text-white flex items-center gap-3 tracking-tighter">
               <Sparkles className="w-6 h-6 text-indigo-400" />
-              {serviceToEdit ? 'Configure Service' : 'New Service Protocol'}
+              {service ? 'Edit Service' : 'Add New Service'}
             </h2>
             <p className="text-slate-400 text-xs font-bold tracking-widest uppercase mt-1">Catalog Management v2.0</p>
           </div>
@@ -77,36 +84,60 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({ onClose, serviceToEdi
         </div>
 
         {/* Tabs */}
-        <div className="flex px-8 mt-6 gap-4">
-            {[
-                { id: 'basic', label: 'Identity', icon: Wrench },
-                { id: 'pricing', label: 'Commercials', icon: DollarSign },
-                { id: 'operational', label: 'Operations', icon: Settings }
-            ].map(tab => (
-                <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`pb-4 px-2 text-xs font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-all ${
-                        activeTab === tab.id ? 'border-indigo-500 text-white' : 'border-transparent text-slate-500 hover:text-slate-300'
-                    }`}
-                >
-                    <tab.icon className="w-4 h-4" /> {tab.label}
-                </button>
-            ))}
+        <div className="flex p-2 bg-black/20 gap-2 mx-8 mt-8 rounded-2xl border border-white/5">
+          <button 
+            onClick={() => setActiveTab('json')} 
+            className={`flex-1 py-4 text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all rounded-xl ${
+              activeTab === 'json' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'
+            }`}
+          >
+            <Code className="w-4 h-4" /> 
+            JSON Payload
+          </button>
+          <button 
+            onClick={() => setActiveTab('form')} 
+            className={`flex-1 py-4 text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all rounded-xl ${
+              activeTab === 'form' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'
+            }`}
+          >
+            <Database className="w-4 h-4" /> 
+            Form Entry
+          </button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-8 relative bg-slate-950/30">
-            {success ? (
-                <div className="h-full flex flex-col items-center justify-center space-y-6 animate-in zoom-in">
-                    <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 border border-emerald-500/30">
-                        <CheckCircle2 className="w-10 h-10" />
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+          <div className="flex-1 overflow-y-auto p-8 relative bg-slate-950/30">
+            {activeTab === 'json' ? (
+                <div className="space-y-6 h-full flex flex-col text-left">
+                  <div className="p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl text-indigo-300 text-xs font-mono leading-relaxed flex gap-3">
+                    <Server className="w-5 h-5 flex-shrink-0" />
+                    <div>
+                      <span className="text-indigo-400 font-black uppercase block mb-1 tracking-widest">Protocol Instruction</span>
+                      Submit service configuration as JSON. Supports bulk import via arrays.
                     </div>
-                    <p className="text-2xl font-black text-white">Service Configured</p>
+                  </div>
+                  <div className="flex-1 relative group">
+                    <textarea
+                      placeholder={`{
+  "name": "CCTV Installation",
+  "slug": "cctv-install",
+  "type": "installation",
+  "base_price": 5000,
+  ...
+}`}
+                      value={jsonInput}
+                      onChange={(e) => setJsonInput(e.target.value)}
+                      className="w-full min-h-[350px] bg-black/60 border border-slate-700/50 rounded-[2rem] p-8 font-mono text-sm text-cyan-400 placeholder:text-slate-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500/50 transition-all resize-none shadow-inner"
+                    />
+                    <div className="absolute right-8 top-8 text-slate-800 pointer-events-none group-focus-within:text-indigo-500/20 transition-colors">
+                      <Code className="w-8 h-8" />
+                    </div>
+                  </div>
                 </div>
             ) : (
-                <form id="service-form" onSubmit={handleSubmit} className="space-y-6">
-                    {activeTab === 'basic' && (
+                <div className="space-y-6">
+                    {activeTab === 'form' && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
                              <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Service Name</label>
@@ -123,70 +154,47 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({ onClose, serviceToEdi
                                 </select>
                              </div>
                              <div className="space-y-2">
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Base Price (₹)</label>
+                                <input type="number" required className="input-premium" value={formData.base_price} onChange={e => updateField('base_price', Number(e.target.value))} />
+                             </div>
+                             <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Category Tag</label>
                                 <input className="input-premium" value={formData.category} onChange={e => updateField('category', e.target.value)} placeholder="e.g. Surveillance" />
                              </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'pricing' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                             <div className="p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl md:col-span-2">
-                                <label className="text-[10px] font-black text-emerald-400 uppercase tracking-widest block mb-4">Base Commercial Value (INR)</label>
-                                <div className="flex items-center gap-4">
-                                    <span className="text-4xl font-black text-white">₹</span>
-                                    <input type="number" required className="bg-transparent text-4xl font-black text-white w-full outline-none placeholder:text-slate-700" 
-                                        value={formData.base_price} onChange={e => updateField('base_price', Number(e.target.value))} />
-                                </div>
-                             </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'operational' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
                              <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Warranty Period (Months)</label>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Warranty (Months)</label>
                                 <input type="number" className="input-premium" value={formData.warranty_months} onChange={e => updateField('warranty_months', Number(e.target.value))} />
                              </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Est. Duration (Mins)</label>
-                                <input type="number" className="input-premium" value={formData.installation_time_minutes} onChange={e => updateField('installation_time_minutes', Number(e.target.value))} />
-                             </div>
-                              <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Required Tech Level</label>
-                                <select className="input-premium" value={formData.required_technician_level} onChange={e => updateField('required_technician_level', e.target.value)}>
-                                    <option value="L1">L1 - Basic Technician</option>
-                                    <option value="L2">L2 - Advanced Engineer</option>
-                                    <option value="L3">L3 - Specialist</option>
-                                </select>
-                             </div>
                         </div>
                     )}
-                </form>
+                </div>
             )}
-            
+
             {error && (
                 <div className="mt-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm font-bold animate-in slide-in-from-bottom-2">
                     <AlertCircle className="w-5 h-5" /> {error}
                 </div>
             )}
-        </div>
+          </div>
 
-        {/* Footer */}
-        {!success && (
-            <div className="p-6 border-t border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-md">
-                <div className="flex items-center gap-3">
-                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Status:</span>
-                   <button onClick={() => updateField('is_active', !formData.is_active)} className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all ${formData.is_active ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-slate-800 text-slate-500 border-slate-700'}`}>
-                       {formData.is_active ? 'Active' : 'Draft'}
-                   </button>
-                </div>
-                <button form="service-form" type="submit" disabled={mutation.isPending} className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50">
-                    {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    Save Protocol
-                </button>
-            </div>
-        )}
+          {/* Footer */}
+          <div className="p-6 border-t border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-md">
+              <div className="flex items-center gap-3">
+                 <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Status:</span>
+                 <button type="button" onClick={() => updateField('is_active', !formData.is_active)} className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all ${formData.is_active ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-slate-800 text-slate-500 border-slate-700'}`}>
+                     {formData.is_active ? 'Active' : 'Draft'}
+                 </button>
+              </div>
+              <button 
+                type="submit"
+                disabled={mutation.isPending} 
+                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+              >
+                  {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  {service ? 'Update Service' : 'Create Service'}
+              </button>
+          </div>
+        </form>
 
       </div>
 
@@ -210,6 +218,4 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({ onClose, serviceToEdi
       `}</style>
     </div>
   );
-};
-
-export default AddServiceModal;
+}

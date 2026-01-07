@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Plus, Box, Package, Edit2, Trash2 } from 'lucide-react';
 import { productApi } from '../../api/productApi';
 import type { IProduct } from '../../types/product.types';
-import AddProductModal from '../../components/AddProductModal';
+import { AddProductModal } from '../../components/AddProductModal';
 
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -76,7 +76,7 @@ const ProductList: React.FC = () => {
             </div>
             </div>
 
-            {isModalOpen && <AddProductModal onClose={() => { setIsModalOpen(false); loadData(); }} productToEdit={editingProduct} />}
+            {isModalOpen && <AddProductModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); loadData(); }} product={editingProduct} />}
             
             <style>{`.btn-premium { padding: 1rem 2rem; border-radius: 1rem; font-weight: 700; transition: all 0.2s; box-shadow: 0 0 40px -10px currentColor; display: flex; align-items: center; gap: 0.75rem; } .btn-premium:active { transform: scale(0.95); box-shadow: none; }`}</style>
         </div>

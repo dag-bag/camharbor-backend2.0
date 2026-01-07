@@ -1,217 +1,401 @@
 import React, { useState, useEffect } from 'react';
-import { X, Box, Tag, Truck, CheckCircle2, Loader2, Sparkles, AlertCircle, Save, Package } from 'lucide-react';
+import { X, Box, Truck, CheckCircle2, Loader2, AlertCircle, Save, Package, Code, Database, Server } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { productApi } from '../api/productApi';
-import type { IProduct } from '../types/product.types';
+import { createProduct, updateProduct } from '../services/productApi';
+import type { Product } from '../types/product.types';
 
 interface AddProductModalProps {
+  isOpen: boolean;
   onClose: () => void;
-  productToEdit?: IProduct | null;
+  product?: Product;
 }
 
-const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, productToEdit }) => {
-  const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'info' | 'inventory'>('info');
-  const [success, setSuccess] = useState(false);
+export function AddProductModal({ isOpen, onClose, product }: AddProductModalProps) {
+  const [activeTab, setActiveTab] = useState<'form' | 'json'>('form');
+  const [jsonInput, setJsonInput] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const [formData, setFormData] = useState<Partial<IProduct>>({
-    name: '', slug: '', category: '', brand: '', product_model: '', base_price: 0, is_active: true,
-    stock_status: 'in_stock', min_order_quantity: 1, supplier: { name: '', lead_time_days: 0 },
-    specs: {}
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    slug: '',
+    type: '',
+    brand: '',
+    product_model: '',
+    price: 0,
+    capabilities: [] as string[],
+    stock_status: 'in_stock' as 'in_stock' | 'out_of_stock' | 'backorder',
+    supplier_name: '',
+    supplier_lead_time_days: 0,
+    minimum_order_quantity: 1,
+    is_active: true,
   });
 
   useEffect(() => {
-    if (productToEdit) setFormData(productToEdit);
-  }, [productToEdit]);
+    if (product) {
+      setFormData({
+        name: product.name || '',
+        slug: product.slug || '',
+        type: product.type || '',
+        brand: product.brand || '',
+        product_model: product.product_model || '',
+        price: product.price || 0,
+        capabilities: product.capabilities || [],
+        stock_status: product.stock_status || 'in_stock',
+        supplier_name: product.supplier_name || '',
+        supplier_lead_time_days: product.supplier_lead_time_days || 0,
+        minimum_order_quantity: product.minimum_order_quantity || 1,
+        is_active: product.is_active ?? true,
+      });
+      setJsonInput(JSON.stringify(product, null, 2));
+    } else {
+      // Reset form when modal opens for new product
+      setFormData({
+        name: '',
+        slug: '',
+        type: '',
+        brand: '',
+        product_model: '',
+        price: 0,
+        capabilities: [],
+        stock_status: 'in_stock',
+        supplier_name: '',
+        supplier_lead_time_days: 0,
+        minimum_order_quantity: 1,
+        is_active: true,
+      });
+      setJsonInput('');
+    }
+    setError(null);
+  }, [product, isOpen]);
 
   const mutation = useMutation({
-    mutationFn: async (data: Partial<IProduct>) => {
-      if (productToEdit) await productApi.master.update(productToEdit._id, data);
-      else await productApi.master.create(data);
-    },
+    mutationFn: (data: any) => product ? updateProduct(product._id, data) : createProduct(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      setSuccess(true);
-      setTimeout(() => onClose(), 1500);
+      onClose();
     },
     onError: (err: any) => setError(err.message || 'Operation failed')
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    setError(null);
+
+    if (activeTab === 'form') {
+      mutation.mutate(formData);
+    } else {
+      try {
+        const parsedData = JSON.parse(jsonInput);
+        
+        // Handle both single object and array of objects
+        if (Array.isArray(parsedData)) {
+          // For bulk creation, send the array directly
+          mutation.mutate(parsedData);
+        } else {
+          mutation.mutate(parsedData);
+        }
+      } catch (err) {
+        setError('Invalid JSON format');
+      }
+    }
   };
 
-  const updateField = (key: keyof IProduct, val: any) => {
-    setFormData(prev => {
-        const newData = { ...prev, [key]: val };
-        if (key === 'name' && !productToEdit) {
-             newData.slug = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        }
-        return newData;
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData(prev => ({ ...prev, [name]: checked }));
+    } else if (type === 'number') {
+      setFormData(prev => ({ ...prev, [name]: parseFloat(value) || 0 }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
+
+  const handleCapabilitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const capabilities = e.target.value.split(',').map(c => c.trim()).filter(Boolean);
+    setFormData(prev => ({ ...prev, capabilities }));
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose} />
-      
-      <div className="relative glass-card rounded-[2rem] w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl shadow-indigo-500/20 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 border border-slate-700/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-cyan-500/20 w-full max-w-4xl max-h-[90vh] overflow-hidden animate-modal-zoom">
         
         {/* Header */}
-        <div className="p-8 border-b border-white/5 bg-white/5 flex items-center justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-          <div className="relative z-10">
-            <h2 className="text-3xl font-black text-white flex items-center gap-3 tracking-tighter">
-              <Package className="w-6 h-6 text-cyan-400" />
-              {productToEdit ? 'Modify Asset' : 'Register Inventory'}
-            </h2>
-            <p className="text-slate-400 text-xs font-bold tracking-widest uppercase mt-1">Supply Chain Control v2.0</p>
+        <div className="flex items-center justify-between p-6 border-b border-cyan-500/20 bg-gradient-to-r from-cyan-500/10 to-blue-500/10">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-lg animate-float">
+              <Package className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                {product ? 'Edit Product' : 'Add New Product'}
+              </h2>
+              <p className="text-sm text-gray-400 mt-0.5">Manage product inventory and specifications</p>
+            </div>
           </div>
-          <button onClick={onClose} className="p-3 hover:bg-white/10 rounded-2xl text-slate-400 hover:text-white transition-all z-10">
-            <X className="w-6 h-6" />
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-white/10 rounded-xl transition-all duration-300 group"
+          >
+            <X className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:rotate-90 transition-all duration-300" />
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex px-8 mt-6 gap-4">
-            {[
-                { id: 'info', label: 'Asset Specifics', icon: Box },
-                { id: 'inventory', label: 'Supply Chain', icon: Truck },
-            ].map(tab => (
-                <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`pb-4 px-2 text-xs font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-all ${
-                        activeTab === tab.id ? 'border-cyan-500 text-white' : 'border-transparent text-slate-500 hover:text-slate-300'
-                    }`}
-                >
-                    <tab.icon className="w-4 h-4" /> {tab.label}
-                </button>
-            ))}
+        {/* Tab Navigation */}
+        <div className="flex gap-2 p-4 bg-slate-900/50 border-b border-cyan-500/10">
+          <button
+            onClick={() => setActiveTab('form')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              activeTab === 'form'
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25'
+                : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700/50'
+            }`}
+          >
+            <Database className="w-4 h-4" />
+            Form Input
+          </button>
+          <button
+            onClick={() => setActiveTab('json')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              activeTab === 'json'
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25'
+                : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700/50'
+            }`}
+          >
+            <Code className="w-4 h-4" />
+            JSON Input
+          </button>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-8 relative bg-slate-950/30">
-            {success ? (
-                <div className="h-full flex flex-col items-center justify-center space-y-6 animate-in zoom-in">
-                    <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 border border-emerald-500/30">
-                        <CheckCircle2 className="w-10 h-10" />
-                    </div>
-                    <p className="text-2xl font-black text-white">Asset Registered</p>
-                </div>
-            ) : (
-                <form id="product-form" onSubmit={handleSubmit} className="space-y-6">
-                    {activeTab === 'info' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                             <div className="space-y-2 col-span-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Product Name</label>
-                                <input required className="input-premium" value={formData.name} onChange={e => updateField('name', e.target.value)} placeholder="e.g. Hikvision 2MP Dome" />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Category</label>
-                                <input required className="input-premium" value={formData.category} onChange={e => updateField('category', e.target.value)} placeholder="Surveillance Camera" />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Pricing (INR)</label>
-                                <input required type="number" className="input-premium font-mono" value={formData.base_price} onChange={e => updateField('base_price', Number(e.target.value))} />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Brand</label>
-                                <input required className="input-premium" value={formData.brand} onChange={e => updateField('brand', e.target.value)} />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Model Number</label>
-                                <input required className="input-premium text-indigo-300 font-mono" value={formData.product_model} onChange={e => updateField('product_model', e.target.value)} />
-                             </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'inventory' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                             <div className="p-6 bg-slate-900/50 border border-slate-700/50 rounded-2xl md:col-span-2 flex items-center justify-between">
-                                <div>
-                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Current Stock Status</label>
-                                    <div className="flex gap-2">
-                                        {['in_stock', 'low_stock', 'out_of_stock'].map(s => (
-                                            <button type="button" key={s} onClick={() => updateField('stock_status', s)}
-                                                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all ${
-                                                    formData.stock_status === s 
-                                                    ? 'bg-cyan-500 text-black shadow-lg shadow-cyan-500/20 scale-105' 
-                                                    : 'bg-slate-800 text-slate-500 hover:bg-slate-700'
-                                                }`}
-                                            >
-                                                {s.replace(/_/g, ' ')}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Min Order Qty</label>
-                                    <input type="number" className="w-24 bg-slate-800 border border-slate-700 text-white rounded-xl p-3 text-center font-black" 
-                                        value={formData.min_order_quantity} onChange={e => updateField('min_order_quantity', Number(e.target.value))} />
-                                </div>
-                             </div>
-
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Supplier Name</label>
-                                <input className="input-premium" value={formData.supplier?.name} 
-                                    onChange={e => updateField('supplier', { ...formData.supplier, name: e.target.value })} />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Est. Lead Time (Days)</label>
-                                <input type="number" className="input-premium" value={formData.supplier?.lead_time_days} 
-                                    onChange={e => updateField('supplier', { ...formData.supplier, lead_time_days: Number(e.target.value) })} />
-                             </div>
-                        </div>
-                    )}
-                </form>
-            )}
-             {error && (
-                <div className="mt-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm font-bold animate-in slide-in-from-bottom-2">
-                    <AlertCircle className="w-5 h-5" /> {error}
-                </div>
-            )}
-        </div>
-
-       {/* Footer */}
-        {!success && (
-            <div className="p-6 border-t border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-md">
-                 <div className="flex items-center gap-3">
-                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Visibility:</span>
-                   <button onClick={() => updateField('is_active', !formData.is_active)} className={`w-12 h-6 rounded-full border transition-all relative ${formData.is_active ? 'bg-cyan-500/20 border-cyan-500/50' : 'bg-slate-800 border-slate-700'}`}>
-                       <div className={`absolute top-1 bottom-1 w-4 rounded-full transition-all ${formData.is_active ? 'right-1 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]' : 'left-1 bg-slate-500'}`} />
-                   </button>
-                </div>
-                <button form="product-form" type="submit" disabled={mutation.isPending} className="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-black rounded-xl font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-all shadow-lg shadow-cyan-600/20 disabled:opacity-50">
-                    {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    Confirm Asset
-                </button>
-            </div>
+        {/* Error Display */}
+        {error && (
+          <div className="mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-start gap-3 animate-shake">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-red-300 text-sm">{error}</p>
+          </div>
         )}
 
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto p-6">
+            {activeTab === 'form' ? (
+              <div className="space-y-6">
+                {/* Basic Information */}
+                <div className="bg-gradient-to-br from-cyan-500/5 to-blue-500/5 rounded-xl p-6 border border-cyan-500/10">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Box className="w-5 h-5 text-cyan-400" />
+                    <h3 className="text-lg font-semibold text-white">Basic Information</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Product Name *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="Enter product name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Slug *</label>
+                      <input
+                        type="text"
+                        name="slug"
+                        value={formData.slug}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="product-slug"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Type</label>
+                      <input
+                        type="text"
+                        name="type"
+                        value={formData.type}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="Camera, DVR, NVR, etc."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Brand</label>
+                      <input
+                        type="text"
+                        name="brand"
+                        value={formData.brand}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="Enter brand name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Model</label>
+                      <input
+                        type="text"
+                        name="product_model"
+                        value={formData.product_model}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="Enter model number"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Price (₹)</label>
+                      <input
+                        type="number"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="0"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Capabilities (comma-separated)</label>
+                      <input
+                        type="text"
+                        name="capabilities"
+                        value={formData.capabilities.join(', ')}
+                        onChange={handleCapabilitiesChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                        placeholder="Night Vision, Motion Detection, etc."
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Inventory & Supply */}
+                <div className="bg-gradient-to-br from-blue-500/5 to-cyan-500/5 rounded-xl p-6 border border-blue-500/10">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Truck className="w-5 h-5 text-blue-400" />
+                    <h3 className="text-lg font-semibold text-white">Inventory & Supply</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Stock Status</label>
+                      <select
+                        name="stock_status"
+                        value={formData.stock_status}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-blue-500/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
+                      >
+                        <option value="in_stock">In Stock</option>
+                        <option value="out_of_stock">Out of Stock</option>
+                        <option value="backorder">Backorder</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Supplier Name</label>
+                      <input
+                        type="text"
+                        name="supplier_name"
+                        value={formData.supplier_name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-blue-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
+                        placeholder="Enter supplier name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Lead Time (days)</label>
+                      <input
+                        type="number"
+                        name="supplier_lead_time_days"
+                        value={formData.supplier_lead_time_days}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-blue-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
+                        placeholder="0"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Minimum Order Qty</label>
+                      <input
+                        type="number"
+                        name="minimum_order_quantity"
+                        value={formData.minimum_order_quantity}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-blue-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
+                        placeholder="1"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="flex items-center gap-3 p-4 bg-slate-800/30 rounded-xl border border-cyan-500/10">
+                  <input
+                    type="checkbox"
+                    id="is_active"
+                    name="is_active"
+                    checked={formData.is_active}
+                    onChange={handleInputChange}
+                    className="w-5 h-5 rounded border-cyan-500/30 text-cyan-500 focus:ring-2 focus:ring-cyan-500/50"
+                  />
+                  <label htmlFor="is_active" className="text-sm font-medium text-gray-300 cursor-pointer">
+                    Product is active and visible
+                  </label>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl p-4 border border-cyan-500/10">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Server className="w-5 h-5 text-cyan-400" />
+                    <h3 className="text-sm font-semibold text-white">JSON Payload</h3>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-4">
+                    Enter a single product object or an array of products for bulk creation
+                  </p>
+                  <textarea
+                    value={jsonInput}
+                    onChange={(e) => setJsonInput(e.target.value)}
+                    className="w-full h-96 px-4 py-3 bg-slate-950/50 border border-cyan-500/20 rounded-xl text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300"
+                    placeholder={`{\n  "name": "4K Security Camera",\n  "slug": "4k-security-camera",\n  "type": "Camera",\n  "brand": "Hikvision",\n  "product_model": "DS-2CD2385G1",\n  "price": 12500,\n  "capabilities": ["Night Vision", "Motion Detection"],\n  "stock_status": "in_stock",\n  "supplier_name": "Tech Supplies Ltd",\n  "supplier_lead_time_days": 7,\n  "minimum_order_quantity": 1,\n  "is_active": true\n}`}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-end gap-3 p-6 border-t border-cyan-500/20 bg-gradient-to-r from-slate-900/50 to-slate-800/50">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-3 bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-xl font-medium transition-all duration-300 hover:shadow-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={mutation.isPending}
+              className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {mutation.isPending ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="w-5 h-5" />
+                  {product ? 'Update Product' : 'Create Product'}
+                </>
+              )}
+            </button>
+          </div>
+        </form>
       </div>
-       <style>{`
-        .input-premium {
-            width: 100%;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 1rem;
-            color: white;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .input-premium:focus {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(34, 211, 238, 0.5);
-            box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.1);
-        }
-      `}</style>
     </div>
   );
-};
-
-export default AddProductModal;
+}

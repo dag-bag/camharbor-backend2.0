@@ -1,253 +1,437 @@
 import React, { useState, useEffect } from 'react';
-import { X, Map, Database, Signal, CheckCircle2, Loader2, Sparkles, AlertCircle, Save } from 'lucide-react';
+import { X, Map, MapPin, Home, CheckCircle2, Loader2, AlertCircle, Save, Code, Database, Server } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { localityApi } from '../api/localityApi';
-import { cityApi } from '../api/cityApi';
-import type { ILocality } from '../types/locality.types';
+import { createLocality, updateLocality } from '../services/localityApi';
+import type { Locality } from '../types/locality.types';
 
 interface AddLocalityModalProps {
+  isOpen: boolean;
   onClose: () => void;
-  localityToEdit?: ILocality | null;
+  locality?: Locality;
 }
 
-const AddLocalityModal: React.FC<AddLocalityModalProps> = ({ onClose, localityToEdit }) => {
-  const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<'basic' | 'infra' | 'geo'>('basic');
-  const [cities, setCities] = useState<any[]>([]);
-  const [success, setSuccess] = useState(false);
+export function AddLocalityModal({ isOpen, onClose, locality }: AddLocalityModalProps) {
+  const [activeTab, setActiveTab] = useState<'form' | 'json'>('form');
+  const [jsonInput, setJsonInput] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const [formData, setFormData] = useState<Partial<ILocality>>({
-    name: '', slug: '', city_id: '', primary_pincode: '', is_active: true,
-    geo: { coordinates: { lat: 19.0760, lng: 72.8777 }, bounds: {} as any }, // Default Mumbai lat/lng
-    demographics: { population_density: '', avg_income_level: '', housing_type: '' },
-    infrastructure: { power_stability: 'Good', internet_quality: 'Fiber', road_width: '' }
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    slug: '',
+    display_name: '',
+    city_id: '',
+    primary_pincode: '',
+    pincodes: [] as string[],
+    is_active: true,
+    is_serviceable: true,
+    priority: 0,
+    geo: {
+      coordinates: { lat: 0, lng: 0 },
+      bounds: { north: 0, south: 0, east: 0, west: 0 }
+    },
+    demographics: {
+      population_density: '',
+      avg_income_level: '',
+      housing_type: ''
+    },
+    infrastructure: {
+      power_stability: 'Good' as 'Excellent' | 'Good' | 'Poor',
+      internet_quality: 'Fiber' as 'Fiber' | 'DSL' | 'Mobile Only',
+      road_width: ''
+    }
   });
 
   useEffect(() => {
-    cityApi.getActiveCities().then(res => setCities(res.data));
-    if (localityToEdit) {
-        const editData = { ...localityToEdit };
-        // Flatten city object if populated
-        if (typeof editData.city_id === 'object' && editData.city_id !== null) {
-            editData.city_id = (editData.city_id as any)._id;
+    if (locality) {
+      setFormData({
+        name: locality.name || '',
+        slug: locality.slug || '',
+        display_name: locality.display_name || '',
+        city_id: locality.city_id || '',
+        primary_pincode: locality.primary_pincode || '',
+        pincodes: locality.pincodes || [],
+        is_active: locality.is_active ?? true,
+        is_serviceable: locality.is_serviceable ?? true,
+        priority: locality.priority || 0,
+        geo: locality.geo || {
+          coordinates: { lat: 0, lng: 0 },
+          bounds: { north: 0, south: 0, east: 0, west: 0 }
+        },
+        demographics: locality.demographics || {
+          population_density: '',
+          avg_income_level: '',
+          housing_type: ''
+        },
+        infrastructure: locality.infrastructure || {
+          power_stability: 'Good',
+          internet_quality: 'Fiber',
+          road_width: ''
         }
-        setFormData(editData);
+      });
+      setJsonInput(JSON.stringify(locality, null, 2));
+    } else {
+      setFormData({
+        name: '',
+        slug: '',
+        display_name: '',
+        city_id: '',
+        primary_pincode: '',
+        pincodes: [],
+        is_active: true,
+        is_serviceable: true,
+        priority: 0,
+        geo: {
+          coordinates: { lat: 0, lng: 0 },
+          bounds: { north: 0, south: 0, east: 0, west: 0 }
+        },
+        demographics: {
+          population_density: '',
+          avg_income_level: '',
+          housing_type: ''
+        },
+        infrastructure: {
+          power_stability: 'Good',
+          internet_quality: 'Fiber',
+          road_width: ''
+        }
+      });
+      setJsonInput('');
     }
-  }, [localityToEdit]);
+    setError(null);
+  }, [locality, isOpen]);
 
   const mutation = useMutation({
-    mutationFn: async (data: Partial<ILocality>) => {
-      if (localityToEdit) await localityApi.update(localityToEdit._id, data);
-      else await localityApi.create(data);
-    },
+    mutationFn: (data: any) => locality ? updateLocality(locality._id, data) : createLocality(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['localities'] });
-      setSuccess(true);
-      setTimeout(() => onClose(), 1500);
+      onClose();
     },
     onError: (err: any) => setError(err.message || 'Operation failed')
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    setError(null);
+
+    if (activeTab === 'form') {
+      mutation.mutate(formData);
+    } else {
+      try {
+        const parsedData = JSON.parse(jsonInput);
+        mutation.mutate(parsedData);
+      } catch (err) {
+        setError('Invalid JSON format');
+      }
+    }
   };
 
-  const updateField = (key: string, val: any) => {
-    setFormData(prev => {
-        const newData = { ...prev };
-        if (key.includes('.')) {
-            const [parent, child] = key.split('.');
-            (newData as any)[parent] = { ...(newData as any)[parent], [child]: val };
-        } else {
-            (newData as any)[key] = val;
-             if (key === 'name' && !localityToEdit) {
-                 (newData as any).slug = val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-             }
-        }
-        return newData;
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData(prev => ({ ...prev, [name]: checked }));
+    } else if (type === 'number') {
+      setFormData(prev => ({ ...prev, [name]: parseFloat(value) || 0 }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
+
+  const handleNestedChange = (parent: string, field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [parent]: {
+        ...(prev as any)[parent],
+        [field]: value
+      }
+    }));
+  };
+
+  const handlePincodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const pincodes = e.target.value.split(',').map(p => p.trim()).filter(Boolean);
+    setFormData(prev => ({ ...prev, pincodes }));
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose} />
-      
-      <div className="relative glass-card rounded-[2rem] w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl shadow-indigo-500/20 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 border border-slate-700/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-amber-500/20 w-full max-w-4xl max-h-[90vh] overflow-hidden animate-modal-zoom">
         
         {/* Header */}
-        <div className="p-8 border-b border-white/5 bg-white/5 flex items-center justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-          <div className="relative z-10">
-            <h2 className="text-3xl font-black text-white flex items-center gap-3 tracking-tighter">
-              <Map className="w-6 h-6 text-amber-400" />
-              {localityToEdit ? 'Edit Zone Data' : 'Map New Locality'}
-            </h2>
-            <p className="text-slate-400 text-xs font-bold tracking-widest uppercase mt-1">Geographic Intelligence v2.0</p>
+        <div className="flex items-center justify-between p-6 border-b border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-orange-500/10">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg animate-float">
+              <Map className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
+                {locality ? 'Edit Locality' : 'Add New Locality'}
+              </h2>
+              <p className="text-sm text-gray-400 mt-0.5">Manage locality information and boundaries</p>
+            </div>
           </div>
-          <button onClick={onClose} className="p-3 hover:bg-white/10 rounded-2xl text-slate-400 hover:text-white transition-all z-10">
-            <X className="w-6 h-6" />
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-white/10 rounded-xl transition-all duration-300 group"
+          >
+            <X className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:rotate-90 transition-all duration-300" />
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex px-8 mt-6 gap-4">
-            {[
-                { id: 'basic', label: 'Identity', icon: Database },
-                { id: 'geo', label: 'Coordinates', icon: Map },
-                { id: 'infra', label: 'Infrastructure', icon: Signal },
-            ].map(tab => (
-                <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`pb-4 px-2 text-xs font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-all ${
-                        activeTab === tab.id ? 'border-amber-500 text-white' : 'border-transparent text-slate-500 hover:text-slate-300'
-                    }`}
-                >
-                    <tab.icon className="w-4 h-4" /> {tab.label}
-                </button>
-            ))}
+        {/* Tab Navigation */}
+        <div className="flex gap-2 p-4 bg-slate-900/50 border-b border-amber-500/10">
+          <button
+            onClick={() => setActiveTab('form')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              activeTab === 'form'
+                ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/25'
+                : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700/50'
+            }`}
+          >
+            <Database className="w-4 h-4" />
+            Form Input
+          </button>
+          <button
+            onClick={() => setActiveTab('json')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              activeTab === 'json'
+                ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/25'
+                : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700/50'
+            }`}
+          >
+            <Code className="w-4 h-4" />
+            JSON Input
+          </button>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-8 relative bg-slate-950/30">
-            {success ? (
-                <div className="h-full flex flex-col items-center justify-center space-y-6 animate-in zoom-in">
-                    <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 border border-emerald-500/30">
-                        <CheckCircle2 className="w-10 h-10" />
-                    </div>
-                    <p className="text-2xl font-black text-white">Locality Mapped</p>
-                </div>
-            ) : (
-                <form id="locality-form" onSubmit={handleSubmit} className="space-y-6">
-                    {activeTab === 'basic' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Locality Name</label>
-                                <input required className="input-premium" value={formData.name} onChange={e => updateField('name', e.target.value)} />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Parent City</label>
-                                <select required className="input-premium" value={formData.city_id as string} onChange={e => updateField('city_id', e.target.value)}>
-                                    <option value="">Select City</option>
-                                    {cities.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
-                                </select>
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Slug (URL Safe)</label>
-                                <input required className="input-premium font-mono" value={formData.slug} onChange={e => updateField('slug', e.target.value)} />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Primary Pincode</label>
-                                <input required className="input-premium font-mono" value={formData.primary_pincode} onChange={e => updateField('primary_pincode', e.target.value)} />
-                             </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'infra' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                             <div className="p-6 bg-slate-900/50 border border-slate-700/50 rounded-2xl md:col-span-2">
-                                <h3 className="text-amber-400 text-sm font-bold mb-4 uppercase tracking-wider">Demographic Profile</h3>
-                                <div className="grid md:grid-cols-3 gap-4">
-                                    <select className="input-premium" value={formData.demographics?.population_density} onChange={e => updateField('demographics.population_density', e.target.value)}>
-                                        <option value="">Population Density</option>
-                                        <option value="High">High</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="Low">Low</option>
-                                    </select>
-                                    <select className="input-premium" value={formData.demographics?.avg_income_level} onChange={e => updateField('demographics.avg_income_level', e.target.value)}>
-                                        <option value="">Income Level</option>
-                                        <option value="High">High</option>
-                                        <option value="Middle">Middle</option>
-                                        <option value="Low">Low</option>
-                                    </select>
-                                    <input className="input-premium" placeholder="Housing Type (e.g. Villas)" value={formData.demographics?.housing_type} onChange={e => updateField('demographics.housing_type', e.target.value)} />
-                                </div>
-                             </div>
-
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Power Stability</label>
-                                <select className="input-premium" value={formData.infrastructure?.power_stability} onChange={e => updateField('infrastructure.power_stability', e.target.value)}>
-                                    <option value="Good">Good</option>
-                                    <option value="Excellent">Excellent</option>
-                                    <option value="Poor">Poor</option>
-                                </select>
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Internet Quality</label>
-                                <select className="input-premium" value={formData.infrastructure?.internet_quality} onChange={e => updateField('infrastructure.internet_quality', e.target.value)}>
-                                    <option value="Fiber">Fiber</option>
-                                    <option value="DSL">DSL</option>
-                                    <option value="Mobile Only">Mobile Only</option>
-                                </select>
-                             </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'geo' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-right-4 duration-300">
-                             <div className="p-6 bg-amber-500/5 border border-amber-500/10 rounded-2xl md:col-span-2 flex items-center justify-center min-h-[150px] text-amber-500/50 font-black uppercase text-xl animate-pulse">
-                                Interactive Map Placeholder
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Latitude</label>
-                                <input type="number" step="any" className="input-premium font-mono" value={formData.geo?.coordinates.lat} 
-                                    onChange={e => updateField('geo.coordinates.lat', Number(e.target.value))} />
-                             </div>
-                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Longitude</label>
-                                <input type="number" step="any" className="input-premium font-mono" value={formData.geo?.coordinates.lng} 
-                                    onChange={e => updateField('geo.coordinates.lng', Number(e.target.value))} />
-                             </div>
-                        </div>
-                    )}
-                </form>
-            )}
-             {error && (
-                <div className="mt-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm font-bold animate-in slide-in-from-bottom-2">
-                    <AlertCircle className="w-5 h-5" /> {error}
-                </div>
-            )}
-        </div>
-
-       {/* Footer */}
-        {!success && (
-            <div className="p-6 border-t border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-md">
-                 <div className="flex items-center gap-3">
-                   <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">Region Status:</span>
-                   <button onClick={() => updateField('is_active', !formData.is_active)} className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all ${formData.is_active ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-slate-800 text-slate-500 border-slate-700'}`}>
-                       {formData.is_active ? 'Live' : 'Hidden'}
-                   </button>
-                </div>
-                <button form="locality-form" type="submit" disabled={mutation.isPending} className="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-all shadow-lg shadow-amber-600/20 disabled:opacity-50">
-                    {mutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    Save Coordinates
-                </button>
-            </div>
+        {/* Error Display */}
+        {error && (
+          <div className="mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-start gap-3 animate-shake">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-red-300 text-sm">{error}</p>
+          </div>
         )}
 
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto p-6">
+            {activeTab === 'form' ? (
+              <div className="space-y-6">
+                {/* Basic Information */}
+                <div className="bg-gradient-to-br from-amber-500/5 to-orange-500/5 rounded-xl p-6 border border-amber-500/10">
+                  <div className="flex items-center gap-2 mb-4">
+                    <MapPin className="w-5 h-5 text-amber-400" />
+                    <h3 className="text-lg font-semibold text-white">Basic Information</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Locality Name *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-amber-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                        placeholder="Enter locality name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Slug *</label>
+                      <input
+                        type="text"
+                        name="slug"
+                        value={formData.slug}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-amber-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                        placeholder="locality-slug"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Display Name</label>
+                      <input
+                        type="text"
+                        name="display_name"
+                        value={formData.display_name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-amber-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                        placeholder="Display name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">City ID</label>
+                      <input
+                        type="text"
+                        name="city_id"
+                        value={formData.city_id}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-amber-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                        placeholder="Enter city ID"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Primary Pincode</label>
+                      <input
+                        type="text"
+                        name="primary_pincode"
+                        value={formData.primary_pincode}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-amber-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                        placeholder="400001"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Pincodes (comma-separated)</label>
+                      <input
+                        type="text"
+                        value={formData.pincodes.join(', ')}
+                        onChange={handlePincodesChange}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-amber-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                        placeholder="400001, 400002"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Demographics */}
+                <div className="bg-gradient-to-br from-orange-500/5 to-amber-500/5 rounded-xl p-6 border border-orange-500/10">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Home className="w-5 h-5 text-orange-400" />
+                    <h3 className="text-lg font-semibold text-white">Demographics & Infrastructure</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Population Density</label>
+                      <input
+                        type="text"
+                        value={formData.demographics?.population_density || ''}
+                        onChange={(e) => handleNestedChange('demographics', 'population_density', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-orange-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all duration-300"
+                        placeholder="High, Medium, Low"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Avg Income Level</label>
+                      <input
+                        type="text"
+                        value={formData.demographics?.avg_income_level || ''}
+                        onChange={(e) => handleNestedChange('demographics', 'avg_income_level', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-orange-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all duration-300"
+                        placeholder="High, Medium, Low"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Power Stability</label>
+                      <select
+                        value={formData.infrastructure?.power_stability || 'Good'}
+                        onChange={(e) => handleNestedChange('infrastructure', 'power_stability', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-orange-500/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all duration-300"
+                      >
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good">Good</option>
+                        <option value="Poor">Poor</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Internet Quality</label>
+                      <select
+                        value={formData.infrastructure?.internet_quality || 'Fiber'}
+                        onChange={(e) => handleNestedChange('infrastructure', 'internet_quality', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-800/50 border border-orange-500/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all duration-300"
+                      >
+                        <option value="Fiber">Fiber</option>
+                        <option value="DSL">DSL</option>
+                        <option value="Mobile Only">Mobile Only</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Status */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3 p-4 bg-slate-800/30 rounded-xl border border-amber-500/10">
+                    <input
+                      type="checkbox"
+                      id="is_active"
+                      name="is_active"
+                      checked={formData.is_active}
+                      onChange={handleInputChange}
+                      className="w-5 h-5 rounded border-amber-500/30 text-amber-500 focus:ring-2 focus:ring-amber-500/50"
+                    />
+                    <label htmlFor="is_active" className="text-sm font-medium text-gray-300 cursor-pointer">
+                      Locality is active
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-3 p-4 bg-slate-800/30 rounded-xl border border-amber-500/10">
+                    <input
+                      type="checkbox"
+                      id="is_serviceable"
+                      name="is_serviceable"
+                      checked={formData.is_serviceable}
+                      onChange={handleInputChange}
+                      className="w-5 h-5 rounded border-amber-500/30 text-amber-500 focus:ring-2 focus:ring-amber-500/50"
+                    />
+                    <label htmlFor="is_serviceable" className="text-sm font-medium text-gray-300 cursor-pointer">
+                      Locality is serviceable
+                    </label>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl p-4 border border-amber-500/10">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Server className="w-5 h-5 text-amber-400" />
+                    <h3 className="text-sm font-semibold text-white">JSON Payload</h3>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-4">
+                    Enter a single locality object or an array of localities for bulk creation
+                  </p>
+                  <textarea
+                    value={jsonInput}
+                    onChange={(e) => setJsonInput(e.target.value)}
+                    className="w-full h-96 px-4 py-3 bg-slate-950/50 border border-amber-500/20 rounded-xl text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all duration-300"
+                    placeholder={`{\n  "name": "Andheri West",\n  "slug": "andheri-west",\n  "city_id": "...",\n  "primary_pincode": "400053",\n  "is_active": true,\n  "is_serviceable": true\n}`}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-end gap-3 p-6 border-t border-amber-500/20 bg-gradient-to-r from-slate-900/50 to-slate-800/50">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-3 bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-xl font-medium transition-all duration-300 hover:shadow-lg"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={mutation.isPending}
+              className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {mutation.isPending ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="w-5 h-5" />
+                  {locality ? 'Update Locality' : 'Create Locality'}
+                </>
+              )}
+            </button>
+          </div>
+        </form>
       </div>
-       <style>{`
-        .input-premium {
-            width: 100%;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 1rem;
-            padding: 1rem;
-            color: white;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.2s;
-        }
-        .input-premium:focus {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(245, 158, 11, 0.5);
-            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
-        }
-      `}</style>
     </div>
   );
-};
-
-export default AddLocalityModal;
+}

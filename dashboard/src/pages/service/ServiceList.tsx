@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Edit2, Trash2, Plus, Sparkles } from 'lucide-react';
 import { serviceApi } from '../../api/serviceApi';
 import type { IService } from '../../types/service.types';
-import AddServiceModal from '../../components/AddServiceModal';
+import { AddServiceModal } from '../../components/AddServiceModal';
 
 const ServiceList: React.FC = () => {
     const [services, setServices] = useState<IService[]>([]);
@@ -86,8 +86,9 @@ const ServiceList: React.FC = () => {
 
             {isModalOpen && (
                 <AddServiceModal 
+                    isOpen={isModalOpen}
                     onClose={() => { setIsModalOpen(false); loadData(); }} 
-                    serviceToEdit={editingService} 
+                    service={editingService} 
                 />
             )}
         </div>
