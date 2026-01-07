@@ -11,6 +11,7 @@ import uploadRoutes from './routes/uploadRoutes';
 import blogRoutes from './routes/blogRoutes';
 
 import brandRoutes from './routes/brandRoutes';
+import zoneRoutes from './routes/zoneRoutes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/brands', brandRoutes);
+app.use('/api/zones', zoneRoutes);
 
 app.get('/', (req, res) => {
   res.send('CamHarbor API is running...');

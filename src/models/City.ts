@@ -723,6 +723,18 @@ const CitySchema: Schema = new Schema({
 
 // ============== INDEXES ==============
 CitySchema.index({ state: 1 });
+
+// Virtual Population for Zones
+CitySchema.virtual('related_zones', {
+  ref: 'Zone',
+  localField: '_id',
+  foreignField: 'city_id'
+});
+
+// Ensure virtuals are included in toJSON/toObject
+CitySchema.set('toJSON', { virtuals: true });
+CitySchema.set('toObject', { virtuals: true });
+
 CitySchema.index({ is_active: 1, priority: -1 });
 CitySchema.index({ 'geo.coordinates': '2dsphere' });
 CitySchema.index({ tags: 1 });

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCity, getCityBySlug, getAllCities, updateCity, deleteCity, deleteCities } from '../controllers/cityController';
+import { createCity, getCityBySlug, getAllCities, updateCity, deleteCity, deleteCities, getActiveCities } from '../controllers/cityController';
 
 const router = express.Router();
 
@@ -71,6 +71,24 @@ router.delete('/', deleteCities);
  *         description: Bad request
  */
 router.get('/', getAllCities);
+
+/**
+ * @swagger
+ * /cities/active:
+ *   get:
+ *     summary: Get all active cities
+ *     tags: [Cities]
+ *     responses:
+ *       200:
+ *         description: List of active cities
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/City'
+ */
+router.get('/active', getActiveCities);
 
 /**
  * @swagger

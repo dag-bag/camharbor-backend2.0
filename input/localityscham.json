@@ -1,0 +1,2397 @@
+import mongoose, { Schema, Document, Types } from 'mongoose';
+
+// ============== INTERFACES ==============
+
+export interface ILocalityGeo {
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  bounds: {
+    north: number;
+    south: number;
+    east: number;
+    west: number;
+  };
+  polygon: number[][]; // For precise boundary mapping
+  area_km2: number;
+  place_id: string;
+  plus_code: string;
+}
+
+export interface ILocalityLandmark {
+  name: string;
+  type: string;
+  distance_km: number;
+  direction: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface ILocalityAdjacent {
+  locality_id: Types.ObjectId;
+  slug: string;
+  name: string;
+  direction: string;
+  distance_km: number;
+}
+
+export interface ILocalityMajorSociety {
+  name: string;
+  type: string;
+  units: number;
+  floors: number;
+  has_cctv: boolean;
+  cctv_brand: string;
+  rwa_active: boolean;
+  rwa_contact: string;
+  security_guards: number;
+  potential: string;
+  notes: string;
+}
+
+export interface ILocalityCommercialComplex {
+  name: string;
+  type: string;
+  shops_count: number;
+  floors: number;
+  has_cctv: boolean;
+  owner_contact: string;
+  potential: string;
+}
+
+export interface ILocalityTestimonial {
+  id: string;
+  author: string;
+  designation: string;
+  society_name: string;
+  text: string;
+  rating: number;
+  date: string;
+  project_type: string;
+  cameras_installed: number;
+  verified: boolean;
+  photo_url: string;
+  video_url: string;
+}
+
+export interface ILocalityCaseStudy {
+  id: string;
+  title: string;
+  client_name: string;
+  client_type: string;
+  challenge: string;
+  solution: string;
+  products_used: string[];
+  cameras_installed: number;
+  total_value: number;
+  result: string;
+  completion_date: string;
+  slug: string;
+  images: string[];
+  featured: boolean;
+}
+
+export interface ILocalityFAQ {
+  question: string;
+  answer: string;
+  priority: number;
+}
+
+export interface ILocalityKeyContact {
+  name: string;
+  role: string;
+  organization: string;
+  phone: string;
+  email: string;
+  influence_level: string;
+  relationship_status: string;
+  notes: string;
+}
+
+export interface ILocalityProjectPhoto {
+  url: string;
+  thumbnail_url: string;
+  caption: string;
+  project_type: string;
+  cameras_shown: number;
+  location_in_locality: string;
+  date_taken: string;
+}
+
+export interface ILocalityReviewPlatform {
+  name: string;
+  url: string;
+  rating: number;
+  reviews_count: number;
+  last_updated: Date;
+}
+
+export interface ILocality extends Document {
+  // ==========================================
+  // BASIC IDENTIFICATION
+  // ==========================================
+  slug: string;
+  name: string;
+  display_name: string;
+  name_local: string;
+  alternate_names: string[];
+  short_code: string;
+
+  // ==========================================
+  // HIERARCHY & RELATIONSHIPS
+  // ==========================================
+  city_id: Types.ObjectId;
+  city_slug: string;
+  city_name: string;
+  state: string;
+  country: string;
+
+  // Zone (optional grouping)
+  zone: {
+    id: string;
+    slug: string;
+    name: string;
+    type: string; // north, south, central, east, west, old_city, new_city, industrial_belt, etc.
+  };
+
+  // Parent locality (for sub-localities)
+  parent_locality_id: Types.ObjectId | null;
+  parent_locality_slug: string | null;
+  is_sub_locality: boolean;
+  sub_localities: Array<{
+    id: Types.ObjectId;
+    slug: string;
+    name: string;
+  }>;
+
+  // ==========================================
+  // LOCATION IDENTIFIERS
+  // ==========================================
+  pincodes: string[];
+  primary_pincode: string;
+  post_offices: string[];
+  ward_number: string;
+  ward_name: string;
+  municipal_zone: string;
+  assembly_constituency: string;
+  parliament_constituency: string;
+
+  // ==========================================
+  // STATUS & CLASSIFICATION
+  // ==========================================
+  is_active: boolean;
+  is_serviceable: boolean;
+  service_status: string; // active, limited, coming_soon, suspended
+  priority: number;
+  tier: string; // tier_1, tier_2, tier_3 (within city context)
+  locality_type: string; // residential, commercial, industrial, mixed, institutional, rural
+  development_status: string; // established, developing, new, under_construction
+  tags: string[];
+
+  // ==========================================
+  // GEOGRAPHIC DATA
+  // ==========================================
+  geo: ILocalityGeo;
+
+  // Adjacency & Landmarks
+  adjacent_localities: ILocalityAdjacent[];
+  landmarks: ILocalityLandmark[];
+
+  // Distances from key points
+  distances: {
+    from_city_center_km: number;
+    from_main_market_km: number;
+    from_railway_station_km: number;
+    from_bus_stand_km: number;
+    from_airport_km: number;
+    from_metro_station_km: number;
+    nearest_metro_station: string;
+    from_highway_km: number;
+    nearest_highway: string;
+    from_our_office_km: number;
+    from_our_warehouse_km: number;
+  };
+
+  // ==========================================
+  // DEMOGRAPHICS
+  // ==========================================
+  demographics: {
+    population: number;
+    households: number;
+    avg_household_size: number;
+    population_density_per_km2: number;
+
+    gender_ratio: number; // females per 1000 males
+    literacy_rate: number;
+    graduate_percent: number;
+
+    age_distribution: {
+      children_0_14: number;
+      youth_15_24: number;
+      adults_25_54: number;
+      middle_aged_55_64: number;
+      seniors_65_plus: number;
+    };
+
+    income_level: string; // low, lower_middle, middle, upper_middle, high, mixed, affluent
+    avg_household_income_monthly: number;
+    income_distribution: {
+      below_25k: number;
+      between_25k_50k: number;
+      between_50k_1l: number;
+      between_1l_2l: number;
+      above_2l: number;
+    };
+
+    occupation_profile: {
+      govt_employees: number;
+      private_employees: number;
+      business_owners: number;
+      self_employed: number;
+      professionals: number;
+      daily_wage: number;
+      retired: number;
+      homemakers: number;
+    };
+
+    languages: string[];
+    primary_language: string;
+    religion_distribution: {
+      hindu: number;
+      muslim: number;
+      sikh: number;
+      christian: number;
+      others: number;
+    };
+    major_communities: string[];
+    migrant_population_percent: number;
+    education_level: string; // low, medium, high
+    tech_savviness: string; // low, medium, high
+  };
+
+  // ==========================================
+  // PROPERTY LANDSCAPE
+  // ==========================================
+  property: {
+    total_properties: number;
+    total_buildings: number;
+    
+    composition: {
+      residential_percent: number;
+      commercial_percent: number;
+      industrial_percent: number;
+      institutional_percent: number;
+      vacant_percent: number;
+    };
+
+    residential: {
+      total_units: number;
+      independent_houses: number;
+      builder_floors: number;
+      apartments_low_rise: number;
+      apartments_high_rise: number;
+      villas: number;
+      farm_houses: number;
+      kothis: number;
+      jhuggis_slums: number;
+      pg_hostels: number;
+      service_apartments: number;
+      dominant_type: string;
+      avg_floors: number;
+      avg_unit_size_sqft: number;
+      ownership_percent: number;
+      rental_percent: number;
+    };
+
+    commercial: {
+      total_units: number;
+      shops: number;
+      offices: number;
+      showrooms: number;
+      restaurants_cafes: number;
+      hotels_lodges: number;
+      malls: number;
+      multiplexes: number;
+      petrol_pumps: number;
+      automobile_showrooms: number;
+      service_centers: number;
+      banks: number;
+      atms: number;
+      markets: string[];
+      commercial_complexes: string[];
+    };
+
+    industrial: {
+      total_units: number;
+      factories: number;
+      warehouses: number;
+      workshops: number;
+      godowns: number;
+      cold_storages: number;
+      manufacturing_units: number;
+      industrial_areas: string[];
+      dominant_industries: string[];
+    };
+
+    institutional: {
+      schools: number;
+      colleges: number;
+      universities: number;
+      coaching_centers: number;
+      hospitals: number;
+      nursing_homes: number;
+      clinics: number;
+      diagnostic_centers: number;
+      govt_offices: number;
+      police_stations: number;
+      fire_stations: number;
+      post_offices: number;
+      courts: number;
+      community_halls: number;
+      marriage_halls: number;
+      temples: number;
+      mosques: number;
+      gurudwaras: number;
+      churches: number;
+      cremation_grounds: number;
+      parks: number;
+      stadiums: number;
+      clubs: number;
+    };
+
+    major_societies: ILocalityMajorSociety[];
+    major_commercial_complexes: ILocalityCommercialComplex[];
+
+    construction: {
+      avg_building_age_years: number;
+      new_constructions_percent: number;
+      under_construction_projects: number;
+      upcoming_projects: number;
+      construction_quality: string; // poor, average, good, excellent
+      dominant_construction_type: string; // rcc, load_bearing, prefab, mixed
+      avg_floors: number;
+      high_rise_count: number;
+      heritage_buildings: number;
+    };
+
+    real_estate: {
+      avg_price_per_sqft: number;
+      price_trend: string; // declining, stable, rising, booming
+      avg_rent_1bhk: number;
+      avg_rent_2bhk: number;
+      avg_rent_3bhk: number;
+      avg_commercial_rent_per_sqft: number;
+      demand_level: string;
+    };
+  };
+
+  // ==========================================
+  // INFRASTRUCTURE
+  // ==========================================
+  infrastructure: {
+    power: {
+      provider: string;
+      sub_station_nearby: boolean;
+      reliability_score: number; // 1-10
+      avg_cuts_per_day: number;
+      avg_cut_duration_mins: number;
+      scheduled_cuts: boolean;
+      voltage_stability: string; // poor, average, good, excellent
+      voltage_fluctuation_common: boolean;
+      three_phase_availability: string;
+      industrial_power_available: boolean;
+      solar_adoption_percent: number;
+      inverter_ups_penetration: number;
+      generator_common: boolean;
+    };
+
+    internet: {
+      fiber_available: boolean;
+      fiber_providers: string[];
+      broadband_providers: string[];
+      cable_internet_providers: string[];
+      avg_speed_mbps: number;
+      max_speed_available_mbps: number;
+      reliability_score: number;
+      frequent_outages: boolean;
+      '4g_coverage': string;
+      '5g_available': boolean;
+      wifi_zones: boolean;
+      public_wifi: boolean;
+    };
+
+    roads: {
+      main_road_name: string;
+      main_road_width_ft: number;
+      main_road_condition: string;
+      internal_roads_condition: string;
+      lanes_paved_percent: number;
+      street_lighting_coverage: string;
+      led_lights: boolean;
+      footpath_available: boolean;
+      dividers: boolean;
+      speed_breakers: boolean;
+      traffic_signals: number;
+    };
+
+    parking: {
+      availability: string; // scarce, limited, adequate, ample
+      street_parking: boolean;
+      paid_parking_zones: number;
+      multi_level_parking: boolean;
+      parking_cost_per_hour: number;
+    };
+
+    transport: {
+      public_transport_rating: string;
+      bus_routes: string[];
+      bus_stops: number;
+      bus_frequency: string;
+      metro_connectivity: boolean;
+      nearest_metro_station: string;
+      metro_line: string;
+      metro_distance_km: number;
+      auto_available: boolean;
+      auto_stand_nearby: boolean;
+      e_rickshaw_available: boolean;
+      cab_availability: string;
+      cycle_rickshaw: boolean;
+      local_train: boolean;
+    };
+
+    water: {
+      municipal_supply: boolean;
+      supply_hours_per_day: number;
+      supply_schedule: string;
+      quality: string;
+      tanker_dependency: number; // percentage
+      borewell_common: boolean;
+      water_scarcity_months: string[];
+      ro_adoption_percent: number;
+    };
+
+    sanitation: {
+      sewerage_coverage: string;
+      drainage_type: string; // open, closed, mixed
+      drainage_condition: string;
+      waterlogging_prone: boolean;
+      garbage_collection: string;
+      garbage_collection_frequency: string;
+      cleanliness_rating: string;
+    };
+
+    gas: {
+      piped_gas_available: boolean;
+      provider: string;
+      lpg_distributor_nearby: boolean;
+    };
+
+    healthcare_nearby: {
+      hospitals_within_2km: number;
+      hospitals_within_5km: number;
+      ambulance_response_mins: number;
+      blood_bank_nearby: boolean;
+      pharmacy_24x7: boolean;
+    };
+
+    civic_amenities: {
+      parks: number;
+      playgrounds: number;
+      community_center: boolean;
+      library: boolean;
+      gym_fitness_centers: number;
+      swimming_pools: number;
+      sports_complex: boolean;
+    };
+  };
+
+  // ==========================================
+  // SECURITY PROFILE
+  // ==========================================
+  security: {
+    overall_safety_score: number; // 1-10
+    safety_perception: string; // unsafe, somewhat_safe, safe, very_safe
+    crime_rate_category: string; // low, medium, high, very_high
+    crime_index: number;
+
+    crime_profile: {
+      theft: string;
+      burglary: string;
+      vehicle_theft: string;
+      chain_snatching: string;
+      robbery: string;
+      assault: string;
+      eve_teasing: string;
+      kidnapping: string;
+      murder: string;
+      cyber_crime: string;
+      fraud: string;
+      drug_related: string;
+    };
+
+    common_crimes: string[];
+    recent_major_incidents: string[];
+    crime_trend: string; // decreasing, stable, increasing
+
+    vulnerability_assessment: {
+      residential_theft_risk: string;
+      commercial_theft_risk: string;
+      vehicle_theft_risk: string;
+      women_safety_risk: string;
+      child_safety_risk: string;
+      senior_citizen_risk: string;
+      night_safety_risk: string;
+      festival_safety_risk: string;
+    };
+
+    police: {
+      jurisdiction: string;
+      nearest_station: string;
+      station_address: string;
+      station_phone: string;
+      distance_km: number;
+      sho_name: string;
+      sho_phone: string;
+      beat_constable_name: string;
+      beat_constable_phone: string;
+      patrol_frequency: string;
+      response_time_mins: number;
+      police_post_nearby: boolean;
+      pcr_van_frequency: string;
+    };
+
+    existing_surveillance: {
+      govt_cctv_count: number;
+      traffic_cameras: number;
+      atm_surveillance: boolean;
+      bank_cctv: boolean;
+      mall_cctv: boolean;
+      school_cctv_percent: number;
+      hospital_cctv_percent: number;
+      society_cctv_percent: number;
+      shop_cctv_percent: number;
+      avg_cameras_per_society: number;
+    };
+
+    private_security: {
+      gated_communities_percent: number;
+      guard_deployment_percent: number;
+      security_agencies_active: string[];
+      guard_cost_per_month: number;
+      boom_barrier_common: boolean;
+      visitor_management_common: boolean;
+      intercom_penetration: number;
+    };
+
+    community_initiatives: {
+      neighborhood_watch: boolean;
+      rwa_security_committee: boolean;
+      whatsapp_security_group: boolean;
+      citizen_police_liaison: boolean;
+      women_safety_helpline_awareness: number;
+      self_defense_programs: boolean;
+    };
+
+    safe_zones: string[];
+    unsafe_zones: string[];
+    caution_zones: string[];
+    peak_crime_hours: string[];
+    safe_hours: string[];
+    night_activity_level: string;
+    street_vendor_presence: string;
+    homeless_population: string;
+
+    security_recommendations: string[];
+  };
+
+  // ==========================================
+  // MARKET INTELLIGENCE
+  // ==========================================
+  market: {
+    // Demand Assessment
+    demand: {
+      overall_demand: string; // very_low, low, medium, high, very_high
+      demand_score: number; // 1-100
+      demand_trend: string; // declining, stable, growing, booming
+      yoy_growth_percent: number;
+      market_maturity: string; // nascent, emerging, growing, mature, saturated
+      untapped_potential_percent: number;
+    };
+
+    // Market Size
+    market_size: {
+      total_addressable_market: number; // in INR
+      serviceable_market: number;
+      current_penetration_percent: number;
+      our_market_share_percent: number;
+      estimated_annual_installations: number;
+      estimated_annual_value: number;
+    };
+
+    // Competition
+    competition: {
+      intensity: string; // low, medium, high, intense
+      total_players: number;
+      organized_players: number;
+      unorganized_players: number;
+      major_competitors: Array<{
+        name: string;
+        type: string;
+        market_share: number;
+        strength: string;
+        weakness: string;
+        pricing: string;
+      }>;
+      local_electricians_active: number;
+      online_competition: string;
+      price_war_tendency: string;
+      competitor_cctv_brands: string[];
+    };
+
+    // Pricing Intelligence
+    pricing: {
+      price_sensitivity: string; // very_high, high, medium, low
+      price_awareness: string;
+      avg_deal_value_residential: number;
+      avg_deal_value_commercial: number;
+      avg_deal_value_industrial: number;
+      typical_residential_budget: number;
+      typical_commercial_budget: number;
+      willingness_to_pay_premium: string;
+      discount_expectation_percent: number;
+      negotiation_intensity: string;
+      competitor_price_range: {
+        low: number;
+        mid: number;
+        high: number;
+      };
+    };
+
+    // Customer Preferences
+    preferences: {
+      popular_camera_types: string[];
+      popular_channel_counts: number[];
+      preferred_brands: string[];
+      brand_awareness: {
+        hikvision: string;
+        dahua: string;
+        cp_plus: string;
+        godrej: string;
+        honeywell: string;
+        samsung: string;
+        others: string[];
+      };
+      features_in_demand: string[];
+      resolution_preference: string; // 2mp, 3mp, 4mp, 5mp, mixed
+      storage_preference: string; // 7_days, 15_days, 30_days, cloud
+      recording_preference: string; // dvr, nvr, hybrid, cloud
+      wireless_demand: string;
+      ptz_demand: string;
+      night_vision_priority: string;
+      mobile_app_requirement: string;
+      cloud_storage_interest: string;
+      ai_features_interest: string;
+      integration_needs: string[];
+    };
+
+    // Segment Potential
+    segments: {
+      residential: {
+        potential: string;
+        size: number;
+        growth: string;
+        avg_cameras: number;
+        avg_value: number;
+        conversion_rate: number;
+      };
+      commercial: {
+        potential: string;
+        size: number;
+        growth: string;
+        avg_cameras: number;
+        avg_value: number;
+        conversion_rate: number;
+      };
+      industrial: {
+        potential: string;
+        size: number;
+        growth: string;
+        avg_cameras: number;
+        avg_value: number;
+        conversion_rate: number;
+      };
+      institutional: {
+        potential: string;
+        size: number;
+        growth: string;
+        avg_cameras: number;
+        avg_value: number;
+        conversion_rate: number;
+      };
+      retail: {
+        potential: string;
+        size: number;
+        growth: string;
+        avg_cameras: number;
+        avg_value: number;
+        conversion_rate: number;
+      };
+    };
+
+    // Purchase Triggers
+    triggers: {
+      recent_crimes: boolean;
+      new_construction: boolean;
+      society_upgrade: boolean;
+      insurance_requirement: boolean;
+      govt_mandate: boolean;
+      neighbor_installed: boolean;
+      business_expansion: boolean;
+      festival_season: boolean;
+      competitor_price_drop: boolean;
+      awareness_campaign: boolean;
+    };
+
+    // Seasonal Trends
+    seasonality: {
+      best_months: string[];
+      worst_months: string[];
+      diwali_surge: boolean;
+      diwali_surge_percent: number;
+      summer_trend: string;
+      monsoon_trend: string;
+      winter_trend: string;
+      year_end_trend: string;
+      wedding_season_impact: string;
+    };
+
+    // Lead Generation
+    lead_gen: {
+      primary_sources: string[];
+      referral_strength: string;
+      word_of_mouth_impact: string;
+      online_search_volume: string;
+      justdial_leads_quality: string;
+      indiamart_leads_quality: string;
+      social_media_response: string;
+      pamphlet_response: string;
+      hoarding_effectiveness: string;
+      newspaper_ad_response: string;
+      auto_branding_response: string;
+    };
+
+    // B2B Specific
+    b2b: {
+      potential: string;
+      active_businesses: number;
+      registered_companies: number;
+      factory_count: number;
+      warehouse_count: number;
+      office_count: number;
+      tender_frequency: string;
+      bulk_order_potential: string;
+      corporate_decision_time: string;
+    };
+
+    // AMC Market
+    amc: {
+      awareness: string;
+      adoption_percent: number;
+      willingness_to_pay: string;
+      typical_amc_value: number;
+      competitor_amc_pricing: number;
+      churn_rate: number;
+    };
+
+    // Rental Market
+    rental: {
+      awareness: string;
+      interest_level: string;
+      typical_rental_value: number;
+      potential_customers: number;
+    };
+  };
+
+  // ==========================================
+  // CUSTOMER PROFILE
+  // ==========================================
+  customer: {
+    // Decision Making
+    decision_profile: {
+      primary_decision_maker: string; // male_head, female_head, joint, rwa_committee, owner, manager
+      decision_influencers: string[];
+      decision_time_residential_days: number;
+      decision_time_commercial_days: number;
+      research_behavior: string; // minimal, moderate, extensive
+      comparison_shopping: boolean;
+      quotes_typically_taken: number;
+    };
+
+    // Residential Customer
+    residential: {
+      primary_segments: string[];
+      typical_customer_age: string;
+      typical_profession: string[];
+      typical_budget: number;
+      budget_range: {
+        min: number;
+        max: number;
+        sweet_spot: number;
+      };
+      typical_cameras: number;
+      camera_range: {
+        min: number;
+        max: number;
+        common: number;
+      };
+      common_requirements: string[];
+      must_have_features: string[];
+      nice_to_have_features: string[];
+      common_objections: string[];
+      objection_handling: Array<{
+        objection: string;
+        response: string;
+      }>;
+      closing_triggers: string[];
+      avg_closing_time_days: number;
+      best_approach: string;
+    };
+
+    // Commercial Customer
+    commercial: {
+      primary_segments: string[];
+      typical_decision_maker: string;
+      typical_budget: number;
+      budget_range: {
+        min: number;
+        max: number;
+        sweet_spot: number;
+      };
+      typical_cameras: number;
+      camera_range: {
+        min: number;
+        max: number;
+        common: number;
+      };
+      common_requirements: string[];
+      must_have_features: string[];
+      compliance_requirements: string[];
+      common_objections: string[];
+      avg_closing_time_days: number;
+      best_approach: string;
+      gst_billing_required_percent: number;
+    };
+
+    // Communication Preferences
+    communication: {
+      preferred_contact_method: string; // phone, whatsapp, visit, email, online_chat
+      secondary_contact_method: string;
+      whatsapp_responsiveness: string;
+      call_pickup_rate: string;
+      best_calling_time: string;
+      best_visiting_time: string;
+      preferred_meeting_day: string;
+      language_preference: string;
+      secondary_language: string;
+      formal_communication: boolean;
+      vernacular_preference: boolean;
+    };
+
+    // Trust & Credibility
+    trust_factors: {
+      most_important: string[];
+      important: string[];
+      good_to_have: string[];
+      brand_preference_strength: string;
+      local_preference: boolean;
+      reviews_importance: string;
+      referral_trust_level: string;
+      demonstration_requirement: string;
+      warranty_importance: string;
+      after_sales_importance: string;
+      company_age_importance: string;
+    };
+
+    // Deal Breakers
+    deal_breakers: string[];
+
+    // Payment Behavior
+    payment: {
+      preferences: string[];
+      cash_payment_percent: number;
+      online_payment_percent: number;
+      cheque_payment_percent: number;
+      advance_willingness: string;
+      typical_advance_percent: number;
+      emi_interest: string;
+      emi_adoption_percent: number;
+      preferred_emi_tenure: number;
+      payment_reliability: string;
+      credit_seeking_percent: number;
+      collection_difficulty: string;
+    };
+
+    // Post-Sale Behavior
+    post_sale: {
+      feedback_responsiveness: string;
+      review_willingness: string;
+      referral_tendency: string;
+      upsell_receptiveness: string;
+      amc_renewal_rate: number;
+      complaint_tendency: string;
+      complaint_resolution_satisfaction: string;
+    };
+
+    // Customer Personas
+    personas: Array<{
+      name: string;
+      type: string;
+      description: string;
+      age_range: string;
+      income_level: string;
+      motivation: string[];
+      pain_points: string[];
+      decision_factors: string[];
+      objections: string[];
+      best_approach: string;
+      typical_deal_value: number;
+      conversion_likelihood: string;
+    }>;
+  };
+
+  // ==========================================
+  // SERVICE CONFIGURATION
+  // ==========================================
+  service: {
+    // Serviceability
+    serviceability: {
+      is_serviceable: boolean;
+      service_status: string; // active, limited, scheduled, suspended, coming_soon
+      status_reason: string;
+      service_start_date: Date;
+      full_coverage: boolean;
+      partial_coverage_areas: string[];
+      excluded_areas: string[];
+      exclusion_reasons: string[];
+    };
+
+    // Tier & Pricing
+    tier: string; // economy, standard, premium, priority, vip
+    pricing_zone: string;
+    price_multiplier: number;
+    min_order_value: number;
+    visit_charge: number;
+    survey_charge: number;
+    free_survey_threshold: number;
+    installation_charge_per_camera: number;
+    urgency_charge_percent: number;
+    holiday_charge_percent: number;
+    night_charge_percent: number;
+    floor_charge_above: number;
+    floor_charge_per_floor: number;
+
+    // Delivery
+    delivery: {
+      same_day_available: boolean;
+      same_day_cutoff_time: string;
+      same_day_charge: number;
+      next_day_available: boolean;
+      standard_delivery_days: number;
+      express_available: boolean;
+      express_charge: number;
+      scheduled_delivery_available: boolean;
+      time_slot_delivery: boolean;
+      delivery_partner: string;
+    };
+
+    // Installation
+    installation: {
+      complexity_rating: string; // easy, moderate, complex, very_complex
+      complexity_score: number; // 1-10
+      avg_installation_time_hours: number;
+      min_cameras_time_hours: number;
+      max_cameras_per_day: number;
+      
+      // Physical Challenges
+      physical_challenges: {
+        high_ceiling_common: boolean;
+        avg_ceiling_height_ft: number;
+        ladder_type_required: string;
+        scaffolding_needed_percent: number;
+        lift_availability: string;
+        staircase_only_percent: number;
+        narrow_lanes: boolean;
+        difficult_parking: boolean;
+        vehicle_access_issues: boolean;
+        material_carrying_difficulty: string;
+      };
+
+      // Permissions
+      permissions: {
+        rwa_permission_required: boolean;
+        rwa_permission_difficulty: string;
+        rwa_fee: number;
+        noc_required: boolean;
+        police_intimation_required: boolean;
+        building_permission_required: boolean;
+        typical_permission_time_days: number;
+        permission_assistance_needed: boolean;
+      };
+
+      // Timing
+      timing: {
+        best_time_slots: string[];
+        restricted_hours: string[];
+        weekend_preference_percent: number;
+        festival_restrictions: string[];
+        noise_restrictions: boolean;
+        society_work_hours: string;
+      };
+
+      // Technical
+      technical: {
+        power_point_availability: string;
+        internet_point_availability: string;
+        cable_routing_difficulty: string;
+        concealed_wiring_possible_percent: number;
+        conduit_available_percent: number;
+        wall_type_common: string;
+        drilling_difficulty: string;
+        waterproofing_needed_percent: number;
+      };
+
+      // Common Challenges
+      common_challenges: string[];
+      mitigation_strategies: string[];
+    };
+
+    // AMC Configuration
+    amc: {
+      available: boolean;
+      popular: boolean;
+      recommended: boolean;
+      standard_amc_percent: number;
+      comprehensive_amc_percent: number;
+      visits_per_year: number;
+      response_time_hours: number;
+      parts_covered: boolean;
+      labor_covered: boolean;
+      typical_renewal_rate: number;
+    };
+
+    // Warranty
+    warranty: {
+      installation_warranty_months: number;
+      product_warranty_months: number;
+      extended_warranty_available: boolean;
+      warranty_claim_process: string;
+    };
+
+    // Support
+    support: {
+      whatsapp_support: boolean;
+      call_support: boolean;
+      email_support: boolean;
+      visit_support: boolean;
+      remote_support: boolean;
+      support_hours: string;
+      emergency_support: boolean;
+      emergency_response_time_hours: number;
+      avg_resolution_time_hours: number;
+    };
+
+    // Team Assignment
+    team: {
+      assigned_team_id: Types.ObjectId | null;
+      primary_technician_id: Types.ObjectId | null;
+      primary_technician_name: string;
+      primary_technician_phone: string;
+      secondary_technician_id: Types.ObjectId | null;
+      backup_technician_id: Types.ObjectId | null;
+      sales_person_id: Types.ObjectId | null;
+      sales_person_name: string;
+      sales_person_phone: string;
+      relationship_manager_id: Types.ObjectId | null;
+    };
+
+    // Logistics
+    logistics: {
+      serving_warehouse_id: Types.ObjectId | null;
+      serving_warehouse_name: string;
+      distance_from_warehouse_km: number;
+      serving_hub_id: Types.ObjectId | null;
+      stock_availability: string;
+      restocking_time_days: number;
+    };
+
+    // Special Conditions
+    special_conditions: {
+      advance_required: boolean;
+      advance_percent: number;
+      verification_required: boolean;
+      id_proof_required: boolean;
+      address_proof_required: boolean;
+      special_documentation: string[];
+      special_equipment_needed: string[];
+      special_terms: string[];
+    };
+  };
+
+  // ==========================================
+  // OPERATIONS DATA
+  // ==========================================
+  operations: {
+    // Installation Stats
+    installations: {
+      total: number;
+      this_month: number;
+      this_quarter: number;
+      this_year: number;
+      last_year: number;
+      growth_percent: number;
+      last_installation_date: Date;
+      first_installation_date: Date;
+    };
+
+    // Customer Base
+    customers: {
+      total: number;
+      active: number;
+      inactive: number;
+      residential: number;
+      commercial: number;
+      industrial: number;
+      institutional: number;
+    };
+
+    // Contracts
+    contracts: {
+      total_amc: number;
+      active_amc: number;
+      expired_amc: number;
+      amc_value: number;
+      total_rental: number;
+      active_rental: number;
+      rental_value: number;
+    };
+
+    // Revenue
+    revenue: {
+      total: number;
+      this_month: number;
+      this_quarter: number;
+      this_year: number;
+      last_year: number;
+      growth_percent: number;
+      avg_monthly: number;
+    };
+
+    // Deal Metrics
+    deals: {
+      avg_deal_value: number;
+      median_deal_value: number;
+      largest_deal_value: number;
+      smallest_deal_value: number;
+      avg_cameras_per_deal: number;
+      avg_products_per_deal: number;
+    };
+
+    // Lead Metrics
+    leads: {
+      total_leads: number;
+      leads_this_month: number;
+      conversion_rate: number;
+      avg_lead_response_time_mins: number;
+      lead_sources: {
+        referral: number;
+        walk_in: number;
+        call: number;
+        whatsapp: number;
+        website: number;
+        justdial: number;
+        indiamart: number;
+        social_media: number;
+        pamphlet: number;
+        other: number;
+      };
+    };
+
+    // Quality Metrics
+    quality: {
+      avg_rating: number;
+      total_reviews: number;
+      nps_score: number;
+      referral_rate_percent: number;
+      repeat_customer_rate_percent: number;
+      complaint_rate_percent: number;
+      resolution_rate_percent: number;
+      avg_resolution_time_hours: number;
+      callback_rate_percent: number;
+    };
+
+    // Service Metrics
+    service_metrics: {
+      avg_response_time_hours: number;
+      avg_installation_time_hours: number;
+      first_time_fix_rate: number;
+      revisit_rate: number;
+      on_time_completion_rate: number;
+      customer_satisfaction_score: number;
+    };
+
+    // Historical Data
+    history: {
+      notable_projects: Array<{
+        project_id: string;
+        client_name: string;
+        client_type: string;
+        cameras: number;
+        value: number;
+        date: Date;
+        notes: string;
+      }>;
+      issues_faced: string[];
+      lessons_learned: string[];
+      best_practices: string[];
+    };
+  };
+
+  // ==========================================
+  // REVIEWS & RATINGS
+  // ==========================================
+  reviews: {
+    summary: {
+      total_count: number;
+      avg_rating: number;
+      rating_distribution: {
+        '5': number;
+        '4': number;
+        '3': number;
+        '2': number;
+        '1': number;
+      };
+      recommendation_percent: number;
+      verified_reviews: number;
+    };
+
+    platforms: ILocalityReviewPlatform[];
+
+    featured_testimonials: ILocalityTestimonial[];
+
+    highlights: {
+      most_praised: string[];
+      common_complaints: string[];
+      improvement_areas: string[];
+    };
+  };
+
+  // ==========================================
+  // SEO & CONTENT
+  // ==========================================
+  seo: {
+    meta_title: string;
+    meta_description: string;
+    h1_title: string;
+    h2_titles: string[];
+
+    keywords: {
+      focus: string;
+      secondary: string[];
+      long_tail: string[];
+      local: string[];
+      lsi: string[];
+    };
+
+    url: {
+      canonical: string;
+      alternate_urls: string[];
+    };
+
+    structured_data: {
+      schema_type: string;
+      local_business_schema: boolean;
+      faq_schema: boolean;
+      review_schema: boolean;
+      breadcrumb_schema: boolean;
+      service_schema: boolean;
+    };
+
+    social: {
+      og_title: string;
+      og_description: string;
+      og_image: string;
+      twitter_title: string;
+      twitter_description: string;
+      twitter_image: string;
+    };
+
+    indexing: {
+      robots: string;
+      priority: number;
+      change_frequency: string;
+      last_crawled: Date;
+    };
+  };
+
+  content: {
+    tagline: string;
+    headline: string;
+    subheadline: string;
+    short_description: string;
+    long_description: string;
+
+    // Value Propositions
+    usp: {
+      primary: string;
+      secondary: string[];
+      locality_specific: string[];
+    };
+
+    why_choose_us: string[];
+    trust_signals: string[];
+    guarantees: string[];
+
+    // Problem-Solution
+    pain_points: string[];
+    solutions_offered: string[];
+    benefits: string[];
+
+    // Local Context
+    local_context: {
+      security_story: string;
+      area_description: string;
+      why_cctv_here: string;
+      local_challenges: string;
+      success_narrative: string;
+      community_connection: string;
+    };
+
+    // Tips & Advice
+    security_tips: string[];
+    buying_guide_points: string[];
+    maintenance_tips: string[];
+
+    // FAQs
+    faqs: ILocalityFAQ[];
+
+    // Case Studies
+    case_studies: ILocalityCaseStudy[];
+
+    // CTAs
+    cta: {
+      primary: string;
+      secondary: string;
+      urgency: string;
+      phone: string;
+      whatsapp: string;
+    };
+
+    // Snippets for various uses
+    snippets: {
+      google_ads: string;
+      facebook_ads: string;
+      whatsapp_message: string;
+      sms_template: string;
+      email_subject: string;
+      email_intro: string;
+    };
+  };
+
+  // ==========================================
+  // MEDIA
+  // ==========================================
+  media: {
+    thumbnail: string;
+    banner: string;
+    og_image: string;
+
+    gallery: string[];
+
+    project_photos: ILocalityProjectPhoto[];
+
+    videos: {
+      intro: string;
+      testimonial: string[];
+      installation: string[];
+      area_overview: string;
+    };
+
+    maps: {
+      static_map: string;
+      coverage_map: string;
+      landmark_map: string;
+    };
+
+    infographics: {
+      security_stats: string;
+      pricing_comparison: string;
+      process_flow: string;
+    };
+
+    documents: {
+      area_brochure: string;
+      price_list: string;
+      product_catalog: string;
+    };
+  };
+
+  // ==========================================
+  // MARKETING
+  // ==========================================
+  marketing: {
+    status: string; // not_started, planned, active, paused, completed
+    priority: string;
+    budget_allocated: number;
+    budget_spent: number;
+
+    activities: {
+      pamphlet_distribution: {
+        done: boolean;
+        last_date: Date;
+        quantity: number;
+        areas_covered: string[];
+        response_rate: number;
+      };
+      banner_hoarding: {
+        active: boolean;
+        locations: string[];
+        cost_per_month: number;
+        start_date: Date;
+        end_date: Date;
+      };
+      auto_branding: {
+        active: boolean;
+        count: number;
+        cost_per_month: number;
+      };
+      local_newspaper: {
+        done: boolean;
+        newspapers: string[];
+        last_date: Date;
+        cost: number;
+        response: string;
+      };
+      door_to_door: {
+        done: boolean;
+        last_date: Date;
+        shops_visited: number;
+        societies_visited: number;
+        leads_generated: number;
+      };
+      society_meetings: {
+        done: boolean;
+        societies: string[];
+        last_date: Date;
+        outcome: string;
+      };
+      local_events: {
+        participated: boolean;
+        events: string[];
+        last_date: Date;
+        cost: number;
+        leads_generated: number;
+      };
+      tie_ups: {
+        active: boolean;
+        partners: Array<{
+          name: string;
+          type: string;
+          commission_percent: number;
+          leads_generated: number;
+        }>;
+      };
+      digital: {
+        local_seo: boolean;
+        google_ads: boolean;
+        facebook_ads: boolean;
+        instagram_ads: boolean;
+        whatsapp_marketing: boolean;
+        spend_per_month: number;
+      };
+    };
+
+    campaigns: Array<{
+      name: string;
+      type: string;
+      start_date: Date;
+      end_date: Date;
+      budget: number;
+      spent: number;
+      leads: number;
+      conversions: number;
+      roi: number;
+      notes: string;
+    }>;
+
+    partnerships: {
+      electricians: Array<{
+        name: string;
+        phone: string;
+        commission_percent: number;
+        leads_given: number;
+        conversions: number;
+        relationship: string;
+      }>;
+      builders: Array<{
+        name: string;
+        company: string;
+        phone: string;
+        projects: string[];
+        deals_closed: number;
+        relationship: string;
+      }>;
+      architects: Array<{
+        name: string;
+        phone: string;
+        referrals: number;
+        relationship: string;
+      }>;
+      rwa_contacts: Array<{
+        society_name: string;
+        contact_name: string;
+        designation: string;
+        phone: string;
+        relationship: string;
+        business_done: number;
+      }>;
+      security_agencies: Array<{
+        name: string;
+        contact: string;
+        phone: string;
+        referrals: number;
+        relationship: string;
+      }>;
+    };
+
+    local_influencers: Array<{
+      name: string;
+      type: string;
+      followers: number;
+      engagement: string;
+      collaboration_done: boolean;
+      cost: number;
+      result: string;
+    }>;
+
+    competitor_activities: {
+      observed: string[];
+      strengths: string[];
+      weaknesses: string[];
+      opportunities: string[];
+    };
+
+    effectiveness_score: number;
+    roi: number;
+    next_actions: string[];
+    notes: string;
+  };
+
+  // ==========================================
+  // INTERNAL DATA
+  // ==========================================
+  internal: {
+    // Scoring
+    scoring: {
+      potential_score: number; // 1-100
+      priority_score: number; // 1-100
+      effort_score: number; // 1-100 (higher = more effort)
+      profitability_score: number; // 1-100
+      growth_score: number; // 1-100
+      overall_score: number;
+      score_factors: string[];
+      last_scored_date: Date;
+    };
+
+    // Key Contacts
+    key_contacts: ILocalityKeyContact[];
+
+    // Opportunities
+    opportunities: {
+      identified: string[];
+      in_pipeline: Array<{
+        description: string;
+        type: string;
+        estimated_value: number;
+        probability: number;
+        expected_close_date: Date;
+        assigned_to: string;
+        status: string;
+        notes: string;
+      }>;
+      converted: number;
+      lost: number;
+    };
+
+    // Challenges
+    challenges: {
+      operational: string[];
+      market: string[];
+      competition: string[];
+      customer: string[];
+      mitigation_plan: string[];
+    };
+
+    // Notes
+    notes: {
+      general: string;
+      sales: string;
+      operations: string;
+      marketing: string;
+      important: string;
+      last_updated: Date;
+      updated_by: string;
+    };
+
+    // Action Items
+    action_items: Array<{
+      task: string;
+      assigned_to: string;
+      due_date: Date;
+      priority: string;
+      status: string;
+      completed_date: Date;
+      notes: string;
+    }>;
+
+    // Visit Log
+    visits: Array<{
+      date: Date;
+      visited_by: string;
+      purpose: string;
+      areas_visited: string[];
+      people_met: string[];
+      observations: string;
+      leads_generated: number;
+      photos: string[];
+      next_steps: string;
+    }>;
+
+    // Data Quality
+    data_quality: {
+      completeness_percent: number;
+      last_verified: Date;
+      verified_by: string;
+      data_sources: string[];
+      confidence_level: string;
+      needs_update: boolean;
+      update_priority: string;
+    };
+
+    // Flags
+    flags: {
+      is_high_potential: boolean;
+      is_difficult_market: boolean;
+      is_competitive_hotspot: boolean;
+      needs_attention: boolean;
+      expansion_target: boolean;
+      focus_area: boolean;
+      problem_area: boolean;
+      success_story: boolean;
+    };
+
+    created_by: string;
+    last_updated_by: string;
+  };
+
+  // ==========================================
+  // TIMESTAMPS
+  // ==========================================
+  created_at: Date;
+  updated_at: Date;
+}
+
+// ============== SCHEMA ==============
+
+const LocalitySchema: Schema = new Schema({
+  // BASIC IDENTIFICATION
+  slug: { type: String, required: true, unique: true, index: true },
+  name: { type: String, required: true, index: true },
+  display_name: { type: String, required: true },
+  name_local: { type: String, default: null },
+  alternate_names: [String],
+  short_code: { type: String, default: null },
+
+  // HIERARCHY & RELATIONSHIPS
+  city_id: { type: Schema.Types.ObjectId, ref: 'City', required: true, index: true },
+  city_slug: { type: String, required: true, index: true },
+  city_name: { type: String, required: true },
+  state: { type: String, required: true, index: true },
+  country: { type: String, required: true, default: 'India' },
+
+  zone: {
+    id: { type: String, default: null },
+    slug: { type: String, default: null, index: true },
+    name: { type: String, default: null },
+    type: { type: String, default: null }
+  },
+
+  parent_locality_id: { type: Schema.Types.ObjectId, ref: 'Locality', default: null },
+  parent_locality_slug: { type: String, default: null },
+  is_sub_locality: { type: Boolean, default: false },
+  sub_localities: [{
+    id: { type: Schema.Types.ObjectId, ref: 'Locality' },
+    slug: String,
+    name: String
+  }],
+
+  // LOCATION IDENTIFIERS
+  pincodes: { type: [String], required: true, index: true },
+  primary_pincode: { type: String, required: true, index: true },
+  post_offices: [String],
+  ward_number: { type: String, default: null },
+  ward_name: { type: String, default: null },
+  municipal_zone: { type: String, default: null },
+  assembly_constituency: { type: String, default: null },
+  parliament_constituency: { type: String, default: null },
+
+  // STATUS & CLASSIFICATION
+  is_active: { type: Boolean, default: true, index: true },
+  is_serviceable: { type: Boolean, default: true, index: true },
+  service_status: { type: String, default: 'active', enum: ['active', 'limited', 'coming_soon', 'suspended'], index: true },
+  priority: { type: Number, default: 0, index: true },
+  tier: { type: String, default: 'tier_2', enum: ['tier_1', 'tier_2', 'tier_3'] },
+  locality_type: { type: String, default: 'mixed', enum: ['residential', 'commercial', 'industrial', 'mixed', 'institutional', 'rural'], index: true },
+  development_status: { type: String, default: 'established', enum: ['established', 'developing', 'new', 'under_construction'] },
+  tags: [String],
+
+  // GEOGRAPHIC DATA
+  geo: {
+    coordinates: {
+      lat: { type: Number, required: true },
+      lng: { type: Number, required: true }
+    },
+    bounds: {
+      north: Number,
+      south: Number,
+      east: Number,
+      west: Number
+    },
+    polygon: [[Number]],
+    area_km2: Number,
+    place_id: { type: String, default: null },
+    plus_code: { type: String, default: null }
+  },
+
+  adjacent_localities: [{
+    locality_id: { type: Schema.Types.ObjectId, ref: 'Locality' },
+    slug: String,
+    name: String,
+    direction: String,
+    distance_km: Number
+  }],
+
+  landmarks: [{
+    name: String,
+    type: { type: String },
+    distance_km: Number,
+    direction: String,
+    coordinates: {
+      lat: Number,
+      lng: Number
+    }
+  }],
+
+  distances: {
+    from_city_center_km: Number,
+    from_main_market_km: Number,
+    from_railway_station_km: Number,
+    from_bus_stand_km: Number,
+    from_airport_km: Number,
+    from_metro_station_km: Number,
+    nearest_metro_station: String,
+    from_highway_km: Number,
+    nearest_highway: String,
+    from_our_office_km: Number,
+    from_our_warehouse_km: Number
+  },
+
+  // DEMOGRAPHICS
+  demographics: {
+    population: Number,
+    households: Number,
+    avg_household_size: { type: Number, default: 4.5 },
+    population_density_per_km2: Number,
+    gender_ratio: Number,
+    literacy_rate: Number,
+    graduate_percent: Number,
+    age_distribution: {
+      children_0_14: Number,
+      youth_15_24: Number,
+      adults_25_54: Number,
+      middle_aged_55_64: Number,
+      seniors_65_plus: Number
+    },
+    income_level: { type: String, default: 'middle' },
+    avg_household_income_monthly: Number,
+    income_distribution: {
+      below_25k: Number,
+      between_25k_50k: Number,
+      between_50k_1l: Number,
+      between_1l_2l: Number,
+      above_2l: Number
+    },
+    occupation_profile: {
+      govt_employees: Number,
+      private_employees: Number,
+      business_owners: Number,
+      self_employed: Number,
+      professionals: Number,
+      daily_wage: Number,
+      retired: Number,
+      homemakers: Number
+    },
+    languages: [String],
+    primary_language: { type: String, default: 'hindi' },
+    religion_distribution: {
+      hindu: Number,
+      muslim: Number,
+      sikh: Number,
+      christian: Number,
+      others: Number
+    },
+    major_communities: [String],
+    migrant_population_percent: Number,
+    education_level: { type: String, default: 'medium' },
+    tech_savviness: { type: String, default: 'medium' }
+  },
+
+  // PROPERTY LANDSCAPE
+  property: {
+    total_properties: Number,
+    total_buildings: Number,
+    composition: {
+      residential_percent: Number,
+      commercial_percent: Number,
+      industrial_percent: Number,
+      institutional_percent: Number,
+      vacant_percent: Number
+    },
+    residential: {
+      total_units: Number,
+      independent_houses: Number,
+      builder_floors: Number,
+      apartments_low_rise: Number,
+      apartments_high_rise: Number,
+      villas: Number,
+      farm_houses: Number,
+      kothis: Number,
+      jhuggis_slums: Number,
+      pg_hostels: Number,
+      service_apartments: Number,
+      dominant_type: String,
+      avg_floors: Number,
+      avg_unit_size_sqft: Number,
+      ownership_percent: Number,
+      rental_percent: Number
+    },
+    commercial: {
+      total_units: Number,
+      shops: Number,
+      offices: Number,
+      showrooms: Number,
+      restaurants_cafes: Number,
+      hotels_lodges: Number,
+      malls: Number,
+      multiplexes: Number,
+      petrol_pumps: Number,
+      automobile_showrooms: Number,
+      service_centers: Number,
+      banks: Number,
+      atms: Number,
+      markets: [String],
+      commercial_complexes: [String]
+    },
+    industrial: {
+      total_units: Number,
+      factories: Number,
+      warehouses: Number,
+      workshops: Number,
+      godowns: Number,
+      cold_storages: Number,
+      manufacturing_units: Number,
+      industrial_areas: [String],
+      dominant_industries: [String]
+    },
+    institutional: {
+      schools: Number,
+      colleges: Number,
+      universities: Number,
+      coaching_centers: Number,
+      hospitals: Number,
+      nursing_homes: Number,
+      clinics: Number,
+      diagnostic_centers: Number,
+      govt_offices: Number,
+      police_stations: Number,
+      fire_stations: Number,
+      post_offices: Number,
+      courts: Number,
+      community_halls: Number,
+      marriage_halls: Number,
+      temples: Number,
+      mosques: Number,
+      gurudwaras: Number,
+      churches: Number,
+      cremation_grounds: Number,
+      parks: Number,
+      stadiums: Number,
+      clubs: Number
+    },
+    major_societies: [{
+      name: String,
+      type: { type: String },
+      units: Number,
+      floors: Number,
+      has_cctv: Boolean,
+      cctv_brand: String,
+      rwa_active: Boolean,
+      rwa_contact: String,
+      security_guards: Number,
+      potential: String,
+      notes: String
+    }],
+    major_commercial_complexes: [{
+      name: String,
+      type: { type: String },
+      shops_count: Number,
+      floors: Number,
+      has_cctv: Boolean,
+      owner_contact: String,
+      potential: String
+    }],
+    construction: {
+      avg_building_age_years: Number,
+      new_constructions_percent: Number,
+      under_construction_projects: Number,
+      upcoming_projects: Number,
+      construction_quality: String,
+      dominant_construction_type: String,
+      avg_floors: Number,
+      high_rise_count: Number,
+      heritage_buildings: Number
+    },
+    real_estate: {
+      avg_price_per_sqft: Number,
+      price_trend: String,
+      avg_rent_1bhk: Number,
+      avg_rent_2bhk: Number,
+      avg_rent_3bhk: Number,
+      avg_commercial_rent_per_sqft: Number,
+      demand_level: String
+    }
+  },
+
+  // INFRASTRUCTURE
+  infrastructure: {
+    power: {
+      provider: String,
+      sub_station_nearby: Boolean,
+      reliability_score: Number,
+      avg_cuts_per_day: Number,
+      avg_cut_duration_mins: Number,
+      scheduled_cuts: Boolean,
+      voltage_stability: String,
+      voltage_fluctuation_common: Boolean,
+      three_phase_availability: String,
+      industrial_power_available: Boolean,
+      solar_adoption_percent: Number,
+      inverter_ups_penetration: Number,
+      generator_common: Boolean
+    },
+    internet: {
+      fiber_available: Boolean,
+      fiber_providers: [String],
+      broadband_providers: [String],
+      cable_internet_providers: [String],
+      avg_speed_mbps: Number,
+      max_speed_available_mbps: Number,
+      reliability_score: Number,
+      frequent_outages: Boolean,
+      '4g_coverage': String,
+      '5g_available': Boolean,
+      wifi_zones: Boolean,
+      public_wifi: Boolean
+    },
+    roads: {
+      main_road_name: String,
+      main_road_width_ft: Number,
+      main_road_condition: String,
+      internal_roads_condition: String,
+      lanes_paved_percent: Number,
+      street_lighting_coverage: String,
+      led_lights: Boolean,
+      footpath_available: Boolean,
+      dividers: Boolean,
+      speed_breakers: Boolean,
+      traffic_signals: Number
+    },
+    parking: {
+      availability: String,
+      street_parking: Boolean,
+      paid_parking_zones: Number,
+      multi_level_parking: Boolean,
+      parking_cost_per_hour: Number
+    },
+    transport: {
+      public_transport_rating: String,
+      bus_routes: [String],
+      bus_stops: Number,
+      bus_frequency: String,
+      metro_connectivity: Boolean,
+      nearest_metro_station: String,
+      metro_line: String,
+      metro_distance_km: Number,
+      auto_available: Boolean,
+      auto_stand_nearby: Boolean,
+      e_rickshaw_available: Boolean,
+      cab_availability: String,
+      cycle_rickshaw: Boolean,
+      local_train: Boolean
+    },
+    water: {
+      municipal_supply: Boolean,
+      supply_hours_per_day: Number,
+      supply_schedule: String,
+      quality: String,
+      tanker_dependency: Number,
+      borewell_common: Boolean,
+      water_scarcity_months: [String],
+      ro_adoption_percent: Number
+    },
+    sanitation: {
+      sewerage_coverage: String,
+      drainage_type: String,
+      drainage_condition: String,
+      waterlogging_prone: Boolean,
+      garbage_collection: String,
+      garbage_collection_frequency: String,
+      cleanliness_rating: String
+    },
+    gas: {
+      piped_gas_available: Boolean,
+      provider: String,
+      lpg_distributor_nearby: Boolean
+    },
+    healthcare_nearby: {
+      hospitals_within_2km: Number,
+      hospitals_within_5km: Number,
+      ambulance_response_mins: Number,
+      blood_bank_nearby: Boolean,
+      pharmacy_24x7: Boolean
+    },
+    civic_amenities: {
+      parks: Number,
+      playgrounds: Number,
+      community_center: Boolean,
+      library: Boolean,
+      gym_fitness_centers: Number,
+      swimming_pools: Number,
+      sports_complex: Boolean
+    }
+  },
+
+  // SECURITY PROFILE
+  security: {
+    overall_safety_score: Number,
+    safety_perception: String,
+    crime_rate_category: String,
+    crime_index: Number,
+    crime_profile: {
+      theft: String,
+      burglary: String,
+      vehicle_theft: String,
+      chain_snatching: String,
+      robbery: String,
+      assault: String,
+      eve_teasing: String,
+      kidnapping: String,
+      murder: String,
+      cyber_crime: String,
+      fraud: String,
+      drug_related: String
+    },
+    common_crimes: [String],
+    recent_major_incidents: [String],
+    crime_trend: String,
+    vulnerability_assessment: {
+      residential_theft_risk: String,
+      commercial_theft_risk: String,
+      vehicle_theft_risk: String,
+      women_safety_risk: String,
+      child_safety_risk: String,
+      senior_citizen_risk: String,
+      night_safety_risk: String,
+      festival_safety_risk: String
+    },
+    police: {
+      jurisdiction: String,
+      nearest_station: String,
+      station_address: String,
+      station_phone: String,
+      distance_km: Number,
+      sho_name: String,
+      sho_phone: String,
+      beat_constable_name: String,
+      beat_constable_phone: String,
+      patrol_frequency: String,
+      response_time_mins: Number,
+      police_post_nearby: Boolean,
+      pcr_van_frequency: String
+    },
+    existing_surveillance: {
+      govt_cctv_count: Number,
+      traffic_cameras: Number,
+      atm_surveillance: Boolean,
+      bank_cctv: Boolean,
+      mall_cctv: Boolean,
+      school_cctv_percent: Number,
+      hospital_cctv_percent: Number,
+      society_cctv_percent: Number,
+      shop_cctv_percent: Number,
+      avg_cameras_per_society: Number
+    },
+    private_security: {
+      gated_communities_percent: Number,
+      guard_deployment_percent: Number,
+      security_agencies_active: [String],
+      guard_cost_per_month: Number,
+      boom_barrier_common: Boolean,
+      visitor_management_common: Boolean,
+      intercom_penetration: Number
+    },
+    community_initiatives: {
+      neighborhood_watch: Boolean,
+      rwa_security_committee: Boolean,
+      whatsapp_security_group: Boolean,
+      citizen_police_liaison: Boolean,
+      women_safety_helpline_awareness: Number,
+      self_defense_programs: Boolean
+    },
+    safe_zones: [String],
+    unsafe_zones: [String],
+    caution_zones: [String],
+    peak_crime_hours: [String],
+    safe_hours: [String],
+    night_activity_level: String,
+    street_vendor_presence: String,
+    homeless_population: String,
+    security_recommendations: [String]
+  },
+
+  // MARKET INTELLIGENCE
+  market: {
+    demand: {
+      overall_demand: { type: String, default: 'medium' },
+      demand_score: Number,
+      demand_trend: String,
+      yoy_growth_percent: Number,
+      market_maturity: String,
+      untapped_potential_percent: Number
+    },
+    market_size: {
+      total_addressable_market: Number,
+      serviceable_market: Number,
+      current_penetration_percent: Number,
+      our_market_share_percent: Number,
+      estimated_annual_installations: Number,
+      estimated_annual_value: Number
+    },
+    competition: {
+      intensity: String,
+      total_players: Number,
+      organized_players: Number,
+      unorganized_players: Number,
+      major_competitors: [{
+        name: String,
+        type: { type: String },
+        market_share: Number,
+        strength: String,
+        weakness: String,
+        pricing: String
+      }],
+      local_electricians_active: Number,
+      online_competition: String,
+      price_war_tendency: String,
+      competitor_cctv_brands: [String]
+    },
+    pricing: {
+      price_sensitivity: String,
+      price_awareness: String,
+      avg_deal_value_residential: Number,
+      avg_deal_value_commercial: Number,
+      avg_deal_value_industrial: Number,
+      typical_residential_budget: Number,
+      typical_commercial_budget: Number,
+      willingness_to_pay_premium: String,
+      discount_expectation_percent: Number,
+      negotiation_intensity: String,
+      competitor_price_range: {
+        low: Number,
+        mid: Number,
+        high: Number
+      }
+    },
+    preferences: {
+      popular_camera_types: [String],
+      popular_channel_counts: [Number],
+      preferred_brands: [String],
+      brand_awareness: {
+        hikvision: String,
+        dahua: String,
+        cp_plus: String,
+        godrej: String,
+        honeywell: String,
+        samsung: String,
+        others: [String]
+      },
+      features_in_demand: [String],
+      resolution_preference: String,
+      storage_preference: String,
+      recording_preference: String,
+      wireless_demand: String,
+      ptz_demand: String,
+      night_vision_priority: String,
+      mobile_app_requirement: String,
+      cloud_storage_interest: String,
+      ai_features_interest: String,
+      integration_needs: [String]
+    },
+    segments: {
+      residential: {
+        potential: String,
+        size: Number,
+        growth: String,
+        avg_cameras: Number,
+        avg_value: Number,
+        conversion_rate: Number
+      },
+      commercial: {
+        potential: String,
+        size: Number,
+        growth: String,
+        avg_cameras: Number,
+        avg_value: Number,
+        conversion_rate: Number
+      },
+      industrial: {
+        potential: String,
+        size: Number,
+        growth: String,
+        avg_cameras: Number,
+        avg_value: Number,
+        conversion_rate: Number
+      },
+      institutional: {
+        potential: String,
+        size: Number,
+        growth: String,
+        avg_cameras: Number,
+        avg_value: Number,
+        conversion_rate: Number
+      },
+      retail: {
+        potential: String,
+        size: Number,
+        growth: String,
+        avg_cameras: Number,
+        avg_value: Number,
+        conversion_rate: Number
+      }
+    },
+    triggers: {
+      recent_crimes: Boolean,
+      new_construction: Boolean,
+      society_upgrade: Boolean,
+      insurance_requirement: Boolean,
+      govt_mandate: Boolean,
+      neighbor_installed: Boolean,
+      business_expansion: Boolean,
+      festival_season: Boolean,
+      competitor_price_drop: Boolean,
+      awareness_campaign: Boolean
+    },
+    seasonality: {
+      best_months: [String],
+      worst_months: [String],
+      diwali_surge: Boolean,
+      diwali_surge_percent: Number,
+      summer_trend: String,
+      monsoon_trend: String,
+      winter_trend: String,
+      year_end_trend: String,
+      wedding_season_impact: String
+    },
+    lead_gen: {
+      primary_sources: [String],
+      referral_strength: String,
+      word_of_mouth_impact: String,
+      online_search_volume: String,
+      justdial_leads_quality: String,
+      indiamart_leads_quality: String,
+      social_media_response: String,
+      pamphlet_response: String,
+      hoarding_effectiveness: String,
+      newspaper_ad_response: String,
+      auto_branding_response: String
+    },
+    b2b: {
+      potential: String,
+      active_businesses: Number,
+      registered_companies: Number,
+      factory_count: Number,
+      warehouse_count: Number,
+      office_count: Number,
+      tender_frequency: String,
+      bulk_order_potential: String,
+      corporate_decision_time: String
+    },
+    amc: {
+      awareness: String,
+      adoption_percent: Number,
+      willingness_to_pay: String,
+      typical_amc_value: Number,
+      competitor_amc_pricing: Number,
+      churn_rate: Number
+    },
+    rental: {
+      awareness: String,
+      interest_level: String,
+      typical_rental_value: Number,
+      potential_customers: Number
+    }
+  },
+
+  // CUSTOMER PROFILE
+  customer: {
+    decision_profile: {
+      primary_decision_maker: String,
+      decision_influencers: [String],
+      decision_time_residential_days: Number,
+      decision_time_commercial_days: Number,
+      research_behavior: String,
+      comparison_shopping: Boolean,
+      quotes_typically_taken: Number
+    },
+    residential: {
+      primary_segments: [String],
+      typical_customer_age: String,
+      typical_profession: [String],
+      typical_budget: Number,
+      budget_range: {
+        min: Number,
+        max: Number,
+        sweet_spot: Number
+      },
+      typical_cameras: Number,
+      camera_range: {
+        min: Number,
+        max: Number,
+        common: Number
+      },
+      common_requirements: [String],
+      must_have_features: [String],
+      nice_to_have_features: [String],
+      

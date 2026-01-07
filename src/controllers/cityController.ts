@@ -62,6 +62,18 @@ export const getAllCities = async (req: Request, res: Response) => {
   }
 };
 
+export const getActiveCities = async (req: Request, res: Response) => {
+  try {
+    const cities = await City.find({ is_active: true }, { name: 1, slug: 1, _id: 1, 'geo.coordinates': 1 })
+      .sort({ priority: -1, name: 1 })
+      .lean();
+    
+    res.status(200).json({ success: true, count: cities.length, data: cities });
+  } catch (error) {
+    res.status(400).json({ success: false, error: (error as Error).message });
+  }
+};
+
 export const updateCity = async (req: Request, res: Response) => {
   try {
     const city = await City.findOneAndUpdate({ slug: req.params.slug }, req.body, {

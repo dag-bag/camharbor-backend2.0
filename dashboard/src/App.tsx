@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react
 import CityRoutes from './routes/CityRoutes'
 import BlogRoutes from './routes/BlogRoutes'
 import BrandRoutes from './routes/BrandRoutes'
-import { Hexagon, MapPin, FileText } from 'lucide-react'
+import ZoneRoutes from './routes/ZoneRoutes'
+import { Hexagon, MapPin, FileText, Globe } from 'lucide-react'
 
 function Navigation() {
   const location = useLocation();
@@ -59,6 +60,17 @@ function Navigation() {
               <FileText className="w-3 h-3" />
               Brands
             </Link>
+            <Link 
+              to="/zone" 
+              className={`flex items-center gap-2 transition-colors pb-1 ${
+                location.pathname.startsWith('/zone')
+                  ? 'text-white border-b-2 border-indigo-500' 
+                  : 'hover:text-white'
+              }`}
+            >
+              <Globe className="w-3 h-3" />
+              Zones
+            </Link>
           </nav>
           <div className="h-8 w-[1px] bg-white/10 mx-2" />
           <div className="flex items-center gap-3 pl-4 border-l border-white/5">
@@ -99,6 +111,9 @@ function App() {
 
             {/* Brand routes - all brand-related functionality */}
             <Route path="/brand/*" element={<BrandRoutes />} />
+
+            {/* Zone routes - all zone-related functionality */}
+            <Route path="/zone/*" element={<ZoneRoutes />} />
             
             {/* Future sections can be added here */}
             {/* <Route path="/analytics/*" element={<AnalyticsRoutes />} /> */}
