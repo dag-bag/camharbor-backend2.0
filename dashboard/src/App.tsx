@@ -3,7 +3,11 @@ import CityRoutes from './routes/CityRoutes'
 import BlogRoutes from './routes/BlogRoutes'
 import BrandRoutes from './routes/BrandRoutes'
 import ZoneRoutes from './routes/ZoneRoutes'
-import { Hexagon, MapPin, FileText, Globe } from 'lucide-react'
+import LocalityRoutes from './routes/LocalityRoutes'
+import ServiceRoutes from './routes/ServiceRoutes'
+import ProductRoutes from './routes/ProductRoutes'
+import RiskRoutes from './routes/RiskRoutes'
+import { Hexagon, MapPin, FileText, Globe, Map, Wrench, Box, Shield } from 'lucide-react'
 
 function Navigation() {
   const location = useLocation();
@@ -71,6 +75,50 @@ function Navigation() {
               <Globe className="w-3 h-3" />
               Zones
             </Link>
+            <Link 
+              to="/locality" 
+              className={`flex items-center gap-2 transition-colors pb-1 ${
+                location.pathname.startsWith('/locality')
+                  ? 'text-white border-b-2 border-indigo-500' 
+                  : 'hover:text-white'
+              }`}
+            >
+              <Map className="w-3 h-3" />
+              Localities
+            </Link>
+            <Link 
+              to="/service" 
+              className={`flex items-center gap-2 transition-colors pb-1 ${
+                location.pathname.startsWith('/service')
+                  ? 'text-white border-b-2 border-indigo-500' 
+                  : 'hover:text-white'
+              }`}
+            >
+              <Wrench className="w-3 h-3" />
+              Services
+            </Link>
+            <Link 
+              to="/product" 
+              className={`flex items-center gap-2 transition-colors pb-1 ${
+                location.pathname.startsWith('/product')
+                  ? 'text-white border-b-2 border-indigo-500' 
+                  : 'hover:text-white'
+              }`}
+            >
+              <Box className="w-3 h-3" />
+              Products
+            </Link>
+            <Link 
+              to="/risk" 
+              className={`flex items-center gap-2 transition-colors pb-1 ${
+                location.pathname.startsWith('/risk')
+                  ? 'text-white border-b-2 border-indigo-500' 
+                  : 'hover:text-white'
+              }`}
+            >
+              <Shield className="w-3 h-3" />
+              Risk Data
+            </Link>
           </nav>
           <div className="h-8 w-[1px] bg-white/10 mx-2" />
           <div className="flex items-center gap-3 pl-4 border-l border-white/5">
@@ -114,6 +162,11 @@ function App() {
 
             {/* Zone routes - all zone-related functionality */}
             <Route path="/zone/*" element={<ZoneRoutes />} />
+
+            <Route path="/locality/*" element={<LocalityRoutes />} />
+            <Route path="/service/*" element={<ServiceRoutes />} />
+            <Route path="/product/*" element={<ProductRoutes />} />
+            <Route path="/risk/*" element={<RiskRoutes />} />
             
             {/* Future sections can be added here */}
             {/* <Route path="/analytics/*" element={<AnalyticsRoutes />} /> */}

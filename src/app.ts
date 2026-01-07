@@ -31,7 +31,18 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/brands', brandRoutes);
+app.use('/api/brands', brandRoutes);
 app.use('/api/zones', zoneRoutes);
+
+import localityRoutes from './routes/localityRoutes';
+import serviceRoutes from './routes/serviceRoutes';
+import productRoutes from './routes/productRoutes';
+import riskRoutes from './routes/riskRoutes';
+
+app.use('/api/localities', localityRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/risks', riskRoutes);
 
 app.get('/', (req, res) => {
   res.send('CamHarbor API is running...');
